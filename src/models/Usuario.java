@@ -1,4 +1,4 @@
-package entities;
+package models;
 
 public class Usuario {
 
@@ -6,11 +6,9 @@ public class Usuario {
 	private String senha;
 	
 	public Usuario() {
-		super();
 	}
 
 	public Usuario(String email, String senha) {
-		super();
 		this.email = email;
 		this.senha = senha;
 	}
@@ -30,18 +28,9 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public boolean fazerLogin(String email, String senha) {
-		if (this.email.equals(email) && this.senha.equals(senha)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
 	
-	public void editarPerfil(String email, String senha) {
-		setEmail(email);
-		setSenha(senha);
-	}
-	
+	public void editarPerfil(String novoEmail, String novaSenha) {
+        this.email = novoEmail;
+        this.senha = novaSenha;
+    }
 }
