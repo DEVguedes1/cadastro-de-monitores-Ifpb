@@ -36,14 +36,14 @@ public class Aluno extends Usuario {
 		return cre;
 	}
 	
+	public void increverMonitoria() {
+		
+	}
+	
 	// inscrever monitoria
 	
 	// desistir Inscricao
 
-	// visualizar Editais
-	
-	//visualizar Resultados
-	
 	@Override
     public String toString() {
         return "Aluno{" +

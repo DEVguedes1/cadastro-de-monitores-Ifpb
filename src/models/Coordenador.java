@@ -22,20 +22,8 @@ public class Coordenador extends Usuario {
 		this.nome = nome;
 	}
 	
-	//+cadastrarEdital()
 	
-	//+calcularResultado()
-	
-	//+fecharEdital()
 	
 	//+contatarEstudante()
 	
-	//+gerarPDF()
-	
-	//+listarAlunos()
-	
-	//+visualizarPerfilAluno()
-	
-	//+editarPerfilAluno())
-	 
 }

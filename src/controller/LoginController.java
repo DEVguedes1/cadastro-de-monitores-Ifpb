@@ -1,19 +1,20 @@
 package controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import models.Usuario;
-import models.Aluno;
-import models.Coordenador;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import models.Aluno;
+import models.Usuario;
 
 public class LoginController {
 
@@ -22,54 +23,29 @@ public class LoginController {
     private final Gson gson;
 
     public LoginController() {
-        this.gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
         carregarUsuarios();
     }
 
-    // VALIDAÇÕES
-    private boolean validarEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@(gmail\\.com|hotmail\\.com|academico\\.ifpb\\.edu\\.br)$";
-        return Pattern.matches(regex, email);
-    }
-
-    private boolean validarSenhaForte(String senha) {
-        if (senha.length() < 8) return false;
-        boolean temLetra = senha.matches(".*[A-Za-z].*");
-        boolean temNumero = senha.matches(".*[0-9].*");
-        boolean temEspecial = senha.matches(".*[^A-Za-z0-9].*");
-        return (temLetra && temNumero && temEspecial);
-    }
-
-    public boolean emailExiste(String email) {
-        return usuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
-    }
-
-    // CADASTRO
-    public boolean cadastrarUsuario(Usuario usuario) {
+    // Refatorado: Lança exceção com a mensagem de erro específica
+    // Isso permite que o teste capture o motivo exato da falha
+    public void cadastrarUsuario(Usuario usuario) throws IllegalArgumentException {
         if (!validarEmail(usuario.getEmail())) {
-            System.out.println("E-mail inválido! Deve ser @gmail.com, @hotmail.com ou @academico.ifpb.edu.br");
-            return false;
+            throw new IllegalArgumentException("E-mail inválido! Domínios aceitos: gmail, hotmail, academico.ifpb.");
         }
 
         if (!validarSenhaForte(usuario.getSenha())) {
-            System.out.println("Senha inválida! Deve ter pelo menos 8 caracteres, incluindo letras, números e caracteres especiais.");
-            return false;
+            throw new IllegalArgumentException("Senha fraca! Mínimo 8 caracteres, letras, números e especiais.");
         }
 
         if (emailExiste(usuario.getEmail())) {
-            System.out.println("Esse e-mail já está em uso.");
-            return false;
+            throw new IllegalArgumentException("Este e-mail já está cadastrado.");
         }
 
         usuarios.add(usuario);
-        salvarUsuarios(); 
-        System.out.println("Usuário cadastrado com sucesso!");
-        return true;
+        salvarUsuarios();
     }
 
-    // LOGIN
     public Usuario fazerLogin(String email, String senha) {
         return usuarios.stream()
                 .filter(u -> u.getEmail().equals(email) && u.getSenha().equals(senha))
@@ -77,42 +53,62 @@ public class LoginController {
                 .orElse(null);
     }
 
-    // USUÁRIOS
-    public void listarUsuarios() {
-        if (usuarios.isEmpty()) {
-            System.out.println("Nenhum usuário cadastrado.");
-        } else {
-            usuarios.forEach(System.out::println);
-        }
+    // ... Mantenha os métodos auxiliares (validarEmail, validarSenhaForte, salvar, carregar) iguais ...
+    
+    private boolean validarEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@(gmail\\.com|hotmail\\.com|academico\\.ifpb\\.edu\\.br)$";
+        return Pattern.matches(regex, email);
     }
 
-    // Salvar e carregar usuários
+    private boolean validarSenhaForte(String senha) {
+        if (senha == null || senha.length() < 8) return false;
+        boolean temLetra = senha.matches(".*[A-Za-z].*");
+        boolean temNumero = senha.matches(".*[0-9].*");
+        boolean temEspecial = senha.matches(".*[^A-Za-z0-9].*");
+        return (temLetra && temNumero && temEspecial);
+    }
+    
+    public boolean emailExiste(String email) {
+        return usuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
+    }
+
     public void salvarUsuarios() {
         try (FileWriter writer = new FileWriter(ARQUIVO_JSON)) {
             gson.toJson(usuarios, writer);
-            System.out.println("Usuários salvos em JSON com sucesso!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar JSON: " + e.getMessage());
+            System.err.println("Erro ao salvar: " + e.getMessage());
         }
     }
-    
+
     public void carregarUsuarios() {
         try (FileReader reader = new FileReader(ARQUIVO_JSON)) {
             Type listType = new TypeToken<ArrayList<Usuario>>(){}.getType();
             usuarios = gson.fromJson(reader, listType);
-            if (usuarios == null) {
-                usuarios = new ArrayList<>();
-            }
-            System.out.println("Usuários carregados do JSON com sucesso!");
+            if (usuarios == null) usuarios = new ArrayList<>();
         } catch (IOException e) {
-            System.out.println("Arquivo JSON não encontrado ou vazio, iniciando com lista vazia.");
             usuarios = new ArrayList<>();
         }
     }
-
-    public Usuario getUsuarioPorEmail(String email) {
+    
+    // Adicionado para facilitar limpeza em testes
+    public void limparBaseDados() {
+        this.usuarios.clear();
+        salvarUsuarios();
+    }
+    
+    public List<Aluno> listarApenasAlunos() {
+        // Filtra a lista de usuarios pegando apenas quem é instancia de Aluno
         return usuarios.stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email))
+                .filter(u -> u instanceof Aluno)
+                .map(u -> (Aluno) u)
+                .collect(Collectors.toList());
+    }
+
+    public Aluno buscarAlunoPorMatricula(String matricula) {
+        return usuarios.stream()
+                .filter(u -> u instanceof Aluno)
+                .map(u -> (Aluno) u)
+                .filter(a -> a.getMatricula().equalsIgnoreCase(matricula))
                 .findFirst()
                 .orElse(null);
     }
