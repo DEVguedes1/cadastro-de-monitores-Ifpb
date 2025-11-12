@@ -6,16 +6,19 @@ public class Aluno extends Usuario {
 	private String nomeDoAluno;
 	private String matricula;
 	private Double cre;
+	private Sexo sexo;
 	
 	// construtores
 	public Aluno() {
 	}
 	
-	public Aluno(String nomeDoAluno, String matricula, Double cre, String email, String senha) {
-		super(email, senha);
+	public Aluno(String nomeDoAluno, String matricula, Double cre,String email,String senha,Sexo sexo) {
+		setEmail(email);
+		setSenha(senha);
 		this.nomeDoAluno = nomeDoAluno;
 		this.matricula = matricula;
 		this.cre = cre;
+		this.sexo = sexo;
 	}
 
 	//metodos
@@ -36,11 +39,13 @@ public class Aluno extends Usuario {
 		return cre;
 	}
 	
-	public void increverMonitoria() {
-		
+	public Sexo getSexo() {
+		return sexo;
 	}
-	
-	// inscrever monitoria
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
 	
 	// desistir Inscricao
 

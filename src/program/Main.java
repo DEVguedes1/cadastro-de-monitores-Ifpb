@@ -3,6 +3,7 @@ package program;
 import controller.EditalController;
 import controller.LoginController;
 import models.Aluno;
+import models.Sexo;
 import models.recurses.Disciplina;
 import models.recurses.Edital;
 
@@ -63,6 +64,7 @@ public class Main {
     // --- MÉTODOS AUXILIARES DE ALUNO ---
 
     private static void cadastrarAluno() {
+    	double cre = 0;
         System.out.println("\n>>> Novo Aluno");
         System.out.print("Nome: ");
         String nome = sc.nextLine();
@@ -74,13 +76,19 @@ public class Main {
         String matricula = sc.nextLine();
         System.out.print("CRE: ");
         try {
-            double cre = Double.parseDouble(sc.nextLine());
-            Aluno a = new Aluno(nome, matricula, cre, email, senha);
-            loginController.cadastrarUsuario(a);
+            cre = Double.parseDouble(sc.nextLine());
         } catch (NumberFormatException e) {
             System.out.println("Erro: O CRE deve ser um número.");
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar: " + e.getMessage());
+        }
+        try {
+        	String sx = sc.nextLine();
+        	Sexo sexo = Sexo.valueOf(sx);
+        	Aluno a = new Aluno(nome, matricula, cre, email, senha, sexo);
+        	loginController.cadastrarUsuario(a);
+        }catch(Exception e) {
+        	 System.out.println("Erro ao cadastrar: " + e.getMessage());
         }
     }
 
