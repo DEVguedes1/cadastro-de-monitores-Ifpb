@@ -1,29 +1,39 @@
 package program;
 
-import controller.EditalController;
-import controller.LoginController;
-import models.Aluno;
-import models.Sexo;
-import models.recurses.Disciplina;
-import models.recurses.Edital;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import models.Aluno;
+import models.CentralDeInformacoes;
+import models.Coordenador;
+import models.Persistencia;
+import models.Sexo;
+import models.recurses.Disciplina;
+import models.recurses.Edital;
+import models.recurses.GeradorDeRelatorios;
+import models.recurses.Mensageiro;
+
 public class Main {
 
-    // Dependências estáticas para serem usadas dentro da main
-    private static final Scanner sc = new Scanner(System.in);
-    private static final LoginController loginController = new LoginController();
-    private static final EditalController editalController = new EditalController();
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static void aguardarEnter(Scanner sc) {
+        System.out.println("\n(Pressione ENTER para voltar ao menu...)");
+        sc.nextLine();
+    }
 
     public static void main(String[] args) {
+        // Tenta recuperar os dados salvos (XML/Serialização)
+        CentralDeInformacoes ci = Persistencia.recuperarCentral();
+        Scanner sc = new Scanner(System.in);
         
-        while (true) {
+        System.out.println("\n========================================");
+        System.out.println("   Sistema de Gerenciamento de Monitoria");
+        System.out.println("========================================");
+        
+        while(true) {
             System.out.println("\n--- Alunos ---");
             System.out.println(" 1. Cadastrar Aluno");
             System.out.println(" 2. Listar Todos os Alunos");
@@ -35,206 +45,238 @@ public class Main {
             System.out.println(" 6. Detalhar Edital por ID");
             System.out.println(" 7. Inscrever Aluno em Edital");
             System.out.println(" 8. Gerar Relatório de Inscrições (PDF)");
-
+            
+            System.out.println("\n--- Administração ---");
+            System.out.println(" 9. Cadastrar Coordenador"); // <--- NOVA OPÇÃO
+            
             System.out.println("\n----------------------------------------");
             System.out.println(" S. Sair do Sistema");
             System.out.println("----------------------------------------");
-            System.out.print("Escolha uma opção: ");
 
-            String opcao = sc.nextLine().toUpperCase();
+            while(true) {
+                // ... impressão do menu ...
+                System.out.print("\nEscolha uma opção: ");
+                String inputOp = sc.nextLine().toUpperCase();
+                char op = inputOp.length() > 0 ? inputOp.charAt(0) : ' '; 
 
-            switch (opcao) {
-                case "1" -> cadastrarAluno();
-                case "2" -> listarAlunos();
-                case "3" -> buscarAlunoMatricula();
-                case "4" -> publicarEdital();
-                case "5" -> listarEditais();
-                case "6" -> detalharEdital();
-                case "7" -> inscreverAluno();
-                case "8" -> gerarRelatorio();
-                case "S" -> {
-                    System.out.println("Saindo do sistema...");
-                    System.exit(0);
-                }
-                default -> System.out.println("Opção inválida. Tente novamente.");
-            }
-        }
-    }
+                if (op == '1') {
+                    // AQUI: Chamamos o método estático da classe Aluno
+                    Aluno.cadastrarViaConsole(sc, ci);
+                    aguardarEnter(sc);
 
-    // --- MÉTODOS AUXILIARES DE ALUNO ---
+                } else if (op == '2') {
+                    // AQUI: Chamamos a listagem
+                    Aluno.listarViaConsole(ci);
+                    aguardarEnter(sc);
 
-    private static void cadastrarAluno() {
-    	double cre = 0;
-        System.out.println("\n>>> Novo Aluno");
-        System.out.print("Nome: ");
-        String nome = sc.nextLine();
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.print("Senha: ");
-        String senha = sc.nextLine();
-        System.out.print("Matrícula: ");
-        String matricula = sc.nextLine();
-        System.out.print("CRE: ");
-        try {
-            cre = Double.parseDouble(sc.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Erro: O CRE deve ser um número.");
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar: " + e.getMessage());
-        }
-        try {
-        	String sx = sc.nextLine();
-        	Sexo sexo = Sexo.valueOf(sx);
-        	Aluno a = new Aluno(nome, matricula, cre, email, senha, sexo);
-        	loginController.cadastrarUsuario(a);
-        }catch(Exception e) {
-        	 System.out.println("Erro ao cadastrar: " + e.getMessage());
-        }
-    }
-
-    private static void listarAlunos() {
-        System.out.println("\n>>> Lista de Alunos");
-        List<Aluno> alunos = loginController.listarApenasAlunos();
-        if (alunos.isEmpty()) {
-            System.out.println("Nenhum aluno cadastrado.");
-        } else {
-            alunos.forEach(System.out::println);
-        }
-    }
-
-    private static void buscarAlunoMatricula() {
-        System.out.print("Digite a matrícula para busca: ");
-        String mat = sc.nextLine();
-        Aluno a = loginController.buscarAlunoPorMatricula(mat);
-        if (a != null) {
-            System.out.println("Aluno encontrado: " + a);
-        } else {
-            System.out.println("Aluno com matrícula '" + mat + "' não encontrado.");
-        }
-    }
-
-    // --- MÉTODOS AUXILIARES DE EDITAL ---
-
-    private static void publicarEdital() {
-        System.out.println("\n>>> Publicar Edital");
-        try {
-            System.out.print("Número do Edital (ex: 01/2024): ");
-            String num = sc.nextLine();
-
-            System.out.print("Data Início (dd/MM/yyyy): ");
-            LocalDate inicio = LocalDate.parse(sc.nextLine(), dtf);
-
-            System.out.print("Data Final (dd/MM/yyyy): ");
-            LocalDate fim = LocalDate.parse(sc.nextLine(), dtf);
-
-            ArrayList<Disciplina> disciplinas = new ArrayList<>();
-            while (true) {
-                System.out.print("Adicionar disciplina? (s/n): ");
-                String resp = sc.nextLine();
-                if (!resp.equalsIgnoreCase("s")) break;
-
-                System.out.print("  Nome da disciplina: ");
-                String nomeDisc = sc.nextLine();
-                System.out.print("  Quantidade de vagas: ");
-                int vagas = Integer.parseInt(sc.nextLine());
-                disciplinas.add(new Disciplina(nomeDisc, vagas));
-            }
-
-            Edital novo = new Edital(num, inicio, fim, disciplinas);
-            editalController.publicarEdital(novo);
-
-        } catch (Exception e) {
-            System.out.println("Erro ao criar edital (verifique as datas): " + e.getMessage());
-        }
-    }
-
-    private static void listarEditais() {
-        System.out.println("\n>>> Editais Publicados");
-        List<Edital> editais = editalController.listarEditais();
-        if (editais.isEmpty()) {
-            System.out.println("Nenhum edital publicado.");
-        } else {
-            for (Edital e : editais) {
-                System.out.println("ID: " + e.getId() + " | Edital Nº: " + e.getNumEdital());
-            }
-        }
-    }
-
-    private static void detalharEdital() {
-        System.out.print("Digite o ID do edital: ");
-        try {
-            long id = Long.parseLong(sc.nextLine());
-            Edital e = editalController.buscarEditalPorId(id);
-            if (e != null) {
-                System.out.println(e.toString());
-            } else {
-                System.out.println("Edital não encontrado.");
-            }
-        } catch (NumberFormatException ex) {
-            System.out.println("ID inválido.");
-        }
-    }
-
-    private static void inscreverAluno() {
-        System.out.println("\n>>> Inscrição em Monitoria");
-        System.out.print("Digite a Matrícula do Aluno: ");
-        String mat = sc.nextLine();
-        Aluno aluno = loginController.buscarAlunoPorMatricula(mat);
-
-        if (aluno == null) {
-            System.out.println("Erro: Aluno não encontrado.");
-            return;
-        }
-
-        System.out.print("Digite o ID do Edital: ");
-        try {
-            long idEdital = Long.parseLong(sc.nextLine());
-            
-            System.out.print("Nome da Disciplina (conforme edital): ");
-            String nomeDisc = sc.nextLine();
-
-            boolean sucesso = editalController.inscreverAluno(idEdital, aluno, nomeDisc);
-            if (sucesso) {
-                System.out.println("Inscrição realizada com sucesso para " + aluno.getNomeDoAluno());
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("ID inválido.");
-        }
-    }
-
-    private static void gerarRelatorio() {
-        System.out.println("\n>>> Gerando Relatório (Simulação PDF)...");
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("========================================\n");
-        relatorio.append("      RELATÓRIO GERAL DE MONITORIA      \n");
-        relatorio.append("========================================\n\n");
-
-        List<Edital> editais = editalController.listarEditais();
-        if (editais.isEmpty()) {
-            relatorio.append("Nenhum edital registrado.\n");
-        } else {
-            for (Edital e : editais) {
-                relatorio.append("EDITAL ").append(e.getNumEdital()).append("\n");
-                relatorio.append("Período: ").append(e.getDataIncio()).append(" a ").append(e.getDataFinal()).append("\n");
-                
-                for (Disciplina d : e.getDisciplinas()) {
-                    relatorio.append("  > Disciplina: ").append(d.getNomeDisciplina())
-                             .append(" (").append(d.getQntdVagas()).append(" vagas)\n");
+                } else if (op == '3') {
+                    // AQUI: Chamamos a busca
+                    Aluno.buscarPorMatriculaViaConsole(sc, ci);
+                    aguardarEnter(sc);
                     
-                    if (d.getAlunos().isEmpty()) {
-                        relatorio.append("      * Nenhum inscrito.\n");
-                    } else {
-                        for (Aluno a : d.getAlunos()) {
-                            relatorio.append("      * Inscrito: ").append(a.getNomeDoAluno())
-                                     .append(" (Mat: ").append(a.getMatricula()).append(")\n");
-                        }
-                    }
-                }
-                relatorio.append("----------------------------------------\n");
+	            } else if(op == '4') {
+	                System.out.println("\n--- 4. Publicar Novo Edital ---");
+	                
+	                System.out.print("Número do Edital (Ex: 2025/01): ");
+	                String numEdital = sc.nextLine();
+	
+	                ArrayList<Disciplina> d = new ArrayList<>();
+	                int n = 0;
+	                try {
+	                    System.out.print("Quantas disciplinas este edital terá? ");
+	                    n = Integer.parseInt(sc.nextLine());
+	                } catch (NumberFormatException e) {
+	                    System.err.println("[!] Valor inválido. Definindo como 0 disciplinas.");
+	                }
+	
+	                for(int i = 0; i < n; i++) {
+	                    System.out.println("\n--- Disciplina "+ (i+1) + "/" + n + " ---");
+	                    System.out.print("Nome da disciplina: ");
+	                    String nomeDisciplina = sc.nextLine();
+	                    int qntdVagas = 0;
+	                    try {
+	                        System.out.print("Quantidade de vagas: ");
+	                        qntdVagas = Integer.parseInt(sc.nextLine());
+	                    } catch (NumberFormatException e) {
+	                        System.err.println("[!] Valor inválido. Definindo como 0 vagas.");
+	                    }
+	                    d.add(new Disciplina(nomeDisciplina, qntdVagas));
+	                }
+	                
+	                System.out.println("\n--- Período de Inscrição ---");
+	                LocalDate dataInicio = null;
+	                LocalDate dataLimite = null;
+	                DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	                
+	                boolean dataInicioValida = false;
+	                while (!dataInicioValida) {
+	                    System.out.print("Digite a data de INÍCIO (dd/MM/yyyy): ");
+	                    String inputInicio = sc.nextLine();
+	                    try {
+	                        dataInicio = LocalDate.parse(inputInicio, formatador);
+	                        dataInicioValida = true; 
+	                    } catch (DateTimeParseException e) {
+	                        System.err.println("[!] Formato inválido! Tente novamente.");
+	                    }
+	                }
+	
+	                boolean dataLimiteValida = false;
+	                while (!dataLimiteValida) {
+	                    System.out.print("Digite a data LIMITE (dd/MM/yyyy): ");
+	                    String inputLimite = sc.nextLine();
+	                    try {
+	                        dataLimite = LocalDate.parse(inputLimite, formatador);
+	                        if (dataLimite.isBefore(dataInicio)) {
+	                            System.err.println("[!] Erro: A data limite não pode ser ANTERIOR à data de início.");
+	                        } else {
+	                            dataLimiteValida = true; 
+	                        }
+	                    } catch (DateTimeParseException e) {
+	                        System.err.println("[!] Formato inválido! Tente novamente.");
+	                    }
+	                }
+	                
+	                boolean adicionarEdital = ci.adicionarEdital(new Edital(numEdital, dataInicio, dataLimite, d));
+	                Persistencia.salvarCentral(ci);
+	                System.out.println("\n[+] Edital " + numEdital + " publicado com sucesso!");
+	                aguardarEnter(sc);
+	                
+	            } else if(op == '5') {
+	                System.out.println("\n--- 5. Listar Editais Publicados ---");
+	                ArrayList<Edital> editais = ci.getTodosOsEditais();
+	                if (editais.isEmpty()) {
+	                    System.out.println("\nNenhum edital cadastrado.");
+	                } else {
+	                    for (Edital edital : editais) {
+	                    	System.out.println("- ID: " + edital.getId() + " | Edital Nº: " + edital.getNumEdital());
+	                    }
+	                    System.out.println("\nTotal de editais: " + editais.size());
+	                }
+	                aguardarEnter(sc);
+	
+	            } else if(op == '6') {
+	                System.out.println("\n--- 6. Detalhar Edital por ID ---");
+	                System.out.print("Digite o ID do edital: ");
+	                try {
+	                    long idEdital = Long.parseLong(sc.nextLine());
+	                    Edital edital = ci.recuperarEditalPorId(idEdital);
+	                    if (edital != null) {
+	                        System.out.println("\n--- Detalhes do Edital ---");
+	                        System.out.println(edital.toString()); 
+	                    } else {
+	                        System.err.println("\n[!] Edital com ID " + idEdital + " não encontrado.");
+	                    }
+	                } catch (NumberFormatException e) {
+	                    System.err.println("\n[!] Erro: ID inválido. Digite apenas números.");
+	                }
+	                aguardarEnter(sc);
+	
+	            } else if(op == '7') {
+	                System.out.println("\n--- 7. Inscrever Aluno em Edital ---");
+	                try {
+	                    System.out.print("Digite o ID do edital: ");
+	                    long editalId = Long.parseLong(sc.nextLine());
+	                    Edital editalEscolhido = ci.recuperarEditalPorId(editalId);
+	
+	                    if (editalEscolhido == null) {
+	                        System.err.println("[!] Erro: Edital não encontrado.");
+	                        aguardarEnter(sc);
+	                        continue; 
+	                    }
+	
+	                    System.out.print("Digite a matrícula do aluno: ");
+	                    String matriculaAluno = sc.nextLine();
+	                    Aluno alunoInscrito = ci.recuperarAlunoPorMatricula(matriculaAluno);
+	
+	                    if (alunoInscrito == null) {
+	                        System.err.println("[!] Erro: Aluno não encontrado.");
+	                        aguardarEnter(sc);
+	                        continue; 
+	                    }
+	
+	                    ArrayList<Disciplina> disciplinasDoEdital = editalEscolhido.getDisciplinas();
+	                    if (disciplinasDoEdital.isEmpty()) {
+	                        System.err.println("[!] Erro: Este edital não possui disciplinas cadastradas.");
+	                        aguardarEnter(sc);
+	                        continue;
+	                    }
+	
+	                    System.out.println("\nDisciplinas disponíveis no edital " + editalEscolhido.getNumEdital() + ":");
+	                    for (int i = 0; i < disciplinasDoEdital.size(); i++) {
+	                        System.out.println("  " + (i + 1) + " - " + disciplinasDoEdital.get(i).getNomeDisciplina());
+	                    }
+	
+	                    System.out.print("\nEscolha o número da disciplina: ");
+	                    int escolhaDisciplina = Integer.parseInt(sc.nextLine());
+	
+	                    if (escolhaDisciplina < 1 || escolhaDisciplina > disciplinasDoEdital.size()) {
+	                        System.err.println("[!] Erro: Opção de disciplina inválida.");
+	                        aguardarEnter(sc);
+	                        continue; 
+	                    }
+	                    
+	                    Disciplina disciplinaEscolhida = disciplinasDoEdital.get(escolhaDisciplina - 1); 
+	
+	                    boolean sucesso = editalEscolhido.inscrever(alunoInscrito, disciplinaEscolhida);
+	
+	                    if (sucesso) {
+	                        System.out.println("\n[+] Inscrição realizada com sucesso!");
+	                        Persistencia.salvarCentral(ci); 
+	                        
+	                        try {
+	                            String emailAluno = alunoInscrito.getEmail();
+	                            String mensagemEmail = "Sua inscrição na disciplina " + disciplinaEscolhida.getNomeDisciplina() + " foi realizada.";
+	                            Mensageiro.enviarEmail(emailAluno, mensagemEmail);
+	                        } catch (Exception e) {
+	                            System.err.println("[!] A inscrição foi salva, mas falhou ao enviar o e-mail.");
+	                        }
+	                        
+	                    } else {
+	                        System.err.println("[!] Não foi possível realizar a inscrição.");
+	                    }
+	
+	                } catch (NumberFormatException e) {
+	                    System.err.println("\n[!] Erro: ID ou número inválido.");
+	                } catch (Exception e) {
+	                    System.err.println("\n[!] Ocorreu um erro inesperado: " + e.getMessage());
+	                }
+	                aguardarEnter(sc);
+	
+	            } else if (op == '8') {
+	                System.out.println("\n--- 8. Gerar Relatório de Inscrições (PDF) ---");
+	                try {
+	                    System.out.print("Digite o ID do edital: ");
+	                    long editalId = Long.parseLong(sc.nextLine());
+	
+	                    System.out.print("Digite a matrícula do aluno: ");
+	                    String matriculaAluno = sc.nextLine();
+	                    
+	                    GeradorDeRelatorios.gerarRelatorioInscricoes(matriculaAluno, editalId, ci);
+	                
+	                } catch (NumberFormatException e) {
+	                    System.err.println("\n[!] Erro: ID inválido.");
+	                } catch (Exception e) {
+	                    System.err.println("\n[!] Ocorreu um erro inesperado: " + e.getMessage());
+	                }
+	                aguardarEnter(sc);
+	            
+	            // -------------------------------------------------------
+	            // --- NOVA LÓGICA PARA CADASTRAR COORDENADOR (OPÇÃO 9) ---
+	            // -------------------------------------------------------
+	            }else if (op == '9') {
+	                Coordenador.cadastrarViaConsole(sc, ci);
+	                aguardarEnter(sc);
+	            } else if (op == 'S') {
+	                System.out.println("\nSaindo do sistema... Até logo!");
+	                break;
+	            } else {
+	                System.err.println("\n[!] Opção inválida. Por favor, tente novamente.");
+	                aguardarEnter(sc);
+	            }
+	        
             }
+            sc.close();
+            System.out.println("========================================");
         }
-
-        System.out.println(relatorio.toString());
-        System.out.println("[SISTEMA] Arquivo exportado com sucesso (Simulação).");
     }
 }

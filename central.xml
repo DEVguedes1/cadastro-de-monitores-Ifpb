@@ -1,0 +1,34 @@
+<models.CentralDeInformacoes>
+  <todosOsCoordenadores>
+    <models.Coordenador>
+      <email>mrBoss@gmail.com</email>
+      <senha>1Gr4?3%!</senha>
+      <nome>mr.boss</nome>
+    </models.Coordenador>
+  </todosOsCoordenadores>
+  <todosOsAlunos>
+    <models.Aluno>
+      <email>pimlegal@gmail.com</email>
+      <senha>P1m@l$g</senha>
+      <nomeDoAluno>pim</nomeDoAluno>
+      <matricula>202503</matricula>
+      <cre>7.0</cre>
+      <sexo>MASCULINO</sexo>
+    </models.Aluno>
+  </todosOsAlunos>
+  <todosOsEditais>
+    <models.recurses.Edital>
+      <id>1763746855865</id>
+      <numEdital>2025/04</numEdital>
+      <dataIncio>2025-11-22</dataIncio>
+      <dataFinal>2025-11-30</dataFinal>
+      <disciplinas>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>LEGALIDADE</nomeDisciplina>
+          <qntdVagas>2</qntdVagas>
+          <alunos/>
+        </models.recurses.Disciplina>
+      </disciplinas>
+    </models.recurses.Edital>
+  </todosOsEditais>
+</models.CentralDeInformacoes>

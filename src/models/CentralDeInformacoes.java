@@ -8,9 +8,16 @@ import models.recurses.Edital;
 
 public class CentralDeInformacoes {
 
+	private ArrayList<Coordenador> todosOsCoordenadores = new ArrayList<>();
 	private ArrayList<Aluno> todosOsAlunos = new ArrayList<>();
 	private ArrayList<Edital> todosOsEditais = new ArrayList<>();
 	
+	public CentralDeInformacoes() {
+		this.todosOsCoordenadores = new ArrayList<>();
+		this.todosOsAlunos = new ArrayList<>();
+		this.todosOsEditais = new ArrayList<>();
+	}
+
 	public boolean adicionarAluno(Aluno aluno) {
 		if (this.todosOsAlunos == null) {
 			this.todosOsAlunos = new ArrayList<>();
@@ -116,5 +123,25 @@ public class CentralDeInformacoes {
 
 		return inscricoesDoAluno;
 	}
+	// Dentro de models/CentralDeInformacoes.java
+
+
+	public boolean adicionarCoordenador(Coordenador c) {
+	    if (this.todosOsCoordenadores == null) {
+	        this.todosOsCoordenadores = new ArrayList<>();
+	    }
+	    // Verifica se já existe (opcional, mas recomendado)
+	    for (Coordenador existente : todosOsCoordenadores) {
+	        if (existente.getEmail().equalsIgnoreCase(c.getEmail())) {
+	            return false;
+	        }
+	    }
+	    todosOsCoordenadores.add(c);
+	    return true;
+	}
+	
+	public ArrayList<Coordenador> getTodosOsCoordenadores() {
+        return todosOsCoordenadores;
+    }
 }
 

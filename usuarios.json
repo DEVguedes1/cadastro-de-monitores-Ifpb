@@ -1,13 +1,18 @@
 [
   {
-    "email": "joao@gmail.com",
-    "senha": "Senha@123"
+    "nomeDoAluno": "Admin",
+    "matricula": "202500",
+    "cre": 8.0,
+    "sexo": "OUTRO",
+    "email": "Admin@gmail.com",
+    "senha": "Ad\u0026_m1N?"
   },
   {
-    "nomeDoAluno": "maria flor",
-    "matricula": "202502",
-    "cre": 6.0,
-    "email": "mariaflor@gmail.com",
-    "senha": "M#4ds5\u0026a"
+    "nomeDoAluno": "Nicolas",
+    "matricula": "10",
+    "cre": 10.0,
+    "sexo": "MASCULINO",
+    "email": "nicolasguedesguedes081@gmail.com",
+    "senha": "N23o%4$_"
   }
 ]

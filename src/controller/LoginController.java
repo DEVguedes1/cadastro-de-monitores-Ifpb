@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import models.Aluno;
+import models.Coordenador;
 import models.Usuario;
 
 public class LoginController {
@@ -23,12 +26,42 @@ public class LoginController {
     private final Gson gson;
 
     public LoginController() {
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        // Adaptador para resolver o Polimorfismo e evitar o Loop Infinito
+        JsonDeserializer<Usuario> deserializer = (json, typeOfT, context) -> {
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            // 1. Verifica se é Aluno
+            if (jsonObject.has("matricula")) {
+                return context.deserialize(jsonObject, Aluno.class);
+            }
+            // 2. Verifica se é Coordenador (caso você tenha essa classe)
+            else if (jsonObject.has("nome") && !jsonObject.has("matricula")) { // Reforço na verificação
+                return context.deserialize(jsonObject, Coordenador.class);
+            }
+            
+            // 3. Caso Base: É apenas um Usuario genérico
+            // CORREÇÃO: Criamos manualmente para não chamar o 'context.deserialize' 
+            // recursivamente na classe Usuario, o que causava o StackOverflow.
+            Usuario usuario = new Usuario();
+            
+            if (jsonObject.has("email")) {
+                usuario.setEmail(jsonObject.get("email").getAsString());
+            }
+            if (jsonObject.has("senha")) {
+                usuario.setSenha(jsonObject.get("senha").getAsString());
+            }
+            
+            return usuario;
+        };
+
+        this.gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Usuario.class, deserializer)
+                .create();
+        
         carregarUsuarios();
     }
 
-    // Refatorado: Lança exceção com a mensagem de erro específica
-    // Isso permite que o teste capture o motivo exato da falha
     public void cadastrarUsuario(Usuario usuario) throws IllegalArgumentException {
         if (!validarEmail(usuario.getEmail())) {
             throw new IllegalArgumentException("E-mail inválido! Domínios aceitos: gmail, hotmail, academico.ifpb.");
@@ -90,14 +123,9 @@ public class LoginController {
         }
     }
     
-    // Adicionado para facilitar limpeza em testes
-    public void limparBaseDados() {
-        this.usuarios.clear();
-        salvarUsuarios();
-    }
+   
     
     public List<Aluno> listarApenasAlunos() {
-        // Filtra a lista de usuarios pegando apenas quem é instancia de Aluno
         return usuarios.stream()
                 .filter(u -> u instanceof Aluno)
                 .map(u -> (Aluno) u)

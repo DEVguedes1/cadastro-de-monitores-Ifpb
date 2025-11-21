@@ -18,17 +18,20 @@ import org.w3c.dom.NodeList;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class Persistencia {
 	private static XStream xstream = new XStream(new DomDriver());
 	private static File arq = new File("central.xml");
+
+	static {
+		// SOLUÇÃO DO ERRO: Libera geral. Permite ler qualquer classe do projeto.
+		xstream.addPermission(AnyTypePermission.ANY);
+	}
 	
 	public static void salvarCentral(CentralDeInformacoes ci) {
 		
 		String xml = xstream.toXML(ci);
-		
-		setupDefaultSecurity(xstream);
-        xstream.allowTypesByWildcard(new String[] { "model.*" });
 		
 		try {
 			if (!arq.exists()) {
