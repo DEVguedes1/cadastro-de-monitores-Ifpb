@@ -1,8 +1,8 @@
 <models.CentralDeInformacoes>
   <todosOsCoordenadores>
     <models.Coordenador>
-      <email>mrBoss@gmail.com</email>
-      <senha>1Gr4?3%!</senha>
+      <email>grandeChefe@gmail.com</email>
+      <senha>B0ss@l$g</senha>
       <nome>mr.boss</nome>
     </models.Coordenador>
   </todosOsCoordenadores>
@@ -13,6 +13,14 @@
       <nomeDoAluno>pim</nomeDoAluno>
       <matricula>202503</matricula>
       <cre>7.0</cre>
+      <sexo>MASCULINO</sexo>
+    </models.Aluno>
+    <models.Aluno>
+      <email>nicolasguedesguedes081@gmail.com</email>
+      <senha>P1m@l$g</senha>
+      <nomeDoAluno>Nicolas</nomeDoAluno>
+      <matricula>2025000</matricula>
+      <cre>9.0</cre>
       <sexo>MASCULINO</sexo>
     </models.Aluno>
   </todosOsAlunos>
@@ -26,7 +34,10 @@
         <models.recurses.Disciplina>
           <nomeDisciplina>LEGALIDADE</nomeDisciplina>
           <qntdVagas>2</qntdVagas>
-          <alunos/>
+          <alunos>
+            <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno"/>
+            <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno[2]"/>
+          </alunos>
         </models.recurses.Disciplina>
       </disciplinas>
     </models.recurses.Edital>

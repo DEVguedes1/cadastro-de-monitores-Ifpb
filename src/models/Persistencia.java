@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.lang.model.element.Element;
 import javax.xml.parsers.DocumentBuilder;
@@ -48,7 +49,7 @@ public class Persistencia {
 	public static CentralDeInformacoes recuperarCentral() {
 		
 		setupDefaultSecurity(xstream);
-        xstream.allowTypesByWildcard(new String[] { "model.*" });
+        xstream.allowTypesByWildcard(new String[] { "models.*" });
 		
 		try {
 			if (arq.exists()) {
@@ -104,5 +105,35 @@ public class Persistencia {
         }
         return alunos;
     }
-	
+
+	public static CentralDeInformacoes carregarOuCriarCentral(Scanner sc) {
+	    CentralDeInformacoes ci = recuperarCentral();
+
+	    // Garante listas nunca nulas
+	    if (ci.getTodosOsCoordenadores() == null) {
+	        try {
+	            var campo = CentralDeInformacoes.class.getDeclaredField("todosOsCoordenadores");
+	            campo.setAccessible(true);
+	            campo.set(ci, new ArrayList<>());
+	        } catch (Exception e) {
+	            ci.getTodosOsCoordenadores().clear();
+	        }
+	    }
+
+	    // Requisita cadastro via console (igual no LoginController)
+	    if (ci.getTodosOsCoordenadores().isEmpty()) {
+	        System.out.println("[!] Nenhum coordenador encontrado no sistema.");
+	        System.out.println("[+] Cadastre o primeiro coordenador:");
+
+	        Coordenador coord = Coordenador.cadastrarViaCentral(sc, ci);
+
+	        ci.adicionarCoordenador(coord);
+	        salvarCentral(ci);
+
+	        System.out.println("[+] Coordenador salvo com sucesso!");
+	    }
+
+	    return ci;
+	}
+
 }

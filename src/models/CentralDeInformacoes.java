@@ -57,6 +57,19 @@ public class CentralDeInformacoes {
 		return null;
 	}
 	
+	public ArrayList<Aluno> listarApenasAlunos() {
+	    return getTodosOsAlunos();
+	}
+	
+	public boolean emailExiste(String email) {
+	    for (Coordenador c : todosOsCoordenadores) {
+	        if (c.getEmail().equalsIgnoreCase(email)) return true;
+	    }
+	    for (Aluno a : todosOsAlunos) {
+	        if (a.getEmail().equalsIgnoreCase(email)) return true;
+	    }
+	    return false;
+	}
 	
 	public ArrayList<Edital> getTodosOsEditais() {
 		if (this.todosOsEditais == null) {
@@ -80,18 +93,19 @@ public class CentralDeInformacoes {
 	}
 	
 	public Edital recuperarEditalPorId(long id) {
-		if (this.todosOsEditais == null) {
-			this.todosOsEditais = new ArrayList<>();
-		
-		for (Edital e: todosOsEditais) {
-			if (e.getId() == id) {
-				System.out.println(e.toString());
-				return e;
-				}
-			}
-		}
-		return null;
+	    if (this.todosOsEditais == null) {
+	        this.todosOsEditais = new ArrayList<>();
+	    }
+
+	    for (Edital e : todosOsEditais) {
+	        if (e.getId() == id) {
+	            return e;
+	        }
+	    }
+
+	    return null;
 	}
+
 	
 	public List<Disciplina> recuperarInscriçõesDeUmAlunoEmUmEdital(String matricula, long idEdital) {
 		

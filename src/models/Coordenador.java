@@ -2,6 +2,8 @@ package models;
 
 import java.util.Scanner;
 
+import models.utils.Validacao;
+
 public class Coordenador extends Usuario {
 	
 	//atributo
@@ -43,6 +45,39 @@ public class Coordenador extends Usuario {
         } else {
             System.err.println("\n[!] Erro: Já existe um coordenador com esse email.");
         }
+    }
+	
+	public static Coordenador cadastrarViaCentral(Scanner sc, CentralDeInformacoes ci) {
+        System.out.println("\n--- Cadastrar Novo Coordenador ---");
+        
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+        
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+        while (!Validacao.validarEmail(email)) {
+            System.out.println("Email inválido! Tente novamente.");
+            email = sc.nextLine();
+        }
+        
+        System.out.print("Senha: ");
+        String senha = sc.nextLine();
+        while (!Validacao.senhaForte(senha)) {
+            System.out.println("Senha fraca! Use letras, números e especiais:");
+            senha = sc.nextLine();
+        }
+        	
+        Coordenador novoCoord = new Coordenador(nome, email, senha);
+        
+        boolean sucesso = ci.adicionarCoordenador(novoCoord);
+        
+        if (sucesso) {
+            Persistencia.salvarCentral(ci);
+            System.out.println("\n[+] Coordenador cadastrado com sucesso!");
+        } else {
+            System.err.println("\n[!] Erro: Já existe um coordenador com esse email.");
+        }
+		return novoCoord;
     }
 	//+contatarEstudante()
 	

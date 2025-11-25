@@ -18,6 +18,7 @@ import models.recurses.GeradorDeRelatorios;
 import models.recurses.Mensageiro;
 
 public class Main {
+	public static final Scanner sc = new Scanner(System.in);
 
     public static void aguardarEnter(Scanner sc) {
         System.out.println("\n(Pressione ENTER para voltar ao menu...)");
@@ -25,13 +26,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // Tenta recuperar os dados salvos (XML/Serialização)
-        CentralDeInformacoes ci = Persistencia.recuperarCentral();
-        Scanner sc = new Scanner(System.in);
+        CentralDeInformacoes ci = Persistencia.carregarOuCriarCentral(sc);
         
         System.out.println("\n========================================");
         System.out.println("   Sistema de Gerenciamento de Monitoria");
         System.out.println("========================================");
+                
+        
         
         while(true) {
             System.out.println("\n--- Alunos ---");
@@ -260,9 +261,6 @@ public class Main {
 	                }
 	                aguardarEnter(sc);
 	            
-	            // -------------------------------------------------------
-	            // --- NOVA LÓGICA PARA CADASTRAR COORDENADOR (OPÇÃO 9) ---
-	            // -------------------------------------------------------
 	            }else if (op == '9') {
 	                Coordenador.cadastrarViaConsole(sc, ci);
 	                aguardarEnter(sc);
@@ -275,7 +273,6 @@ public class Main {
 	            }
 	        
             }
-            sc.close();
             System.out.println("========================================");
         }
     }
