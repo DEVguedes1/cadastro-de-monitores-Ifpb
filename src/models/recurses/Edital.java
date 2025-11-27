@@ -2,7 +2,6 @@ package models.recurses;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import models.Aluno;
 
 public class Edital {
@@ -11,6 +10,7 @@ public class Edital {
 	private LocalDate dataIncio;
 	private LocalDate dataFinal;
 	private ArrayList<Disciplina> disciplinas;
+	private boolean ativo;
 	
 	public Edital() {
 		this.id = System.currentTimeMillis(); 
@@ -18,11 +18,12 @@ public class Edital {
 	}
 	
 	public Edital(String numEdital, LocalDate dataIncio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas) {
-		this.id = System.currentTimeMillis(); 
+		this.id = System.currentTimeMillis();
 		this.numEdital = numEdital;
 		this.dataIncio = dataIncio;
 		this.dataFinal = dataFinal;
 		this.disciplinas = disciplinas;
+		this.ativo = true;
 	}
 
 	public long getId() {
@@ -88,19 +89,33 @@ public class Edital {
 		}
 		
 	}
-	
+	public void encerrarEdital(){
+		this.ativo = false;
+	}
+	public boolean reabrirEdital(){
+		if (this.jaAcabou()){
+			return false;
+		}
+		else {
+			this.ativo = true;
+			return true;
+		}
+	}
 	public boolean jaAcabou() {
 		LocalDate hoje = LocalDate.now();
 		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
 		if (!dentroDoPrazo) {
-			System.out.println("prazo finalizado");
+			this.ativo = false;
+			System.out.println("O prazo deste edital já foi finalizado");
 			return true;
 		}else {
 			System.out.println("inscrições abertas");
 			return false;
 		}
 	}
-	
+	public Edital clonarEdital(){
+		return new Edital(this.numEdital + ".2", this.dataIncio, this.dataFinal, this.disciplinas);
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

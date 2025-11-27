@@ -4,14 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
 import models.Aluno;
 import models.CentralDeInformacoes;
 import models.Coordenador;
 import models.Persistencia;
-import models.Sexo;
 import models.recurses.Disciplina;
 import models.recurses.Edital;
 import models.recurses.GeradorDeRelatorios;
@@ -49,7 +46,7 @@ public class Main {
             
             System.out.println("\n--- Administração ---");
             System.out.println(" 9. Cadastrar Coordenador"); // <--- NOVA OPÇÃO
-            
+			System.out.println(" 10. Calcular o resultado do Edital de Monitoria"); // <--- NOVA OPÇÃO
             System.out.println("\n----------------------------------------");
             System.out.println(" S. Sair do Sistema");
             System.out.println("----------------------------------------");
@@ -58,24 +55,24 @@ public class Main {
                 // ... impressão do menu ...
                 System.out.print("\nEscolha uma opção: ");
                 String inputOp = sc.nextLine().toUpperCase();
-                char op = inputOp.length() > 0 ? inputOp.charAt(0) : ' '; 
+                String op = inputOp;
 
-                if (op == '1') {
+                if (op.equals("1")) {
                     // AQUI: Chamamos o método estático da classe Aluno
                     Aluno.cadastrarViaConsole(sc, ci);
                     aguardarEnter(sc);
 
-                } else if (op == '2') {
+                } else if (op.equals("2")) {
                     // AQUI: Chamamos a listagem
                     Aluno.listarViaConsole(ci);
                     aguardarEnter(sc);
 
-                } else if (op == '3') {
+                } else if (op.equals("3")) {
                     // AQUI: Chamamos a busca
                     Aluno.buscarPorMatriculaViaConsole(sc, ci);
                     aguardarEnter(sc);
                     
-	            } else if(op == '4') {
+	            } else if(op.equals("4")) {
 	                System.out.println("\n--- 4. Publicar Novo Edital ---");
 	                
 	                System.out.print("Número do Edital (Ex: 2025/01): ");
@@ -142,7 +139,7 @@ public class Main {
 	                System.out.println("\n[+] Edital " + numEdital + " publicado com sucesso!");
 	                aguardarEnter(sc);
 	                
-	            } else if(op == '5') {
+	            } else if(op.equals("5")) {
 	                System.out.println("\n--- 5. Listar Editais Publicados ---");
 	                ArrayList<Edital> editais = ci.getTodosOsEditais();
 	                if (editais.isEmpty()) {
@@ -155,7 +152,7 @@ public class Main {
 	                }
 	                aguardarEnter(sc);
 	
-	            } else if(op == '6') {
+	            } else if(op.equals("6")) {
 	                System.out.println("\n--- 6. Detalhar Edital por ID ---");
 	                System.out.print("Digite o ID do edital: ");
 	                try {
@@ -164,6 +161,69 @@ public class Main {
 	                    if (edital != null) {
 	                        System.out.println("\n--- Detalhes do Edital ---");
 	                        System.out.println(edital.toString()); 
+							System.out.println("Menu de Opções: ");
+							System.out.println("1. Encerrar Edital ");
+							System.out.println("2. Editar Edital ");
+							System.out.println("3. Clonar o Edital ");
+							System.out.println("4. Sair ");
+							System.out.print("Escolha uma das opções (1-3) ou S para sair: "); int SubMenu = sc.nextInt();
+							if (SubMenu == 1){
+								System.out.println("Encerrando edital: " + edital.getNumEdital());
+								edital.encerrarEdital();
+							}
+							else if (SubMenu == 2){
+								System.out.println("Editar Edital: ");
+								System.out.println("1. Editar data de ínicio");
+								System.out.println("2. Editar data final ");
+								System.out.println("3. Reabrir edital ");
+								System.out.println("4. Aumentar número de vagas");
+								System.out.println("5. Editar pesos da fórmula de pontuação"); // Não implementado ainda
+								System.out.println("6. Sair ");
+								System.out.print("Escolha uma das opções (1-6): "); int SubMenu2 = sc.nextInt();
+								sc.nextLine();
+								if (SubMenu2 == 1){
+									try {
+										System.out.println("Digite a nova data de ínicio do edital (dd/MM/yyyy): ");
+										String mudarData = sc.nextLine();
+										DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
+										edital.setDataIncio(dataModificada);
+										System.out.println("Nova data de ínicio do edital: " + edital.getDataIncio());
+									} catch (DateTimeParseException e) {
+										System.out.println("Error: Data inválida");
+									}
+								}
+								else if (SubMenu2 == 2){
+									System.out.println("Digite a nova data final do edital (dd/MM/yyyy): ");
+									String mudarData = sc.nextLine();
+									DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+									LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
+									edital.setDataFinal(dataModificada);
+									System.out.println("Nova data final do edital: " + edital.getDataFinal());
+								}
+								else if (SubMenu2 == 3){
+									if(edital.reabrirEdital()){
+										System.out.println("O edital foi aberto!");
+									}
+								}
+								else if (SubMenu2 == 4){
+
+								}
+								else if (SubMenu2 == 6){
+
+								}
+								else 
+									System.out.println("Essa opção não consta no menu!");
+							}
+							else if (SubMenu == 3){
+								Edital editalClonado = edital.clonarEdital();
+								boolean adicionarEdital = ci.adicionarEdital(editalClonado);
+	                			Persistencia.salvarCentral(ci);
+	                			System.out.println("\n[+] Edital " + editalClonado.getNumEdital() + " clonado com sucesso!");
+							}
+							else if (SubMenu == 4){
+								aguardarEnter(sc);
+							}
 	                    } else {
 	                        System.err.println("\n[!] Edital com ID " + idEdital + " não encontrado.");
 	                    }
@@ -172,7 +232,7 @@ public class Main {
 	                }
 	                aguardarEnter(sc);
 	
-	            } else if(op == '7') {
+	            } else if(op.equals("7")) {
 	                System.out.println("\n--- 7. Inscrever Aluno em Edital ---");
 	                try {
 	                    System.out.print("Digite o ID do edital: ");
@@ -243,7 +303,7 @@ public class Main {
 	                }
 	                aguardarEnter(sc);
 	
-	            } else if (op == '8') {
+	            } else if (op.equals("8")) {
 	                System.out.println("\n--- 8. Gerar Relatório de Inscrições (PDF) ---");
 	                try {
 	                    System.out.print("Digite o ID do edital: ");
@@ -261,13 +321,24 @@ public class Main {
 	                }
 	                aguardarEnter(sc);
 	            
-	            }else if (op == '9') {
+	            }else if (op.equals("9")) {
 	                Coordenador.cadastrarViaConsole(sc, ci);
 	                aguardarEnter(sc);
-	            } else if (op == 'S') {
+				} else if (op.equals("10")) {
+					System.out.print("Digite o ID do edital: ");
+	                long editalId = Long.parseLong(sc.nextLine());
+	                Edital editalEscolhido = ci.recuperarEditalPorId(editalId);
+	
+	                    if (editalEscolhido == null) {
+	                        System.err.println("[!] Erro: Edital não encontrado.");
+	                        aguardarEnter(sc);
+	                        continue;
+	                    }
+
+				} else if (op.equals("S")) {
 	                System.out.println("\nSaindo do sistema... Até logo!");
 	                break;
-	            } else {
+				}else {
 	                System.err.println("\n[!] Opção inválida. Por favor, tente novamente.");
 	                aguardarEnter(sc);
 	            }
