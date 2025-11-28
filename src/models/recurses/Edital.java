@@ -141,5 +141,9 @@ public class Edital {
 		
 		return sb.toString();
 	}
+
+    public boolean isAtivo() {
+        return ativo;
+    }
 }
 

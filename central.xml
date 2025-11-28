@@ -34,12 +34,23 @@
         <models.recurses.Disciplina>
           <nomeDisciplina>LEGALIDADE</nomeDisciplina>
           <qntdVagas>2</qntdVagas>
+          <pesoNota>0.0</pesoNota>
+          <pesoCRE>0.0</pesoCRE>
           <alunos>
             <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno"/>
             <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno[2]"/>
           </alunos>
         </models.recurses.Disciplina>
       </disciplinas>
+      <ativo>false</ativo>
+    </models.recurses.Edital>
+    <models.recurses.Edital>
+      <id>1764359169523</id>
+      <numEdital>2025/04.2</numEdital>
+      <dataIncio>2025-11-22</dataIncio>
+      <dataFinal>2025-11-30</dataFinal>
+      <disciplinas reference="../../models.recurses.Edital/disciplinas"/>
+      <ativo>true</ativo>
     </models.recurses.Edital>
   </todosOsEditais>
 </models.CentralDeInformacoes>

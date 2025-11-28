@@ -43,10 +43,11 @@ public class Main {
             System.out.println(" 6. Detalhar Edital por ID");
             System.out.println(" 7. Inscrever Aluno em Edital");
             System.out.println(" 8. Gerar Relatório de Inscrições (PDF)");
+			System.out.println(" 9. Editar Edital");
             
             System.out.println("\n--- Administração ---");
-            System.out.println(" 9. Cadastrar Coordenador"); // <--- NOVA OPÇÃO
-			System.out.println(" 10. Calcular o resultado do Edital de Monitoria"); // <--- NOVA OPÇÃO
+            System.out.println(" 10. Cadastrar Coordenador"); // <--- NOVA OPÇÃO
+			System.out.println(" 11. Calcular o resultado do Edital de Monitoria"); // <--- NOVA OPÇÃO
             System.out.println("\n----------------------------------------");
             System.out.println(" S. Sair do Sistema");
             System.out.println("----------------------------------------");
@@ -92,13 +93,27 @@ public class Main {
 	                    System.out.print("Nome da disciplina: ");
 	                    String nomeDisciplina = sc.nextLine();
 	                    int qntdVagas = 0;
+						float pesoNota;
+						float pesoCRE;
 	                    try {
 	                        System.out.print("Quantidade de vagas: ");
 	                        qntdVagas = Integer.parseInt(sc.nextLine());
 	                    } catch (NumberFormatException e) {
 	                        System.err.println("[!] Valor inválido. Definindo como 0 vagas.");
 	                    }
-	                    d.add(new Disciplina(nomeDisciplina, qntdVagas));
+						try {
+							System.out.print("Pontuação na disciplina (Obs: A soma dos pesos deve ser 1)");
+							System.out.print("Digite o peso da nota (0.1 a 1): ");
+							pesoNota = Float.parseFloat(sc.nextLine());
+							System.out.print("Digite o peso do CRE (0.1 a 1): ");
+							pesoCRE = Float.parseFloat(sc.nextLine());
+
+						} catch (Exception e) {
+							System.err.println("[!] Valor inválido. Definindo os pesos para 0.5 e 0.5 (1).");
+							pesoNota = 0.5f;
+							pesoCRE = 0.5f;
+						}
+	                    d.add(new Disciplina(nomeDisciplina, qntdVagas, pesoNota, pesoCRE));
 	                }
 	                
 	                System.out.println("\n--- Período de Inscrição ---");
@@ -173,7 +188,7 @@ public class Main {
 							}
 							else if (SubMenu == 2){
 								System.out.println("Editar Edital: ");
-								System.out.println("1. Editar data de ínicio");
+								System.out.println("1. Editar data de início");
 								System.out.println("2. Editar data final ");
 								System.out.println("3. Reabrir edital ");
 								System.out.println("4. Aumentar número de vagas");
@@ -183,12 +198,25 @@ public class Main {
 								sc.nextLine();
 								if (SubMenu2 == 1){
 									try {
-										System.out.println("Digite a nova data de ínicio do edital (dd/MM/yyyy): ");
-										String mudarData = sc.nextLine();
-										DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-										LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
-										edital.setDataIncio(dataModificada);
-										System.out.println("Nova data de ínicio do edital: " + edital.getDataIncio());
+										if (edital.getDataIncio().isBefore(LocalDate.now())){
+											System.out.println("[!]Não é possível mudar a data de início deste edital. A data de ínicio desse edital já passou.");
+										}
+										else {
+											System.out.println("Digite a nova data de início do edital (dd/MM/yyyy): ");
+											String mudarData = sc.nextLine();
+											DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+											LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
+											if (dataModificada.isBefore(LocalDate.now())){
+												System.out.println("[!] Essa data já passou!");
+											}
+											else if (dataModificada.isBefore(edital.getDataIncio())){
+												System.out.println("[!] A data de entrega não pode ser antes da data inicial!");
+											}
+											else{
+												edital.setDataIncio(dataModificada);
+												System.out.println("Nova data de ínicio do edital: " + edital.getDataIncio());
+											}
+										}
 									} catch (DateTimeParseException e) {
 										System.out.println("Error: Data inválida");
 									}
@@ -198,8 +226,13 @@ public class Main {
 									String mudarData = sc.nextLine();
 									DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 									LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
-									edital.setDataFinal(dataModificada);
-									System.out.println("Nova data final do edital: " + edital.getDataFinal());
+									if (dataModificada.isBefore(LocalDate.now())){
+												System.out.println("[!] Essa data já passou!");
+											}
+									else{
+										edital.setDataFinal(dataModificada);
+										System.out.println("Nova data final do edital: " + edital.getDataFinal());
+									}
 								}
 								else if (SubMenu2 == 3){
 									if(edital.reabrirEdital()){
@@ -207,7 +240,45 @@ public class Main {
 									}
 								}
 								else if (SubMenu2 == 4){
-
+									System.out.println("Digite qual disciplina: ");
+									String buscarDisciplina = sc.nextLine();
+									boolean achado = false;
+									for (Disciplina d1 : edital.getDisciplinas()){
+										if (d1.getNomeDisciplina().equalsIgnoreCase(buscarDisciplina)){
+											System.out.println("Quantidade de vagas: " + d1.getQntdVagas());
+											System.out.println("Digite a nova quantidade de vagas: ");
+											int qtd = Integer.parseInt(sc.nextLine()); 
+											if (qtd < d1.getQntdVagas()){
+												System.out.println("[!] A quantidade de vagas não pode ser menor!");
+											}
+											else{
+												achado = true;
+												d1.setQntdVagas(qtd);
+												System.out.println("Nova quantidade de vagas:" + d1.getQntdVagas());
+											}
+										}
+									}
+									if (!achado)
+										System.out.println("[!] Essa disciplina não consta no edital!");
+								}
+								else if (SubMenu2 == 5){
+									System.out.println("Digite qual disciplina: ");
+									String buscarDisciplina = sc.nextLine();
+									boolean achado = false;
+									for (Disciplina d1 : edital.getDisciplinas()){
+										if (d1.getNomeDisciplina().equalsIgnoreCase(buscarDisciplina)){
+											System.out.println("Pesos anteriores: CRE:" + d1.getPesoCRE() + "Nota Disciplina:" + d1.getPesoNota());
+											System.out.println("Digite o novo peso do CRE: ");
+											float cre = Float.parseFloat(sc.nextLine());
+											d1.setPesoCRE(cre);
+											System.out.println("Digite o novo peso da nota: ");
+											float nota = Float.parseFloat(sc.nextLine());
+											d1.setPesoNota(nota);
+											System.out.println("Pesos definidos para: CRE: " + d1.getPesoCRE() + "Nota Disciplina" + d1.getPesoNota());
+										}
+									}
+									if (!achado)
+										System.out.println("[!] Essa disciplina não consta no edital!");
 								}
 								else if (SubMenu2 == 6){
 
@@ -320,11 +391,122 @@ public class Main {
 	                    System.err.println("\n[!] Ocorreu um erro inesperado: " + e.getMessage());
 	                }
 	                aguardarEnter(sc);
-	            
 	            }else if (op.equals("9")) {
+					System.out.println("\n--- 9. Editar Edital ---");
+					try {
+	                    System.out.print("Digite o ID do edital: ");
+	                    long editalId = Long.parseLong(sc.nextLine());
+						Edital edital = ci.recuperarEditalPorId(editalId);
+						if (edital != null) {
+							System.out.println("Editar Edital: ");
+							System.out.println("1. Editar data de início");
+							System.out.println("2. Editar data final ");
+							System.out.println("3. Reabrir edital ");
+							System.out.println("4. Aumentar número de vagas");
+							System.out.println("5. Editar pesos da fórmula de pontuação");
+							System.out.println("6. Sair ");
+							System.out.print("Escolha uma das opções (1-6): "); int SubMenu2 = sc.nextInt();
+							sc.nextLine();
+							if (SubMenu2 == 1){
+								try {
+									if (edital.getDataIncio().isBefore(LocalDate.now())){
+										System.out.println("[!]Não é possível mudar a data de início deste edital. A data de ínicio desse edital já passou.");
+									}
+									else {
+										System.out.println("Digite a nova data de início do edital (dd/MM/yyyy): ");
+										String mudarData = sc.nextLine();
+										DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
+										if (dataModificada.isBefore(LocalDate.now())){
+											System.out.println("[!] Essa data já passou!");
+										}
+										else if (dataModificada.isBefore(edital.getDataIncio())){
+											System.out.println("[!] A data de entrega não pode ser antes da data inicial!");
+										}
+										else{
+											edital.setDataIncio(dataModificada);
+											System.out.println("Nova data de ínicio do edital: " + edital.getDataIncio());
+										}
+									}
+								} catch (DateTimeParseException e) {
+									System.out.println("Error: Data inválida");
+								}
+							}
+							else if (SubMenu2 == 2){
+								System.out.println("Digite a nova data final do edital (dd/MM/yyyy): ");
+								String mudarData = sc.nextLine();
+								DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+								LocalDate dataModificada = LocalDate.parse(mudarData, formatador);
+								if (dataModificada.isBefore(LocalDate.now())){
+											System.out.println("[!] Essa data já passou!");
+										}
+								else{
+									edital.setDataFinal(dataModificada);
+									System.out.println("Nova data final do edital: " + edital.getDataFinal());
+								}
+							}
+							else if (SubMenu2 == 3){
+								if (edital.isAtivo()){
+									System.out.println("[!] O Edital já está aberto!");
+								}
+								else{
+									if(edital.reabrirEdital()){
+									System.out.println("O edital foi aberto!");
+									}
+								}
+							}
+							else if (SubMenu2 == 4){
+								System.out.println("Digite qual disciplina: ");
+								String buscarDisciplina = sc.nextLine();
+								boolean achado = false;
+								for (Disciplina d1 : edital.getDisciplinas()){
+									if (d1.getNomeDisciplina().equalsIgnoreCase(buscarDisciplina)){
+										System.out.println("Quantidade de vagas: " + d1.getQntdVagas());
+										System.out.println("Digite a nova quantidade de vagas: ");
+										int qtd = Integer.parseInt(sc.nextLine()); 
+										if (qtd < d1.getQntdVagas()){
+											System.out.println("[!] A quantidade de vagas não pode ser menor!");
+										}
+										else{
+											achado = true;
+											d1.setQntdVagas(qtd);
+											System.out.println("Nova quantidade de vagas:" + d1.getQntdVagas());
+										}
+									}
+								}
+								if (!achado)
+									System.out.println("[!] Essa disciplina não consta no edital!");
+							}
+							else if (SubMenu2 == 5){
+								System.out.println("Digite qual disciplina: ");
+								String buscarDisciplina = sc.nextLine();
+								boolean achado = false;
+								for (Disciplina d1 : edital.getDisciplinas()){
+									if (d1.getNomeDisciplina().equalsIgnoreCase(buscarDisciplina)){
+										System.out.println("Pesos anteriores: CRE:" + d1.getPesoCRE() + "Nota Disciplina:" + d1.getPesoNota());
+										System.out.println("Digite o novo peso do CRE: ");
+										float cre = Float.parseFloat(sc.nextLine());
+										d1.setPesoCRE(cre);
+										System.out.println("Digite o novo peso da nota: ");
+										float nota = Float.parseFloat(sc.nextLine());
+										d1.setPesoNota(nota);
+										System.out.println("Pesos definidos para: CRE: " + d1.getPesoCRE() + "Nota Disciplina" + d1.getPesoNota());
+									}
+								}
+								if (!achado)
+									System.out.println("[!] Essa disciplina não consta no edital!");
+							}
+					}
+					} catch (NumberFormatException e) {
+						System.err.println("\n[!] Erro: ID inválido.");
+					} catch (Exception e) {
+						System.err.println("\n[!] Ocorreu um erro inesperado: " + e.getMessage());
+					}
+
+				}else if (op.equals("10")) {
 	                Coordenador.cadastrarViaConsole(sc, ci);
-	                aguardarEnter(sc);
-				} else if (op.equals("10")) {
+	                aguardarEnter(sc); 
+				} else if (op.equals("11")) {
 					System.out.print("Digite o ID do edital: ");
 	                long editalId = Long.parseLong(sc.nextLine());
 	                Edital editalEscolhido = ci.recuperarEditalPorId(editalId);

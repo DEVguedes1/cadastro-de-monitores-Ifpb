@@ -6,16 +6,32 @@ import models.Aluno;
 public class Disciplina {
 	private String nomeDisciplina;
 	private int qntdVagas;
+	private float pesoNota;
+	private float pesoCRE;
+	public float getPesoNota() {
+		return pesoNota;
+	}
+
+	public void setPesoNota(float pesoNota) {
+		this.pesoNota = pesoNota;
+	}
 	
+	public void setPesoCRE(float pesoCRE) {
+		this.pesoCRE = pesoCRE;
+	}
+
 	private ArrayList<Aluno> alunos = new ArrayList<>();
 	
 	public Disciplina() {
 	}
 
-	public Disciplina(String nomeDisciplina, int qntdVagas) {
+	public Disciplina(String nomeDisciplina, int qntdVagas, float pesoNota, float pesoCRE) {
 		super();
 		this.nomeDisciplina = nomeDisciplina;
 		this.qntdVagas = qntdVagas;
+		this.pesoCRE = pesoCRE;
+		this.pesoNota = pesoNota;
+
 	}
 
 	public Disciplina(String nomeDisciplina, int qntdVagas, ArrayList<Aluno> alunos) {
@@ -53,4 +69,8 @@ public class Disciplina {
 		}
 		alunos.add(a);
 	}
+
+    public float getPesoCRE() {
+        return pesoCRE;
+    }
 }
