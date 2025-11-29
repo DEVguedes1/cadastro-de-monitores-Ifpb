@@ -81,6 +81,7 @@ public class Main {
 	
 	                ArrayList<Disciplina> d = new ArrayList<>();
 	                int n = 0;
+					
 	                try {
 	                    System.out.print("Quantas disciplinas este edital terá? ");
 	                    n = Integer.parseInt(sc.nextLine());
@@ -102,11 +103,15 @@ public class Main {
 	                        System.err.println("[!] Valor inválido. Definindo como 0 vagas.");
 	                    }
 						try {
-							System.out.print("Pontuação na disciplina (Obs: A soma dos pesos deve ser 1)");
-							System.out.print("Digite o peso da nota (0.1 a 1): ");
+							System.out.println("Pesos da disciplina (Obs: A soma dos pesos deve ser 1)");
+							System.out.println("Digite o peso da nota (0.1 a 0.9): ");
 							pesoNota = Float.parseFloat(sc.nextLine());
-							System.out.print("Digite o peso do CRE (0.1 a 1): ");
+							System.out.println("Digite o peso do CRE (0.1 a 0.9): ");
 							pesoCRE = Float.parseFloat(sc.nextLine());
+							if ((pesoNota + pesoCRE) != 1){
+								System.out.println("[!] A soma dos pesos deve ser 1!!!");
+								throw new Exception("Soma dos pesos inválida");
+							}
 
 						} catch (Exception e) {
 							System.err.println("[!] Valor inválido. Definindo os pesos para 0.5 e 0.5 (1).");
@@ -148,8 +153,14 @@ public class Main {
 	                        System.err.println("[!] Formato inválido! Tente novamente.");
 	                    }
 	                }
-	                
-	                boolean adicionarEdital = ci.adicionarEdital(new Edital(numEdital, dataInicio, dataLimite, d));
+					int maxInc = 1;
+					try {
+						System.out.print("Quantidade máxima de incrições por aluno: ");
+						maxInc = Integer.parseInt(sc.nextLine());
+					} catch (NumberFormatException e) {
+						System.err.println("[!] Valor inválido. Definindo como 1.");
+					}
+	                boolean adicionarEdital = ci.adicionarEdital(new Edital(numEdital, dataInicio, dataLimite, d, maxInc));
 	                Persistencia.salvarCentral(ci);
 	                System.out.println("\n[+] Edital " + numEdital + " publicado com sucesso!");
 	                aguardarEnter(sc);
@@ -183,8 +194,12 @@ public class Main {
 							System.out.println("4. Sair ");
 							System.out.print("Escolha uma das opções (1-3) ou S para sair: "); int SubMenu = sc.nextInt();
 							if (SubMenu == 1){
-								System.out.println("Encerrando edital: " + edital.getNumEdital());
-								edital.encerrarEdital();
+								if (edital.encerrarEdital()){
+									System.out.println("Encerrando edital: " + edital.getNumEdital());
+								}
+								else{
+									System.out.println("[!] Este Edital já está encerrado.");
+								}
 							}
 							else if (SubMenu == 2){
 								System.out.println("Editar Edital: ");
@@ -192,7 +207,7 @@ public class Main {
 								System.out.println("2. Editar data final ");
 								System.out.println("3. Reabrir edital ");
 								System.out.println("4. Aumentar número de vagas");
-								System.out.println("5. Editar pesos da fórmula de pontuação"); // Não implementado ainda
+								System.out.println("5. Editar pesos da fórmula de pontuação");
 								System.out.println("6. Sair ");
 								System.out.print("Escolha uma das opções (1-6): "); int SubMenu2 = sc.nextInt();
 								sc.nextLine();
@@ -238,6 +253,9 @@ public class Main {
 									if(edital.reabrirEdital()){
 										System.out.println("O edital foi aberto!");
 									}
+									else{
+										System.out.println("O Edital não pode ser aberto!");
+									}
 								}
 								else if (SubMenu2 == 4){
 									System.out.println("Digite qual disciplina: ");
@@ -267,21 +285,27 @@ public class Main {
 									boolean achado = false;
 									for (Disciplina d1 : edital.getDisciplinas()){
 										if (d1.getNomeDisciplina().equalsIgnoreCase(buscarDisciplina)){
+											achado = true;
 											System.out.println("Pesos anteriores: CRE:" + d1.getPesoCRE() + "Nota Disciplina:" + d1.getPesoNota());
 											System.out.println("Digite o novo peso do CRE: ");
 											float cre = Float.parseFloat(sc.nextLine());
-											d1.setPesoCRE(cre);
 											System.out.println("Digite o novo peso da nota: ");
 											float nota = Float.parseFloat(sc.nextLine());
-											d1.setPesoNota(nota);
-											System.out.println("Pesos definidos para: CRE: " + d1.getPesoCRE() + "Nota Disciplina" + d1.getPesoNota());
+											if ((cre + nota) != 1){
+												System.out.println("[!] A soma dos pesos deve ser 1. Pesos não modificados!");
+											}
+											else{
+												d1.setPesoCRE(cre);
+												d1.setPesoNota(nota);
+												System.out.println("Pesos definidos para: CRE: " + d1.getPesoCRE() + " Nota Disciplina: " + d1.getPesoNota());
+											}
 										}
 									}
 									if (!achado)
 										System.out.println("[!] Essa disciplina não consta no edital!");
 								}
 								else if (SubMenu2 == 6){
-
+									break;
 								}
 								else 
 									System.out.println("Essa opção não consta no menu!");
@@ -293,8 +317,13 @@ public class Main {
 	                			System.out.println("\n[+] Edital " + editalClonado.getNumEdital() + " clonado com sucesso!");
 							}
 							else if (SubMenu == 4){
-								aguardarEnter(sc);
+								break;
 							}
+							else {
+								System.out.println("[!]Essa opção não consta no menu!");
+								break;
+							}
+							
 	                    } else {
 	                        System.err.println("\n[!] Edital com ID " + idEdital + " não encontrado.");
 	                    }

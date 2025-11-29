@@ -43,6 +43,7 @@
         </models.recurses.Disciplina>
       </disciplinas>
       <ativo>false</ativo>
+      <maxInc>0</maxInc>
     </models.recurses.Edital>
     <models.recurses.Edital>
       <id>1764359169523</id>
@@ -51,6 +52,54 @@
       <dataFinal>2025-11-30</dataFinal>
       <disciplinas reference="../../models.recurses.Edital/disciplinas"/>
       <ativo>true</ativo>
+      <maxInc>0</maxInc>
+    </models.recurses.Edital>
+    <models.recurses.Edital>
+      <id>1764381353227</id>
+      <numEdital>2025</numEdital>
+      <dataIncio>2025-12-14</dataIncio>
+      <dataFinal>2025-12-20</dataFinal>
+      <disciplinas>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>Poo</nomeDisciplina>
+          <qntdVagas>4</qntdVagas>
+          <pesoNota>0.5</pesoNota>
+          <pesoCRE>0.5</pesoCRE>
+          <alunos/>
+        </models.recurses.Disciplina>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>banco</nomeDisciplina>
+          <qntdVagas>10</qntdVagas>
+          <pesoNota>0.6</pesoNota>
+          <pesoCRE>0.4</pesoCRE>
+          <alunos/>
+        </models.recurses.Disciplina>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>rede</nomeDisciplina>
+          <qntdVagas>2</qntdVagas>
+          <pesoNota>0.4</pesoNota>
+          <pesoCRE>0.6</pesoCRE>
+          <alunos/>
+        </models.recurses.Disciplina>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>metodologia</nomeDisciplina>
+          <qntdVagas>2</qntdVagas>
+          <pesoNota>0.1</pesoNota>
+          <pesoCRE>0.9</pesoCRE>
+          <alunos/>
+        </models.recurses.Disciplina>
+      </disciplinas>
+      <ativo>true</ativo>
+      <maxInc>2</maxInc>
+    </models.recurses.Edital>
+    <models.recurses.Edital>
+      <id>1764385316592</id>
+      <numEdital>2025</numEdital>
+      <dataIncio>2025-11-28</dataIncio>
+      <dataFinal>2025-11-30</dataFinal>
+      <disciplinas/>
+      <ativo>true</ativo>
+      <maxInc>2</maxInc>
     </models.recurses.Edital>
   </todosOsEditais>
 </models.CentralDeInformacoes>

@@ -8,6 +8,7 @@ public class Disciplina {
 	private int qntdVagas;
 	private float pesoNota;
 	private float pesoCRE;
+	
 	public float getPesoNota() {
 		return pesoNota;
 	}

@@ -1,6 +1,7 @@
 package models.recurses;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import models.Aluno;
 
@@ -11,19 +12,21 @@ public class Edital {
 	private LocalDate dataFinal;
 	private ArrayList<Disciplina> disciplinas;
 	private boolean ativo;
+	private int maxInc;
 	
 	public Edital() {
 		this.id = System.currentTimeMillis(); 
 		this.disciplinas = new ArrayList<>(); 
 	}
 	
-	public Edital(String numEdital, LocalDate dataIncio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas) {
+	public Edital(String numEdital, LocalDate dataIncio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas, int maxInc) {
 		this.id = System.currentTimeMillis();
 		this.numEdital = numEdital;
 		this.dataIncio = dataIncio;
 		this.dataFinal = dataFinal;
 		this.disciplinas = disciplinas;
 		this.ativo = true;
+		this.maxInc = maxInc;
 	}
 
 	public long getId() {
@@ -89,40 +92,47 @@ public class Edital {
 		}
 		
 	}
-	public void encerrarEdital(){
-		this.ativo = false;
-	}
-	public boolean reabrirEdital(){
-		if (this.jaAcabou()){
+	public boolean encerrarEdital(){
+		if (!this.ativo){
 			return false;
 		}
-		else {
+		else{
+			this.ativo = false;
+			return true;
+		}
+	}
+	public boolean reabrirEdital(){
+		LocalDate hoje = LocalDate.now();
+		if (this.ativo == false && hoje.isBefore(this.dataFinal)){
 			this.ativo = true;
 			return true;
 		}
-	}
-	public boolean jaAcabou() {
-		LocalDate hoje = LocalDate.now();
-		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
-		if (!dentroDoPrazo) {
-			this.ativo = false;
-			System.out.println("O prazo deste edital já foi finalizado");
-			return true;
-		}else {
-			System.out.println("inscrições abertas");
+		else
 			return false;
+	}
+	public String jaAcabou() {
+		LocalDate hoje = LocalDate.now();
+		if (!hoje.isBefore(this.dataIncio) && !hoje.isAfter(this.dataFinal) && this.ativo == true){
+			return "--Incrições abertas--";
+		}
+		else if (hoje.isBefore(this.dataIncio)){
+			return "--O périodo de incrição ainda não começou--";
+		}
+		else {
+			return "--incrições encerradas--";
 		}
 	}
 	public Edital clonarEdital(){
-		return new Edital(this.numEdital + ".2", this.dataIncio, this.dataFinal, this.disciplinas);
+		return new Edital(this.numEdital + ".2", this.dataIncio, this.dataFinal, this.disciplinas, maxInc);
 	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
+		DateTimeFormatter formatoBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		sb.append("Edital de Monitoria ").append(this.numEdital).append("-\n");
-		
-		sb.append("#Disciplinas\n");
+		sb.append("Data de ínicio: " + this.getDataIncio().format(formatoBR) );
+		sb.append("/ Data final: " + this.getDataFinal().format(formatoBR) );
+		sb.append("\n#Disciplinas\n");
 		
 		if (this.getDisciplinas() != null && !this.getDisciplinas().isEmpty()) {
 			for (Disciplina disc : this.getDisciplinas()) {
@@ -136,14 +146,21 @@ public class Edital {
 			sb.append("Nenhuma disciplina cadastrada neste edital.\n");
 		}
 
-		String status = this.jaAcabou() ? "encerradas" : "abertas";
-		sb.append("Inscrições ").append(status).append(".");		
-		
+		String status = this.jaAcabou();
+		sb.append("Situação: ").append(status).append(".");		
 		return sb.toString();
 	}
 
     public boolean isAtivo() {
         return ativo;
+    }
+
+    public int getMaxInc() {
+        return maxInc;
+    }
+
+    public void setMaxInc(int maxInc) {
+        this.maxInc = maxInc;
     }
 }
 
