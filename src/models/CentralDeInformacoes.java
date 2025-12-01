@@ -157,5 +157,9 @@ public class CentralDeInformacoes {
 	public ArrayList<Coordenador> getTodosOsCoordenadores() {
         return todosOsCoordenadores;
     }
+	
+	public void Login() {
+		
+	}
 }
 
