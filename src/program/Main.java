@@ -536,6 +536,7 @@ public class Main {
 	                Coordenador.cadastrarViaConsole(sc, ci);
 	                aguardarEnter(sc); 
 				} else if (op.equals("11")) {
+					System.out.println("\n--- 11. Calcular o resultado do Edital de Monitoria ---");
 					System.out.print("Digite o ID do edital: ");
 	                long editalId = Long.parseLong(sc.nextLine());
 	                Edital editalEscolhido = ci.recuperarEditalPorId(editalId);
