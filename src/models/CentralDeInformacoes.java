@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import models.recurses.Disciplina;
 import models.recurses.Edital;
 
@@ -125,13 +124,15 @@ public class CentralDeInformacoes {
 
 		for (Disciplina d : disciplinasDoEdital) {
 		
-			ArrayList<Aluno> alunosDaDisciplina = d.getAlunos();
-			if (alunosDaDisciplina == null) {
-				alunosDaDisciplina = new ArrayList<>();
+			ArrayList<Inscricao> inscricoes = d.getInscricoes();
+			if (inscricoes == null) {
+				inscricoes = new ArrayList<>();
 			}
 
-			if (alunosDaDisciplina.contains(aluno)) { 
-				inscricoesDoAluno.add(d);
+			for (Inscricao i : inscricoes){
+				if (i.getAluno().getMatricula().equals(matricula)){
+					inscricoesDoAluno.add(d);
+				}
 			}
 		}
 

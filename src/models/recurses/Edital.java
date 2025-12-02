@@ -79,7 +79,7 @@ public class Edital {
 		boolean disciplinaValida = this.disciplinas.contains(disciplina);
 		
 		if (dentroDoPrazo && disciplinaValida) {
-			disciplina.setAlunos(a);
+			disciplina.setInscricoes();
 			return true;	
 		}else {
 			if (!dentroDoPrazo) {

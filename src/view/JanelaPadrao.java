@@ -2,14 +2,16 @@ package view;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import javax.swing.JFrame;
 
 public class JanelaPadrao extends JFrame {
 
     // Cores "Modernas"
-    public static final Color COR_FUNDO = new Color(44, 62, 80); // Azul Escuro (Midnight Blue)
-    public static final Color COR_TEXTO = new Color(236, 240, 241); // Branco Gelo
-    public static final Color COR_BOTAO = new Color(39, 174, 96);   // Verde Flat
+    public static final Color COR_FUNDO = new Color(245, 245, 245); 
+    public static final Color COR_TEXTO = new Color(0, 0, 0); 
+    public static final Color COR_BOTAO = new Color(52, 152, 219);  
+    public static final Font fontPadrao = new Font("Arial", Font.BOLD, 18);
 
     public JanelaPadrao(String titulo, int largura, int altura) {
         setTitle(titulo);

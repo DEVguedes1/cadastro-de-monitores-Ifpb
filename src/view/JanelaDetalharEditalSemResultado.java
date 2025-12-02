@@ -1,10 +1,8 @@
 package view;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.HeadlessException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -13,20 +11,22 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import models.recurses.*;
 
-public class JanelaDetalharEditalSemResultado extends JFrame{
+public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
     private String [] colunas = {"Matéria: ", "Professor: ", "Período: " };
     private Object [][] dados = {};
 
-    public JanelaDetalharEditalSemResultado(Edital edital) throws HeadlessException {
-        // Criando janela
-        setTitle("Detalhar Edital Sem Resultado");
-        setSize(600, 500);
-        setLocationRelativeTo(null);
-        setLayout(null);
-        JLabel titulo = new JLabel("Editais:");
-        titulo.setForeground(Color.BLUE);
-        titulo.setFont(new Font("Arial", Font.BOLD, 18));
-        titulo.setBounds(20, 10, 200, 30);
+    public JanelaDetalharEditalSemResultado(Edital edital) {
+        super("Detalhar Edital Sem Resultado",600,500);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        JLabel titulo = new JLabel("Edital:" + edital.getNumEdital() + "    Status: " + (edital.isAtivo()? "Ativo" : "Encerrado" ));
+        titulo.setForeground(COR_TEXTO);
+        titulo.setFont(fontPadrao);
+        titulo.setBounds(20, 10, 300, 30);
+        JLabel data = new JLabel("Data: " + formato.format(edital.getDataIncio()) + " / " + formato.format(edital.getDataFinal()));
+        data.setForeground(COR_TEXTO);
+        data.setFont(fontPadrao);
+        data.setBounds(320, 10, 300, 30);
+        add(data);
         add(titulo);
         // Criando tabela
         DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
@@ -40,6 +40,7 @@ public class JanelaDetalharEditalSemResultado extends JFrame{
         tabela.setRowSelectionAllowed(true);
         tabela.setColumnSelectionAllowed(false);
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tabela.getTableHeader().setReorderingAllowed(false);
         add(scroll);
         // Botões
         JButton jbInscrever = new JButton("Inscrever");
@@ -48,10 +49,12 @@ public class JanelaDetalharEditalSemResultado extends JFrame{
 
         JButton jbVoltar = new JButton("Voltar");
         jbVoltar.setBounds(180, 350, 120, 35);
+        
         add(jbVoltar);
 
         JButton jbAtualizar = new JButton("Atualizar");
         jbAtualizar.setBounds(340, 350, 120, 35);
+        
         add(jbAtualizar);
         // Listeners
         jbInscrever.addActionListener(e -> {
@@ -89,17 +92,17 @@ public class JanelaDetalharEditalSemResultado extends JFrame{
 
             JOptionPane.showMessageDialog(this, "Tabela atualizada!");
         });
-        // Visibilidade
-        setVisible(true);
     }
+    //teste!!
     public static void main(String[] args) {
         ArrayList<Disciplina> Disciplinas = new ArrayList();
         Disciplinas.add(new Disciplina("POO", 2, 0.5f, 0.5f, "Cleyton", 2 ));
         Disciplinas.add(new Disciplina("Rede de computadores", 2, 0.5f, 0.5f, "Bruno", 2 ));
         Disciplinas.add(new Disciplina("Banco de dados", 2, 0.5f, 0.5f, "Caze", 2 ));
-        Edital teste = new Edital("2026/01", null, null, Disciplinas, 20);
+        Edital teste = new Edital("2026/01", LocalDate.of(2025, 12, 1), LocalDate.of(2025, 12, 30), Disciplinas, 20);
 
         JanelaDetalharEditalSemResultado janela = new JanelaDetalharEditalSemResultado(teste);
+        janela.setVisible(true);
     }
    
     

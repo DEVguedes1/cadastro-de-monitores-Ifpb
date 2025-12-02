@@ -1,7 +1,7 @@
 package models.recurses;
 
 import java.util.ArrayList;
-import models.Aluno; 
+import models.Inscricao; 
 
 public class Disciplina {
 	private String nomeDisciplina;
@@ -10,6 +10,8 @@ public class Disciplina {
 	private float pesoCRE;
 	private String doscente;
 	private int periodo;
+	private ArrayList<Inscricao> inscricoes = new ArrayList<>();
+
 	public float getPesoNota() {
 		return pesoNota;
 	}
@@ -21,8 +23,6 @@ public class Disciplina {
 	public void setPesoCRE(float pesoCRE) {
 		this.pesoCRE = pesoCRE;
 	}
-
-	private ArrayList<Aluno> alunos = new ArrayList<>();
 	
 	public Disciplina() {
 	}
@@ -38,10 +38,10 @@ public class Disciplina {
 
 	}
 
-	public Disciplina(String nomeDisciplina, int qntdVagas, ArrayList<Aluno> alunos) {
+	public Disciplina(String nomeDisciplina, int qntdVagas, ArrayList<Inscricao> inscricoes) {
 		this.nomeDisciplina = nomeDisciplina;
 		this.qntdVagas = qntdVagas;
-		this.alunos = alunos;
+		this.inscricoes = inscricoes;
 	}
 
 	public String getNomeDisciplina() {
@@ -58,20 +58,6 @@ public class Disciplina {
 
 	public void setQntdVagas(int qntdVagas) {
 		this.qntdVagas = qntdVagas;
-	}
-
-	public ArrayList<Aluno> getAlunos() {
-		if (this.alunos == null) {
-			this.alunos = new ArrayList<>();
-		}
-		return alunos;
-	}
-
-	public void setAlunos(Aluno a) {
-		if (this.alunos == null) {
-			this.alunos = new ArrayList<>();
-		}
-		alunos.add(a);
 	}
 
     public float getPesoCRE() {
@@ -92,5 +78,19 @@ public class Disciplina {
 
     public void setPeriodo(int periodo) {
         this.periodo = periodo;
+    }
+
+    public ArrayList<Inscricao> getInscricoes() {
+		if (this.inscricoes == null){
+			this.inscricoes = new ArrayList<>();
+		}
+        return inscricoes;
+    }
+
+    public void setInscricoes(Inscricao inscricao) {
+        if (this.inscricoes == null){
+			this.inscricoes = new ArrayList<>();
+		}
+        inscricoes.add(inscricao);
     }
 }
