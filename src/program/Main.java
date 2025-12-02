@@ -36,6 +36,7 @@ public class Main {
             System.out.println(" 1. Cadastrar Aluno");
             System.out.println(" 2. Listar Todos os Alunos");
             System.out.println(" 3. Buscar Aluno por Matrícula");
+			System.out.println(" 12. Visualizar perfil do aluno"); // <--- NOVA OPÇÃO
 
             System.out.println("\n--- Editais ---");
             System.out.println(" 4. Publicar Novo Edital");
@@ -61,6 +62,10 @@ public class Main {
                 if (op.equals("1")) {
                     // AQUI: Chamamos o método estático da classe Aluno
                     Aluno.cadastrarViaConsole(sc, ci);
+					System.out.println("\n--- Visualizar perfil do aluno ---");
+					System.out.println("Digite a matrícula do aluno:");
+					String matricula = sc.nextLine();
+					ci.recuperarAlunoPorMatricula(matricula);
                     aguardarEnter(sc);
 
                 } else if (op.equals("2")) {
@@ -72,7 +77,7 @@ public class Main {
                     // AQUI: Chamamos a busca
                     Aluno.buscarPorMatriculaViaConsole(sc, ci);
                     aguardarEnter(sc);
-                    
+                
 	            } else if(op.equals("4")) {
 	                System.out.println("\n--- 4. Publicar Novo Edital ---");
 	                
