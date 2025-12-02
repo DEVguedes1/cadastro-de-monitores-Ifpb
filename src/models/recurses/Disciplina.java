@@ -8,7 +8,8 @@ public class Disciplina {
 	private int qntdVagas;
 	private float pesoNota;
 	private float pesoCRE;
-	
+	private String doscente;
+	private int periodo;
 	public float getPesoNota() {
 		return pesoNota;
 	}
@@ -26,12 +27,14 @@ public class Disciplina {
 	public Disciplina() {
 	}
 
-	public Disciplina(String nomeDisciplina, int qntdVagas, float pesoNota, float pesoCRE) {
+	public Disciplina(String nomeDisciplina, int qntdVagas, float pesoNota, float pesoCRE, String doscente, int periodo) {
 		super();
 		this.nomeDisciplina = nomeDisciplina;
 		this.qntdVagas = qntdVagas;
 		this.pesoCRE = pesoCRE;
 		this.pesoNota = pesoNota;
+		this.doscente = doscente;
+		this.periodo = periodo;
 
 	}
 
@@ -73,5 +76,21 @@ public class Disciplina {
 
     public float getPesoCRE() {
         return pesoCRE;
+    }
+
+    public String getDoscente() {
+        return doscente;
+    }
+
+    public void setDoscente(String doscente) {
+        this.doscente = doscente;
+    }
+
+    public int getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(int periodo) {
+        this.periodo = periodo;
     }
 }

@@ -118,7 +118,7 @@ public class Main {
 							pesoNota = 0.5f;
 							pesoCRE = 0.5f;
 						}
-	                    d.add(new Disciplina(nomeDisciplina, qntdVagas, pesoNota, pesoCRE));
+	                    d.add(new Disciplina(nomeDisciplina, qntdVagas, pesoNota, pesoCRE, null, 0));
 	                }
 	                
 	                System.out.println("\n--- Período de Inscrição ---");
