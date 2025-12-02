@@ -1,12 +1,10 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List; // Import necessário se usar polimorfismo
 import models.Aluno;
-import models.Usuario; // Import necessário se usar polimorfismo
 import models.recurses.Disciplina;
 import models.recurses.Edital;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EditalController {
 
@@ -28,7 +26,7 @@ public class EditalController {
                 .orElse(null);
     }
 
-    public boolean inscreverAluno(long idEdital, Aluno aluno, String nomeDisciplina) {
+    public boolean inscreverAluno(long idEdital, Aluno aluno, String nomeDisciplina, double notaAluno) {
         Edital edital = buscarEditalPorId(idEdital);
         if (edital == null) {
             System.out.println("Edital não encontrado.");
@@ -46,6 +44,6 @@ public class EditalController {
             return false;
         }
 
-        return edital.inscrever(aluno, disciplinaAlvo);
+        return edital.inscrever(aluno, disciplinaAlvo, notaAluno);
     }
 }

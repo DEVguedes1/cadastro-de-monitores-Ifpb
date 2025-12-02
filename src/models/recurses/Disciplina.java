@@ -8,7 +8,7 @@ public class Disciplina {
 	private int qntdVagas;
 	private float pesoNota;
 	private float pesoCRE;
-	private String doscente;
+	private String docente;
 	private int periodo;
 	private ArrayList<Inscricao> inscricoes = new ArrayList<>();
 
@@ -27,13 +27,13 @@ public class Disciplina {
 	public Disciplina() {
 	}
 
-	public Disciplina(String nomeDisciplina, int qntdVagas, float pesoNota, float pesoCRE, String doscente, int periodo) {
+	public Disciplina(String nomeDisciplina, int qntdVagas, float pesoNota, float pesoCRE, String docente, int periodo) {
 		super();
 		this.nomeDisciplina = nomeDisciplina;
 		this.qntdVagas = qntdVagas;
 		this.pesoCRE = pesoCRE;
 		this.pesoNota = pesoNota;
-		this.doscente = doscente;
+		this.docente = docente;
 		this.periodo = periodo;
 
 	}
@@ -64,12 +64,12 @@ public class Disciplina {
         return pesoCRE;
     }
 
-    public String getDoscente() {
-        return doscente;
+    public String getDocente() {
+        return docente;
     }
 
-    public void setDoscente(String doscente) {
-        this.doscente = doscente;
+    public void setDocente(String doscente) {
+        this.docente = doscente;
     }
 
     public int getPeriodo() {

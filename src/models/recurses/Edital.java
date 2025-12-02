@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import models.Aluno;
+import models.Inscricao;
 
 public class Edital {
 	private long id; 
@@ -68,7 +69,7 @@ public class Edital {
 		this.disciplinas = disciplinas;
 	}
 	
-	public boolean inscrever(Aluno a, Disciplina disciplina) {
+	public boolean inscrever(Aluno a, Disciplina disciplina, double notaDisciplina) {
 		LocalDate hoje = LocalDate.now();
 		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
 
@@ -79,7 +80,7 @@ public class Edital {
 		boolean disciplinaValida = this.disciplinas.contains(disciplina);
 		
 		if (dentroDoPrazo && disciplinaValida) {
-			disciplina.setInscricoes();
+			disciplina.setInscricoes(new Inscricao(a, disciplina, notaDisciplina, a.getCre()));
 			return true;	
 		}else {
 			if (!dentroDoPrazo) {

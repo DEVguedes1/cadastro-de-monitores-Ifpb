@@ -31,7 +31,7 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
         // Criando tabela
         DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
         for (Disciplina d: edital.getDisciplinas()){
-            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDoscente(),d.getPeriodo() });
+            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDocente(),d.getPeriodo() });
         }
         JTable tabela = new JTable(modelo);
         tabela.setRowHeight(28);
@@ -87,7 +87,7 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
             modelo2.setRowCount(0); 
 
             for (Disciplina d: edital.getDisciplinas()){
-            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDoscente(),d.getPeriodo() });
+            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDocente(),d.getPeriodo() });
             }
 
             JOptionPane.showMessageDialog(this, "Tabela atualizada!");
