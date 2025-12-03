@@ -93,4 +93,12 @@ public class Disciplina {
 		}
         inscricoes.add(inscricao);
     }
+	public static Inscricao buscarInscricao(Disciplina d, String nomeAluno){
+		for (Inscricao i : d.getInscricoes()){
+			if (i.getAluno().getNomeDoAluno().equals(nomeAluno)){
+				return i;
+			}
+		}
+		return null;
+	}
 }

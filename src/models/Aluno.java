@@ -10,8 +10,7 @@ public class Aluno extends Usuario {
 	private String matricula;
 	private Double cre;
 	private Sexo sexo;
-    private int monitorias;
-	
+
 	// construtores
 	public Aluno() {
 	}
@@ -120,7 +119,6 @@ public class Aluno extends Usuario {
             System.out.println("  Nome: " + aluno.getNomeDoAluno());
             System.out.println("  Matrícula: " + aluno.getMatricula());
             System.out.println("  Email: " + aluno.getEmail());
-            System.out.println("  Monitorias: " + aluno.getMonitorias());
         } else {
             System.err.println("\n[!] Aluno com matrícula '" + matricula + "' não encontrado.");
         }
@@ -137,11 +135,4 @@ public class Aluno extends Usuario {
                 '}';
 	}
 
-    public int getMonitorias() {
-        return monitorias;
-    }
-
-    public void setMonitorias(int monitorias) {
-        this.monitorias = monitorias;
-    }
 }

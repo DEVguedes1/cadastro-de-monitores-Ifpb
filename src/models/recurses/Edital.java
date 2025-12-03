@@ -163,5 +163,13 @@ public class Edital {
     public void setMaxInc(int maxInc) {
         this.maxInc = maxInc;
     }
+	public Disciplina buscarDisciplina(String nomeDisciplina){
+		for (Disciplina dis : this.getDisciplinas()){
+			if (dis.getNomeDisciplina().equals(nomeDisciplina)){
+				return dis;
+			}
+		}
+		return null;
+	}
 }
 

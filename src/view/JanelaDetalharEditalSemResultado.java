@@ -16,32 +16,42 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
     private Object [][] dados = {};
 
     public JanelaDetalharEditalSemResultado(Edital edital) {
-        super("Detalhar Edital Sem Resultado",600,500);
+         super("Detalhar Edital Sem Resultado",600,500);
+
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        JLabel titulo = new JLabel("Edital:" + edital.getNumEdital() + "    Status: " + (edital.isAtivo()? "Ativo" : "Encerrado" ));
+
+        // Título
+        JLabel titulo = new JLabel(
+            "Edital:" + edital.getNumEdital() + 
+            "    Status: " + (edital.isAtivo()? "Ativo" : "Encerrado" )
+        );
         titulo.setForeground(COR_TEXTO);
         titulo.setFont(fontPadrao);
         titulo.setBounds(20, 10, 300, 30);
-        JLabel data = new JLabel("Data: " + formato.format(edital.getDataIncio()) + " / " + formato.format(edital.getDataFinal()));
+        add(titulo);
+
+        JLabel data = new JLabel("Data: " + 
+            formato.format(edital.getDataIncio()) + 
+            " / " + formato.format(edital.getDataFinal())
+        );
         data.setForeground(COR_TEXTO);
         data.setFont(fontPadrao);
         data.setBounds(320, 10, 300, 30);
         add(data);
-        add(titulo);
-        // Criando tabela
-        DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
-        for (Disciplina d: edital.getDisciplinas()){
-            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDocente(),d.getPeriodo() });
-        }
+
+        // Tabela
+        DefaultTableModel modelo = TabelaSemResultadoBuilder.montarTabela(edital);
         JTable tabela = new JTable(modelo);
+        tabela.setDefaultEditor(Object.class, null);
         tabela.setRowHeight(28);
-        JScrollPane scroll = new JScrollPane(tabela);
-        scroll.setBounds(20, 35, 550, 300);
         tabela.setRowSelectionAllowed(true);
         tabela.setColumnSelectionAllowed(false);
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.getTableHeader().setReorderingAllowed(false);
+        JScrollPane scroll = new JScrollPane(tabela);
+        scroll.setBounds(20, 35, 550, 300);
         add(scroll);
+
         // Botões
         JButton jbInscrever = new JButton("Inscrever");
         jbInscrever.setBounds(20, 350, 120, 35);
@@ -49,14 +59,13 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
 
         JButton jbVoltar = new JButton("Voltar");
         jbVoltar.setBounds(180, 350, 120, 35);
-        
         add(jbVoltar);
 
         JButton jbAtualizar = new JButton("Atualizar");
         jbAtualizar.setBounds(340, 350, 120, 35);
-        
         add(jbAtualizar);
-        // Listeners
+
+        // Eventos
         jbInscrever.addActionListener(e -> {
             int linha = tabela.getSelectedRow();
 
@@ -64,9 +73,11 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
                 JOptionPane.showMessageDialog(this, "Selecione uma matéria primeiro!");
                 return;
             }
+
             String materia = tabela.getValueAt(linha, 0).toString();
             String professor = tabela.getValueAt(linha, 1).toString();
             String periodo = tabela.getValueAt(linha, 2).toString();
+
             int opcao = JOptionPane.showConfirmDialog(
                 this,
                 "Deseja se inscrever em " + materia + "?",
@@ -74,22 +85,18 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE
             );
-            if (opcao == JOptionPane.YES_OPTION){
 
-                JOptionPane.showMessageDialog(this, 
-                    "Inscrição realizada para:\n" + materia + " com " + professor + " ("+ "Periodo: " + periodo + ")"
+            if (opcao == JOptionPane.YES_OPTION){
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Inscrição realizada para:\n" +
+                    materia + " com " + professor + " (Período: " + periodo + ")"
                 );
             }
         });
+
         jbAtualizar.addActionListener(e -> {
-
-            DefaultTableModel modelo2 = (DefaultTableModel) tabela.getModel();
-            modelo2.setRowCount(0); 
-
-            for (Disciplina d: edital.getDisciplinas()){
-            modelo.addRow(new Object[]{d.getNomeDisciplina(),d.getDocente(),d.getPeriodo() });
-            }
-
+            TabelaSemResultadoBuilder.atualizarTabela(modelo, edital);
             JOptionPane.showMessageDialog(this, "Tabela atualizada!");
         });
     }
