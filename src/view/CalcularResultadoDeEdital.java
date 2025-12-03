@@ -31,15 +31,17 @@ public class CalcularResultadoDeEdital extends JanelaPadrao{
         tabela.getTableHeader().setReorderingAllowed(false);
         tabela.getTableHeader().setResizingAllowed(false);
         for (Disciplina d : edital.getDisciplinas()){
-            for (Inscricao i : d.getInscricoes()){
-                if (i.getDisciplina().getNomeDisciplina().equals(d.getNomeDisciplina())){
-                    if (!disciplinaExiste(modelo, d.getNomeDisciplina())){
-                    modelo.addRow(new Object[] {d.getNomeDisciplina(), "", ""});
-                    }
-                    String nome = i.getAluno().getNomeDoAluno();
-                    double notaFinal = (i.getNota() * d.getPesoNota()) + (i.getCRE() * d.getPesoCRE());
-                    modelo.addRow(new Object[] {"", nome, notaFinal});
-                }
+            modelo.addRow(new Object[]{d.getNomeDisciplina(), "", ""});
+
+            ArrayList<Inscricao> inscricoes = new ArrayList<>(d.getInscricoes());
+
+            inscricoes.sort((i1, i2) -> 
+                Double.compare(i2.getNotaFinal(), i1.getNotaFinal())
+            );
+
+            for (Inscricao i1 : inscricoes){
+                String nome = i1.getAluno().getNomeDoAluno();
+                modelo.addRow(new Object[] {"", nome, i1.getNotaFinal()});
             }
         }
         add(scroll);
@@ -56,6 +58,8 @@ public class CalcularResultadoDeEdital extends JanelaPadrao{
     public static void main(String[] args) {
         ArrayList<Disciplina> Disciplinas = new ArrayList();
         Aluno Atest = new Aluno("keldson", "202514190000", 91.7,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );
+        Aluno Atest2 = new Aluno("Davi", "202514190000", 71.4,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );
+        Aluno Atest3 = new Aluno("Nicolas", "202514190000", 70.4,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );
         Disciplina d1 = new Disciplina("POO", 2, 0.5f, 0.5f, "Cleyton", 2 );
         Disciplina d2 = new Disciplina("Rede de computadores", 2, 0.5f, 0.5f, "Bruno", 2);
         Disciplina d3 =new Disciplina("Banco de dados", 2, 0.5f, 0.5f, "Cazé", 2 );
@@ -66,6 +70,12 @@ public class CalcularResultadoDeEdital extends JanelaPadrao{
         teste.inscrever(Atest, d3, 71);
         teste.inscrever(Atest, d2, 61);
         teste.inscrever(Atest, d1, 100);
+        teste.inscrever(Atest2, d3, 51);
+        teste.inscrever(Atest2, d2, 100);
+        teste.inscrever(Atest2, d1, 99);
+        teste.inscrever(Atest3, d3, 100);
+        teste.inscrever(Atest3, d2, 52);
+        teste.inscrever(Atest3, d1, 60);
         CalcularResultadoDeEdital test = new CalcularResultadoDeEdital(teste);
         test.setVisible(true);
     }

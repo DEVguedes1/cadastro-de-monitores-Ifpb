@@ -14,6 +14,9 @@ public class Inscricao {
         this.nota = nota;
         this.CRE = CRE;
     }
+    public double getNotaFinal(){
+        return (this.nota * this.disciplina.getPesoNota()) + (this.CRE * this.disciplina.getPesoCRE());
+    }
 
     public Aluno getAluno() { 
         return aluno; 
