@@ -12,8 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import models.recurses.*;
 
 public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
-    private String [] colunas = {"Matéria: ", "Professor: ", "Período: " };
-    private Object [][] dados = {};
 
     public JanelaDetalharEditalSemResultado(Edital edital) {
          super("Detalhar Edital Sem Resultado",600,500);
@@ -23,7 +21,7 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
         // Título
         JLabel titulo = new JLabel(
             "Edital:" + edital.getNumEdital() + 
-            "    Status: " + (edital.isAtivo()? "Ativo" : "Encerrado" )
+            "    Status: " + (edital.getStatus())
         );
         titulo.setForeground(COR_TEXTO);
         titulo.setFont(fontPadrao);
@@ -102,7 +100,7 @@ public class JanelaDetalharEditalSemResultado extends JanelaPadrao{
     }
     //teste!!
     public static void main(String[] args) {
-        ArrayList<Disciplina> Disciplinas = new ArrayList();
+        ArrayList<Disciplina> Disciplinas = new ArrayList<>();
         Disciplinas.add(new Disciplina("POO", 2, 0.5f, 0.5f, "Cleyton", 2 ));
         Disciplinas.add(new Disciplina("Rede de computadores", 2, 0.5f, 0.5f, "Bruno", 2 ));
         Disciplinas.add(new Disciplina("Banco de dados", 2, 0.5f, 0.5f, "Caze", 2 ));

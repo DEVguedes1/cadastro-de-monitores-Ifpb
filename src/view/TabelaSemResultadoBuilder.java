@@ -30,7 +30,7 @@ public class TabelaSemResultadoBuilder {
                 d.getDocente(),
                 d.getPeriodo()
             });
-        }
+        } 
 
         modelo.fireTableDataChanged();
     }

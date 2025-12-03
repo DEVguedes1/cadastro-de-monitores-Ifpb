@@ -12,7 +12,6 @@ import models.recurses.Disciplina;
 import models.recurses.Edital;
 
 public class CalcularResultadoDeEdital extends JanelaPadrao{
-    Object[][] dados = new Object[0][3];
     public CalcularResultadoDeEdital(Edital edital){
         super("Resultado do Edital", 600, 500);
 
@@ -38,7 +37,7 @@ public class CalcularResultadoDeEdital extends JanelaPadrao{
     }
     
     public static void main(String[] args) {
-        ArrayList<Disciplina> Disciplinas = new ArrayList();
+        ArrayList<Disciplina> Disciplinas = new ArrayList<>();
         Aluno Atest = new Aluno("keldson", "202514190000", 91.7,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );
         Aluno Atest2 = new Aluno("Davi", "202514190000", 71.4,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );
         Aluno Atest3 = new Aluno("Nicolas", "202514190000", 70.4,"emailtest@gmail.com", "senha123", Sexo.MASCULINO );

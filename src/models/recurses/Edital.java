@@ -12,23 +12,42 @@ public class Edital {
 	private LocalDate dataIncio;
 	private LocalDate dataFinal;
 	private ArrayList<Disciplina> disciplinas;
-	private boolean ativo;
 	private int maxInc;
-	
+	private Status status;
+
+	public enum Status{
+		ATIVO,
+		ENCERRADO,
+		NÃO_COMEÇOU
+	}
 	public Edital() {
 		this.id = System.currentTimeMillis(); 
 		this.disciplinas = new ArrayList<>(); 
 	}
 	
-	public Edital(String numEdital, LocalDate dataIncio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas, int maxInc) {
+	public Edital(String numEdital, LocalDate dataInicio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas, int maxInc) {
+		LocalDate hoje = LocalDate.now();
+		if (hoje.isBefore(dataInicio)){
+			this.status = Status.NÃO_COMEÇOU;
+		}
+		else{
+			this.status = Status.ATIVO;
+		}
 		this.id = System.currentTimeMillis();
 		this.numEdital = numEdital;
-		this.dataIncio = dataIncio;
+		this.dataIncio = dataInicio;
 		this.dataFinal = dataFinal;
 		this.disciplinas = disciplinas;
-		this.ativo = true;
 		this.maxInc = maxInc;
 	}
+
+	public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
 	public long getId() {
 		return id;
@@ -93,36 +112,36 @@ public class Edital {
 		}
 		
 	}
-	public boolean encerrarEdital(){
-		if (!this.ativo){
-			return false;
-		}
-		else{
-			this.ativo = false;
-			return true;
-		}
-	}
-	public boolean reabrirEdital(){
-		LocalDate hoje = LocalDate.now();
-		if (this.ativo == false && hoje.isBefore(this.dataFinal)){
-			this.ativo = true;
-			return true;
-		}
-		else
-			return false;
-	}
-	public String jaAcabou() {
-		LocalDate hoje = LocalDate.now();
-		if (!hoje.isBefore(this.dataIncio) && !hoje.isAfter(this.dataFinal) && this.ativo == true){
-			return "--Incrições abertas--";
-		}
-		else if (hoje.isBefore(this.dataIncio)){
-			return "--O périodo de incrição ainda não começou--";
-		}
-		else {
-			return "--incrições encerradas--";
-		}
-	}
+	// //public boolean encerrarEdital(){
+	// 	if (!this.ativo){
+	// 		return false;
+	// 	}
+	// 	else{
+	// 		this.ativo = false;
+	// 		return true;
+	// 	}
+	// }
+	// public boolean reabrirEdital(){
+	// 	LocalDate hoje = LocalDate.now();
+	// 	if (this.ativo == false && hoje.isBefore(this.dataFinal)){
+	// 		this.ativo = true;
+	// 		return true;
+	// 	}
+	// 	else
+	// 		return false;
+	// }
+	// public String jaAcabou() {
+	// 	LocalDate hoje = LocalDate.now();
+	// 	if (!hoje.isBefore(this.dataIncio) && !hoje.isAfter(this.dataFinal) && this.ativo == true){
+	// 		return "--Incrições abertas--";
+	// 	}
+	// 	else if (hoje.isBefore(this.dataIncio)){
+	// 		return "--O périodo de incrição ainda não começou--";
+	// 	}
+	// 	else {
+	// 		return "--incrições encerradas--";
+	// 	}
+	// }
 	public Edital clonarEdital(){
 		return new Edital(this.numEdital + ".2", this.dataIncio, this.dataFinal, this.disciplinas, maxInc);
 	}
@@ -147,14 +166,10 @@ public class Edital {
 			sb.append("Nenhuma disciplina cadastrada neste edital.\n");
 		}
 
-		String status = this.jaAcabou();
+		//String status = this.jaAcabou();
 		sb.append("Situação: ").append(status).append(".");		
 		return sb.toString();
 	}
-
-    public boolean isAtivo() {
-        return ativo;
-    }
 
     public int getMaxInc() {
         return maxInc;
