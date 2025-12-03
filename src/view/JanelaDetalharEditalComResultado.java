@@ -25,7 +25,8 @@ public class JanelaDetalharEditalComResultado extends JanelaPadrao {
         //Tabela
         DefaultTableModel modelo = TabelaResultadoBuilder.montarTabela(edital);
         JTable tabela = new JTable(modelo);
-        tabela.setDefaultEditor(Object.class, null); //Não pode editar cédulas
+        int idxSituacao = 3;
+        tabela.getColumnModel().getColumn(idxSituacao).setCellRenderer(new StatusCellRenderer(idxSituacao));
         JScrollPane scroll = new JScrollPane(tabela);
         scroll.setBounds(10, 35, 565, 250);
         add(scroll);
@@ -74,6 +75,7 @@ public class JanelaDetalharEditalComResultado extends JanelaPadrao {
                 i.setSituacao(Situacao.DESISTENTE);
                 JOptionPane.showMessageDialog(this, "Você desistiu da monitoria de " + disciplina.getNomeDisciplina() + "!");
                 TabelaResultadoBuilder.atualizarTabela(modelo, edital);
+                tabela.clearSelection();
             }
         });
     }

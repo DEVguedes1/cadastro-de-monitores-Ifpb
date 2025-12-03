@@ -22,7 +22,7 @@ public class TabelaSemResultadoBuilder {
     }
 
     public static void atualizarTabela(DefaultTableModel modelo, Edital edital) {
-        modelo.setRowCount(0); // limpa
+        modelo.setRowCount(0);
 
         for (Disciplina d : edital.getDisciplinas()) {
             modelo.addRow(new Object[]{
@@ -31,5 +31,7 @@ public class TabelaSemResultadoBuilder {
                 d.getPeriodo()
             });
         }
+
+        modelo.fireTableDataChanged();
     }
 }
