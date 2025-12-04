@@ -1,9 +1,10 @@
 package models.recurses;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import models.Aluno;
+import models.Inscricao;
 
 public class Edital {
 	private long id; 
@@ -11,19 +12,42 @@ public class Edital {
 	private LocalDate dataIncio;
 	private LocalDate dataFinal;
 	private ArrayList<Disciplina> disciplinas;
-	
+	private int maxInc;
+	private Status status;
+
+	public enum Status{
+		ATIVO,
+		ENCERRADO,
+		NÃO_COMEÇOU
+	}
 	public Edital() {
 		this.id = System.currentTimeMillis(); 
 		this.disciplinas = new ArrayList<>(); 
 	}
 	
-	public Edital(String numEdital, LocalDate dataIncio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas) {
-		this.id = System.currentTimeMillis(); 
+	public Edital(String numEdital, LocalDate dataInicio, LocalDate dataFinal, ArrayList<Disciplina> disciplinas, int maxInc) {
+		LocalDate hoje = LocalDate.now();
+		if (hoje.isBefore(dataInicio)){
+			this.status = Status.NÃO_COMEÇOU;
+		}
+		else{
+			this.status = Status.ATIVO;
+		}
+		this.id = System.currentTimeMillis();
 		this.numEdital = numEdital;
-		this.dataIncio = dataIncio;
+		this.dataIncio = dataInicio;
 		this.dataFinal = dataFinal;
 		this.disciplinas = disciplinas;
+		this.maxInc = maxInc;
 	}
+
+	public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
 	public long getId() {
 		return id;
@@ -64,7 +88,7 @@ public class Edital {
 		this.disciplinas = disciplinas;
 	}
 	
-	public boolean inscrever(Aluno a, Disciplina disciplina) {
+	public boolean inscrever(Aluno a, Disciplina disciplina, double notaDisciplina) {
 		LocalDate hoje = LocalDate.now();
 		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
 
@@ -75,7 +99,7 @@ public class Edital {
 		boolean disciplinaValida = this.disciplinas.contains(disciplina);
 		
 		if (dentroDoPrazo && disciplinaValida) {
-			disciplina.setAlunos(a);
+			disciplina.setInscricoes(new Inscricao(a, disciplina, notaDisciplina, a.getCre()));
 			return true;	
 		}else {
 			if (!dentroDoPrazo) {
@@ -89,25 +113,49 @@ public class Edital {
 		
 	}
 	
-	public boolean jaAcabou() {
-		LocalDate hoje = LocalDate.now();
-		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
-		if (!dentroDoPrazo) {
-			System.out.println("prazo finalizado");
-			return true;
-		}else {
-			System.out.println("inscrições abertas");
-			return false;
-		}
-	}
-	
+	public Edital clonarEdital() {
+        // Gera um novo número sugerido
+        String novoNumero = this.numEdital + " (Cópia)";
+        
+        // Define datas padrão (hoje e amanhã) para o coordenador editar depois
+        LocalDate novaDataInicio = LocalDate.now();
+        LocalDate novaDataFim = LocalDate.now().plusDays(30);
+        
+        // Clona as disciplinas (IMPORTANTE: Sem as inscrições!)
+        ArrayList<Disciplina> novasDisciplinas = new ArrayList<>();
+        if (this.disciplinas != null) {
+            for (Disciplina d : this.disciplinas) {
+                // Cria uma nova disciplina com os mesmos dados da antiga
+                Disciplina novaDisc = new Disciplina(
+                    d.getNomeDisciplina(), 
+                    d.getQntdVagas(), 
+                    d.getPesoNota(), 
+                    d.getPesoCRE(), 
+                    d.getDocente(), 
+                    d.getPeriodo()
+                );
+                // Inicia com lista de inscritos vazia
+                novaDisc.setInscricoes(new ArrayList<>()); 
+                novasDisciplinas.add(novaDisc);
+            }
+        }
+
+        // Cria o novo objeto Edital
+        Edital clone = new Edital(novoNumero, novaDataInicio, novaDataFim, novasDisciplinas, this.maxInc);
+        
+        // O construtor define o ID automaticamente como System.currentTimeMillis(), 
+        // então o clone terá um ID único.
+        
+        return clone;
+    }
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
+		DateTimeFormatter formatoBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		sb.append("Edital de Monitoria ").append(this.numEdital).append("-\n");
-		
-		sb.append("#Disciplinas\n");
+		sb.append("Data de ínicio: " + this.getDataIncio().format(formatoBR) );
+		sb.append("/ Data final: " + this.getDataFinal().format(formatoBR) );
+		sb.append("\n#Disciplinas\n");
 		
 		if (this.getDisciplinas() != null && !this.getDisciplinas().isEmpty()) {
 			for (Disciplina disc : this.getDisciplinas()) {
@@ -121,10 +169,25 @@ public class Edital {
 			sb.append("Nenhuma disciplina cadastrada neste edital.\n");
 		}
 
-		String status = this.jaAcabou() ? "encerradas" : "abertas";
-		sb.append("Inscrições ").append(status).append(".");		
-		
+		//String status = this.jaAcabou();
+		sb.append("Situação: ").append(status).append(".");		
 		return sb.toString();
+	}
+
+    public int getMaxInc() {
+        return maxInc;
+    }
+
+    public void setMaxInc(int maxInc) {
+        this.maxInc = maxInc;
+    }
+	public Disciplina buscarDisciplina(String nomeDisciplina){
+		for (Disciplina dis : this.getDisciplinas()){
+			if (dis.getNomeDisciplina().equals(nomeDisciplina)){
+				return dis;
+			}
+		}
+		return null;
 	}
 }
 

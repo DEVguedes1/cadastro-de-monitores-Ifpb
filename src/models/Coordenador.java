@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Scanner;
-
 import models.utils.Validacao;
 
 public class Coordenador extends Usuario {
@@ -27,7 +26,7 @@ public class Coordenador extends Usuario {
 	}
 
 	public static void cadastrarViaConsole(Scanner sc, CentralDeInformacoes ci) {
-        System.out.println("\n--- 9. Cadastrar Novo Coordenador ---");
+        System.out.println("\n--- 10. Cadastrar Novo Coordenador ---");
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("Email: ");

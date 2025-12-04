@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import models.recurses.Disciplina;
 import models.recurses.Edital;
 
@@ -125,20 +124,20 @@ public class CentralDeInformacoes {
 
 		for (Disciplina d : disciplinasDoEdital) {
 		
-			ArrayList<Aluno> alunosDaDisciplina = d.getAlunos();
-			if (alunosDaDisciplina == null) {
-				alunosDaDisciplina = new ArrayList<>();
+			ArrayList<Inscricao> inscricoes = d.getInscricoes();
+			if (inscricoes == null) {
+				inscricoes = new ArrayList<>();
 			}
 
-			if (alunosDaDisciplina.contains(aluno)) { 
-				inscricoesDoAluno.add(d);
+			for (Inscricao i : inscricoes){
+				if (i.getAluno().getMatricula().equals(matricula)){
+					inscricoesDoAluno.add(d);
+				}
 			}
 		}
 
 		return inscricoesDoAluno;
 	}
-	// Dentro de models/CentralDeInformacoes.java
-
 
 	public boolean adicionarCoordenador(Coordenador c) {
 	    if (this.todosOsCoordenadores == null) {
@@ -154,8 +153,18 @@ public class CentralDeInformacoes {
 	    return true;
 	}
 	
+	// Em models/CentralDeInformacoes.java
+
 	public ArrayList<Coordenador> getTodosOsCoordenadores() {
-        return todosOsCoordenadores;
-    }
+	    // Se a lista estiver nula (erro de carga), cria uma vazia para não travar o programa
+	    if (this.todosOsCoordenadores == null) {
+	        this.todosOsCoordenadores = new ArrayList<>();
+	    }
+	    return todosOsCoordenadores;
+	}
+	
+	public void Login() {
+		
+	}
 }
 

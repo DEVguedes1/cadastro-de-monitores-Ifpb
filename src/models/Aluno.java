@@ -10,7 +10,7 @@ public class Aluno extends Usuario {
 	private String matricula;
 	private Double cre;
 	private Sexo sexo;
-	
+
 	// construtores
 	public Aluno() {
 	}
@@ -42,6 +42,10 @@ public class Aluno extends Usuario {
 		return cre;
 	}
 	
+	public void setCre(Double cre) {
+		this.cre = cre;
+	}
+
 	public Sexo getSexo() {
 		return sexo;
 	}
@@ -134,4 +138,5 @@ public class Aluno extends Usuario {
                 ", email='" + getEmail() + '\'' +
                 '}';
 	}
+
 }
