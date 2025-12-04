@@ -112,39 +112,42 @@ public class Edital {
 		}
 		
 	}
-	// //public boolean encerrarEdital(){
-	// 	if (!this.ativo){
-	// 		return false;
-	// 	}
-	// 	else{
-	// 		this.ativo = false;
-	// 		return true;
-	// 	}
-	// }
-	// public boolean reabrirEdital(){
-	// 	LocalDate hoje = LocalDate.now();
-	// 	if (this.ativo == false && hoje.isBefore(this.dataFinal)){
-	// 		this.ativo = true;
-	// 		return true;
-	// 	}
-	// 	else
-	// 		return false;
-	// }
-	// public String jaAcabou() {
-	// 	LocalDate hoje = LocalDate.now();
-	// 	if (!hoje.isBefore(this.dataIncio) && !hoje.isAfter(this.dataFinal) && this.ativo == true){
-	// 		return "--Incrições abertas--";
-	// 	}
-	// 	else if (hoje.isBefore(this.dataIncio)){
-	// 		return "--O périodo de incrição ainda não começou--";
-	// 	}
-	// 	else {
-	// 		return "--incrições encerradas--";
-	// 	}
-	// }
-	public Edital clonarEdital(){
-		return new Edital(this.numEdital + ".2", this.dataIncio, this.dataFinal, this.disciplinas, maxInc);
-	}
+	
+	public Edital clonarEdital() {
+        // Gera um novo número sugerido
+        String novoNumero = this.numEdital + " (Cópia)";
+        
+        // Define datas padrão (hoje e amanhã) para o coordenador editar depois
+        LocalDate novaDataInicio = LocalDate.now();
+        LocalDate novaDataFim = LocalDate.now().plusDays(30);
+        
+        // Clona as disciplinas (IMPORTANTE: Sem as inscrições!)
+        ArrayList<Disciplina> novasDisciplinas = new ArrayList<>();
+        if (this.disciplinas != null) {
+            for (Disciplina d : this.disciplinas) {
+                // Cria uma nova disciplina com os mesmos dados da antiga
+                Disciplina novaDisc = new Disciplina(
+                    d.getNomeDisciplina(), 
+                    d.getQntdVagas(), 
+                    d.getPesoNota(), 
+                    d.getPesoCRE(), 
+                    d.getDocente(), 
+                    d.getPeriodo()
+                );
+                // Inicia com lista de inscritos vazia
+                novaDisc.setInscricoes(new ArrayList<>()); 
+                novasDisciplinas.add(novaDisc);
+            }
+        }
+
+        // Cria o novo objeto Edital
+        Edital clone = new Edital(novoNumero, novaDataInicio, novaDataFim, novasDisciplinas, this.maxInc);
+        
+        // O construtor define o ID automaticamente como System.currentTimeMillis(), 
+        // então o clone terá um ID único.
+        
+        return clone;
+    }
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -5,33 +5,29 @@ import models.recurses.Disciplina;
 import models.recurses.Edital;
 
 public class TabelaSemResultadoBuilder {
-     public static DefaultTableModel montarTabela(Edital edital) {
+    
+    public static DefaultTableModel montarTabela(Edital edital) {
+        // Colunas que interessam ao Aluno antes do resultado
+        String[] colunas = {"Disciplina", "Vagas", "Peso Nota", "Peso CRE"};
+        
+        // Impede edição das células
+        DefaultTableModel modelo = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
-        String[] colunas = {"Disciplina", "Docente", "Período"};
-        DefaultTableModel modelo = new DefaultTableModel(new Object[0][3], colunas);
-
-        for (Disciplina d : edital.getDisciplinas()) {
-            modelo.addRow(new Object[]{
-                d.getNomeDisciplina(),
-                d.getDocente(),
-                d.getPeriodo()
-            });
+        if (edital.getDisciplinas() != null) {
+            for (Disciplina d : edital.getDisciplinas()) {
+                modelo.addRow(new Object[]{
+                    d.getNomeDisciplina(),
+                    d.getQntdVagas(),
+                    d.getPesoNota(),
+                    d.getPesoCRE()
+                });
+            }
         }
-
         return modelo;
-    }
-
-    public static void atualizarTabela(DefaultTableModel modelo, Edital edital) {
-        modelo.setRowCount(0);
-
-        for (Disciplina d : edital.getDisciplinas()) {
-            modelo.addRow(new Object[]{
-                d.getNomeDisciplina(),
-                d.getDocente(),
-                d.getPeriodo()
-            });
-        } 
-
-        modelo.fireTableDataChanged();
     }
 }

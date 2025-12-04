@@ -3,6 +3,7 @@ package models.recurses;
 import java.util.ArrayList;
 import models.Inscricao; 
 
+
 public class Disciplina {
 	private String nomeDisciplina;
 	private int qntdVagas;
@@ -93,6 +94,12 @@ public class Disciplina {
 		}
         inscricoes.add(inscricao);
     }
+    
+    // Ele define a LISTA INTEIRA (usado para limpar no clone)
+    public void setInscricoes(ArrayList<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
+    }
+    
 	public static Inscricao buscarInscricao(Disciplina d, String nomeAluno){
 		for (Inscricao i : d.getInscricoes()){
 			if (i.getAluno().getNomeDoAluno().equals(nomeAluno)){
@@ -101,4 +108,31 @@ public class Disciplina {
 		}
 		return null;
 	}
+	
+	public void calcularResultadoFinal() {
+        if (this.inscricoes == null || this.inscricoes.isEmpty()) return;
+
+        // 1. Ordenar a lista (Do maior NotaFinal para a menor)
+        this.inscricoes.sort((a, b) -> Double.compare(b.getNotaFinal(), a.getNotaFinal()));
+
+        // 2. Definir os Status
+        int vagasDisponiveis = this.qntdVagas;
+        
+        for (int i = 0; i < inscricoes.size(); i++) {
+            Inscricao insc = inscricoes.get(i);
+            
+            // Só altera quem ainda está concorrendo (ignora quem já desistiu)
+            if (insc.getSituacao() == models.Inscricao.Situacao.CONCORRENDO || 
+                insc.getSituacao() == models.Inscricao.Situacao.LISTA_ESPERA ||
+                insc.getSituacao() == models.Inscricao.Situacao.APROVADO_BOLSISTA) {
+                
+                if (i < vagasDisponiveis) {
+                    insc.setSituacao(models.Inscricao.Situacao.APROVADO_BOLSISTA);
+                } else {
+                    insc.setSituacao(models.Inscricao.Situacao.LISTA_ESPERA);
+                }
+            }
+        }
+    }
+
 }

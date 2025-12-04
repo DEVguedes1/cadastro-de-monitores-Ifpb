@@ -138,8 +138,6 @@ public class CentralDeInformacoes {
 
 		return inscricoesDoAluno;
 	}
-	// Dentro de models/CentralDeInformacoes.java
-
 
 	public boolean adicionarCoordenador(Coordenador c) {
 	    if (this.todosOsCoordenadores == null) {
@@ -155,9 +153,15 @@ public class CentralDeInformacoes {
 	    return true;
 	}
 	
+	// Em models/CentralDeInformacoes.java
+
 	public ArrayList<Coordenador> getTodosOsCoordenadores() {
-        return todosOsCoordenadores;
-    }
+	    // Se a lista estiver nula (erro de carga), cria uma vazia para não travar o programa
+	    if (this.todosOsCoordenadores == null) {
+	        this.todosOsCoordenadores = new ArrayList<>();
+	    }
+	    return todosOsCoordenadores;
+	}
 	
 	public void Login() {
 		

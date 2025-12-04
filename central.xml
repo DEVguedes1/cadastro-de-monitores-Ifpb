@@ -1,105 +1,94 @@
 <models.CentralDeInformacoes>
   <todosOsCoordenadores>
     <models.Coordenador>
-      <email>grandeChefe@gmail.com</email>
-      <senha>B0ss@l$g</senha>
-      <nome>mr.boss</nome>
+      <email>admin@gmail.com</email>
+      <senha>ad123@$</senha>
+      <nome>admin</nome>
     </models.Coordenador>
   </todosOsCoordenadores>
   <todosOsAlunos>
     <models.Aluno>
-      <email>pimlegal@gmail.com</email>
-      <senha>P1m@l$g</senha>
-      <nomeDoAluno>pim</nomeDoAluno>
-      <matricula>202503</matricula>
-      <cre>7.0</cre>
-      <sexo>MASCULINO</sexo>
+      <email>nicolasguedesguedes081@gmail.com</email>
+      <senha>@#4jsadbkl$@</senha>
+      <nomeDoAluno>Nicolas</nomeDoAluno>
+      <matricula>2025001</matricula>
+      <cre>0.0</cre>
+      <sexo>OUTRO</sexo>
     </models.Aluno>
     <models.Aluno>
-      <email>nicolasguedesguedes081@gmail.com</email>
-      <senha>P1m@l$g</senha>
-      <nomeDoAluno>Nicolas</nomeDoAluno>
-      <matricula>2025000</matricula>
-      <cre>9.0</cre>
-      <sexo>MASCULINO</sexo>
+      <email>okeldson@gmail.com</email>
+      <senha>das#%$312</senha>
+      <nomeDoAluno>keldson</nomeDoAluno>
+      <matricula>2025002</matricula>
+      <cre>0.0</cre>
+      <sexo>OUTRO</sexo>
     </models.Aluno>
   </todosOsAlunos>
   <todosOsEditais>
     <models.recurses.Edital>
-      <id>1763746855865</id>
-      <numEdital>2025/04</numEdital>
-      <dataIncio>2025-11-22</dataIncio>
-      <dataFinal>2025-11-30</dataFinal>
+      <id>1764836761716</id>
+      <numEdital>2025.4</numEdital>
+      <dataIncio>2025-12-04</dataIncio>
+      <dataFinal>2025-12-05</dataFinal>
       <disciplinas>
         <models.recurses.Disciplina>
-          <nomeDisciplina>LEGALIDADE</nomeDisciplina>
+          <nomeDisciplina>vagabundagem</nomeDisciplina>
           <qntdVagas>2</qntdVagas>
-          <pesoNota>0.0</pesoNota>
-          <pesoCRE>0.0</pesoCRE>
-          <alunos>
-            <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno"/>
-            <models.Aluno reference="../../../../../../todosOsAlunos/models.Aluno[2]"/>
-          </alunos>
+          <pesoNota>0.2</pesoNota>
+          <pesoCRE>0.8</pesoCRE>
+          <docente>A definir</docente>
+          <periodo>0</periodo>
+          <inscricoes>
+            <models.Inscricao>
+              <aluno reference="../../../../../../../todosOsAlunos/models.Aluno"/>
+              <disciplina reference="../../.."/>
+              <nota>5.0</nota>
+              <CRE>0.0</CRE>
+              <situacao>CONCORRENDO</situacao>
+            </models.Inscricao>
+          </inscricoes>
         </models.recurses.Disciplina>
       </disciplinas>
-      <ativo>false</ativo>
-      <maxInc>0</maxInc>
+      <maxInc>2</maxInc>
+      <status>ATIVO</status>
     </models.recurses.Edital>
     <models.recurses.Edital>
-      <id>1764359169523</id>
-      <numEdital>2025/04.2</numEdital>
-      <dataIncio>2025-11-22</dataIncio>
-      <dataFinal>2025-11-30</dataFinal>
-      <disciplinas reference="../../models.recurses.Edital/disciplinas"/>
-      <ativo>true</ativo>
-      <maxInc>0</maxInc>
-    </models.recurses.Edital>
-    <models.recurses.Edital>
-      <id>1764381353227</id>
-      <numEdital>2025</numEdital>
-      <dataIncio>2025-12-14</dataIncio>
-      <dataFinal>2025-12-20</dataFinal>
+      <id>1764840289273</id>
+      <numEdital>2025.4 (Cópia)</numEdital>
+      <dataIncio>2025-12-04</dataIncio>
+      <dataFinal>2026-01-03</dataFinal>
       <disciplinas>
         <models.recurses.Disciplina>
-          <nomeDisciplina>Poo</nomeDisciplina>
-          <qntdVagas>4</qntdVagas>
+          <nomeDisciplina>vagabundagem</nomeDisciplina>
+          <qntdVagas>2</qntdVagas>
+          <pesoNota>0.2</pesoNota>
+          <pesoCRE>0.8</pesoCRE>
+          <docente>A definir</docente>
+          <periodo>0</periodo>
+          <inscricoes/>
+        </models.recurses.Disciplina>
+      </disciplinas>
+      <maxInc>2</maxInc>
+      <status>ATIVO</status>
+    </models.recurses.Edital>
+    <models.recurses.Edital>
+      <id>1764840463008</id>
+      <numEdital>2025.5</numEdital>
+      <dataIncio>2025-12-04</dataIncio>
+      <dataFinal>2025-12-12</dataFinal>
+      <disciplinas>
+        <models.recurses.Disciplina>
+          <nomeDisciplina>sla</nomeDisciplina>
+          <qntdVagas>3</qntdVagas>
           <pesoNota>0.5</pesoNota>
           <pesoCRE>0.5</pesoCRE>
-          <alunos/>
-        </models.recurses.Disciplina>
-        <models.recurses.Disciplina>
-          <nomeDisciplina>banco</nomeDisciplina>
-          <qntdVagas>10</qntdVagas>
-          <pesoNota>0.6</pesoNota>
-          <pesoCRE>0.4</pesoCRE>
-          <alunos/>
-        </models.recurses.Disciplina>
-        <models.recurses.Disciplina>
-          <nomeDisciplina>rede</nomeDisciplina>
-          <qntdVagas>2</qntdVagas>
-          <pesoNota>0.4</pesoNota>
-          <pesoCRE>0.6</pesoCRE>
-          <alunos/>
-        </models.recurses.Disciplina>
-        <models.recurses.Disciplina>
-          <nomeDisciplina>metodologia</nomeDisciplina>
-          <qntdVagas>2</qntdVagas>
-          <pesoNota>0.1</pesoNota>
-          <pesoCRE>0.9</pesoCRE>
-          <alunos/>
+          <docente>A definir</docente>
+          <periodo>0</periodo>
+          <inscricoes/>
         </models.recurses.Disciplina>
       </disciplinas>
-      <ativo>true</ativo>
-      <maxInc>2</maxInc>
-    </models.recurses.Edital>
-    <models.recurses.Edital>
-      <id>1764385316592</id>
-      <numEdital>2025</numEdital>
-      <dataIncio>2025-11-28</dataIncio>
-      <dataFinal>2025-11-30</dataFinal>
-      <disciplinas/>
-      <ativo>true</ativo>
-      <maxInc>2</maxInc>
+      <maxInc>1</maxInc>
+      <status>ATIVO</status>
     </models.recurses.Edital>
   </todosOsEditais>
 </models.CentralDeInformacoes>
