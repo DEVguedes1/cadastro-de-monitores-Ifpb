@@ -13,6 +13,7 @@ public class DashboardAluno extends JanelaModerna {
     public DashboardAluno(String nome) {
         super("Área do Aluno");
         inicializar(nome);
+        configurarSidebar(nome, "Estudante");
     }
 
     private void inicializar(String nome) {
@@ -28,18 +29,21 @@ public class DashboardAluno extends JanelaModerna {
 
         JLabel lblProfileImage;
         try {
-            // PROCURA EM src/images/user_icon.png
-            ImageIcon icon = new ImageIcon(getClass().getResource("/images/user.png")); 
+            // Tenta carregar a imagem
+            ImageIcon icon = new ImageIcon(getClass().getResource("/images/user_icon.png")); 
+            // Verifica se carregou mesmo
+            if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) throw new Exception("Erro img");
             
-            // Redimensiona a imagem para caber (Opcional, mas recomendado)
-            Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+            // Redimensiona
+            Image img = icon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             lblProfileImage = new JLabel(new ImageIcon(img));
-            
         } catch (Exception e) {
-            // SE NÃO ACHAR A FOTO, FAZ A BOLINHA COM A INICIAL
-            System.out.println("Imagem não encontrada, usando fallback.");
-            char inicial = (nome != null && !nome.isEmpty()) ? nome.charAt(0) : '?';
-            lblProfileImage = new JLabel("<html><div style='background-color:white; width:70px; height:70px; border-radius:50%; text-align:center; vertical-align:middle; color:#6e48aa; font-size:30px; line-height:70px;'>" + inicial + "</div></html>");
+            // FALLBACK: Cria uma "Bolinha" usando HTML/CSS simples
+            // O fundo deve ser transparente (ou da cor da sidebar) para não criar o quadrado branco feio
+            char inicial = (nome != null && !nome.isEmpty()) ? nome.charAt(0) : 'U';
+            
+            // Truque: background-color com alpha (transparencia) ou cor sólida igual sidebar
+            lblProfileImage = new JLabel("<html><div style='background-color:#5a4dad; width:60px; height:60px; border-radius:50%; text-align:center; vertical-align:middle; line-height:60px; color:white; font-size:24px; font-family:Segoe UI;'>" + inicial + "</div></html>");
         }
 
         // ... continua o código ...

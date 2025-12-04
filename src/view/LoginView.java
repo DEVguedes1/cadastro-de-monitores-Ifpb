@@ -6,7 +6,7 @@ import view.style.Componentes;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class LoginView extends JFrame { // Herda JFrame direto para layout livre
+public class LoginView extends JFrame {
 
     private JTextField txtEmail;
     private JPasswordField txtSenha;
@@ -14,32 +14,40 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
 
     public LoginView() {
         setTitle("Login");
-        setSize(900, 600); // Tela cheia
+        setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        setResizable(false);
 
-        // Fundo dividido: Esquerda Roxa, Direita Branca (Estilo Dashboard moderno)
+        // --- PAINEL ESQUERDO (ROXO) ---
         JPanel painelEsquerdo = new JPanel();
         painelEsquerdo.setBackground(Cores.ROXO_SIDEBAR);
         painelEsquerdo.setBounds(0, 0, 400, 600);
         painelEsquerdo.setLayout(null);
         add(painelEsquerdo);
         
-        // Texto no painel roxo
-        JLabel lblLogo = new JLabel("SISTEMA DE");
-        lblLogo.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        lblLogo.setForeground(Color.WHITE);
-        lblLogo.setBounds(50, 200, 300, 40);
-        painelEsquerdo.add(lblLogo);
-        
-        JLabel lblLogo2 = new JLabel("MONITORIA");
-        lblLogo2.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        lblLogo2.setForeground(Color.WHITE);
-        lblLogo2.setBounds(50, 240, 300, 40);
-        painelEsquerdo.add(lblLogo2);
+        // Marca D'água (Fundo)
+        JLabel lblSigla = new JLabel("SISMON");
+        lblSigla.setFont(new Font("Segoe UI", Font.BOLD, 60));
+        lblSigla.setForeground(new Color(255, 255, 255, 20)); // Bem transparente
+        lblSigla.setBounds(40, 100, 300, 80);
+        painelEsquerdo.add(lblSigla);
 
-        // --- PAINEL DE LOGIN (DIREITA) ---
+        // Título Principal
+        JLabel lblTituloApp = new JLabel("<html>SISTEMA DE<br>GESTÃO DE<br>MONITORIA</html>");
+        lblTituloApp.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        lblTituloApp.setForeground(Color.WHITE);
+        lblTituloApp.setBounds(40, 180, 350, 150);
+        painelEsquerdo.add(lblTituloApp);
+
+        JLabel lblDesc = new JLabel("<html>Gerencie editais, inscrições<br>e resultados em um só lugar.</html>");
+        lblDesc.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblDesc.setForeground(new Color(220, 220, 255));
+        lblDesc.setBounds(40, 340, 300, 50);
+        painelEsquerdo.add(lblDesc);
+
+        // --- PAINEL DIREITO (BRANCO) ---
         JPanel painelDireito = new JPanel();
         painelDireito.setBackground(Color.WHITE);
         painelDireito.setBounds(400, 0, 500, 600);
@@ -52,7 +60,7 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
         lblBemVindo.setBounds(50, 100, 400, 40);
         painelDireito.add(lblBemVindo);
 
-        // Email
+        // Inputs
         JLabel lblEmail = new JLabel("E-mail");
         lblEmail.setFont(Componentes.FONT_SUB);
         lblEmail.setBounds(50, 180, 100, 20);
@@ -61,13 +69,11 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
         txtEmail = new JTextField();
         txtEmail.setBounds(50, 205, 350, 40);
         txtEmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        // Borda suave
         txtEmail.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(200, 200, 200)), 
             BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         painelDireito.add(txtEmail);
 
-        // Senha
         JLabel lblSenha = new JLabel("Senha");
         lblSenha.setFont(Componentes.FONT_SUB);
         lblSenha.setBounds(50, 260, 100, 20);
@@ -80,7 +86,7 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
             BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         painelDireito.add(txtSenha);
 
-        // Botão Entrar
+        // Botões
         btnEntrar = new JButton("ENTRAR");
         btnEntrar.setBounds(50, 360, 350, 45);
         btnEntrar.setBackground(Cores.ROXO_SIDEBAR);
@@ -88,9 +94,9 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
         btnEntrar.setFont(Componentes.FONT_BOTAO);
         btnEntrar.setFocusPainted(false);
         btnEntrar.setBorderPainted(false);
+        btnEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painelDireito.add(btnEntrar);
 
-        // Botão Criar Conta
         btnCriarConta = new JButton("Criar nova conta");
         btnCriarConta.setBounds(50, 420, 350, 30);
         btnCriarConta.setBackground(Color.WHITE);
@@ -102,7 +108,6 @@ public class LoginView extends JFrame { // Herda JFrame direto para layout livre
         painelDireito.add(btnCriarConta);
     }
 
-    // Getters e Listeners (Mantidos iguais para não quebrar o Controller)
     public String getEmail() { return txtEmail.getText(); }
     public String getSenha() { return new String(txtSenha.getPassword()); }
     public void addLoginListener(ActionListener l) { btnEntrar.addActionListener(l); }

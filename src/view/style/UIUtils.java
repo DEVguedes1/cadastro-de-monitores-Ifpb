@@ -25,43 +25,44 @@ public class UIUtils {
     public static final Color TABLE_HEADER_FG = new Color(60, 60, 60); // Texto escuro
     public static final Color TABLE_SELECTION_BG = new Color(220, 210, 240); // Roxo claro para seleção
 
-    public static void styleTable(JTable table) {
-        // 1. Básico da Tabela
-        table.setRowHeight(35); // Aumenta a altura da linha (IMPORTANTE para UX)
-        table.setShowVerticalLines(false); // Remove linhas verticais
-        table.setIntercellSpacing(new Dimension(0, 0)); // Remove espaçamento entre celulas
-        table.setSelectionBackground(TABLE_SELECTION_BG);
-        table.setSelectionForeground(Color.BLACK);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14)); // Fonte moderna
+    public static void styleTable(JTable tabela) {
+        // Configurações Gerais
+        tabela.setRowHeight(35);
+        tabela.setShowVerticalLines(false);
+        tabela.setIntercellSpacing(new Dimension(0, 0));
+        tabela.setGridColor(new Color(230, 230, 230));
+        tabela.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabela.setSelectionBackground(new Color(220, 210, 240)); // Roxo claro
+        tabela.setSelectionForeground(Color.BLACK);
+        
+        // CORREÇÃO: Remove o foco da célula que fica feio
+        tabela.setFocusable(false);
 
-        // Remove a borda do JScrollPane que envolve a tabela
-        if (table.getParent() instanceof JViewport) {
-            JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
-            scrollPane.setBorder(BorderFactory.createEmptyBorder());
-            scrollPane.getViewport().setBackground(Color.WHITE);
-        }
-
-        // 2. Estilizando o Cabeçalho (JTableHeader)
-        JTableHeader header = table.getTableHeader();
+        // CORREÇÃO: Força o cabeçalho a ser Roxo
+        JTableHeader header = tabela.getTableHeader();
+        header.setOpaque(true); // <--- IMPORTANTE
+        header.setBackground(new Color(110, 100, 240)); // Roxo Sidebar
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        // Renderizador do Cabeçalho (Para garantir alinhamento e cor em todos os OS)
         header.setDefaultRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                label.setBackground(TABLE_HEADER_BG);
-                label.setForeground(TABLE_HEADER_FG);
+                label.setBackground(new Color(110, 100, 240)); // ROXO
+                label.setForeground(Color.WHITE);
                 label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY)); // Apenas linha inferior
                 label.setHorizontalAlignment(JLabel.CENTER);
+                label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
                 return label;
             }
         });
 
-        // 3. Centralizando o conteúdo das células
+        // Centralizar Células de Dados
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
+        tabela.setDefaultRenderer(Object.class, centerRenderer);
     }
     
  // --- NOVO: ESTILIZADOR DE BOTÕES (MÁGICA FLAT) ---

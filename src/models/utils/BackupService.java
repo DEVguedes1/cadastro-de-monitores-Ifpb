@@ -12,34 +12,35 @@ import java.util.zip.ZipOutputStream;
 public class BackupService {
 
     private static final String ARQUIVO_ORIGEM = "central.xml";
-    private static final String PASTA_BACKUP = "backups";
+    private static final String PASTA_BACKUP_PADRAO = "backups";
 
-    public static String realizarBackup() throws IOException {
-        // 1. Cria a pasta de backups se não existir
-        File pasta = new File(PASTA_BACKUP);
-        if (!pasta.exists()) {
-            pasta.mkdir();
-        }
-
-        // 2. Verifica se o XML existe
-        File origem = new File(ARQUIVO_ORIGEM);
-        if (!origem.exists()) {
-            throw new IOException("Arquivo de dados não encontrado para backup.");
-        }
-
-        // 3. Define o nome do arquivo com data/hora (ex: backup_2025-12-04_10-30-00.zip)
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        String nomeArquivo = "backup_" + LocalDateTime.now().format(fmt) + ".zip";
-        File destino = new File(pasta, nomeArquivo);
-
-        // 4. Compacta o XML em ZIP para economizar espaço
-        compactarParaZip(origem, destino);
-
-        return destino.getAbsolutePath();
+    // Backup Local Padrão (Para o botão Sair)
+    public static void realizarBackupLocal() throws IOException {
+        criarZip(new File(PASTA_BACKUP_PADRAO));
     }
 
-    private static void compactarParaZip(File origem, File destino) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(destino);
+    // --- NOVO: Backup em Pasta Específica (Para Google Drive/Dropbox) ---
+    public static String realizarBackupEmPasta(File pastaDestino) throws IOException {
+        return criarZip(pastaDestino);
+    }
+
+    // Método auxiliar que cria o ZIP
+    private static String criarZip(File pastaDestino) throws IOException {
+        // Garante que a pasta existe
+        if (!pastaDestino.exists()) {
+            pastaDestino.mkdirs();
+        }
+
+        File origem = new File(ARQUIVO_ORIGEM);
+        if (!origem.exists()) throw new IOException("Sem dados no sistema para salvar.");
+
+        // Nome do arquivo: Backup_Sismon_DATA_HORA.zip
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String nomeArquivo = "Backup_Sismon_" + LocalDateTime.now().format(fmt) + ".zip";
+        File arquivoFinal = new File(pastaDestino, nomeArquivo);
+
+        // Compactação
+        try (FileOutputStream fos = new FileOutputStream(arquivoFinal);
              ZipOutputStream zos = new ZipOutputStream(fos);
              FileInputStream fis = new FileInputStream(origem)) {
 
@@ -51,8 +52,9 @@ public class BackupService {
             while ((length = fis.read(buffer)) >= 0) {
                 zos.write(buffer, 0, length);
             }
-            
             zos.closeEntry();
         }
+        
+        return arquivoFinal.getAbsolutePath();
     }
 }

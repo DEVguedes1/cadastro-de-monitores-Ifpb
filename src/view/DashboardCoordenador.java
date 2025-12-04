@@ -13,6 +13,7 @@ public class DashboardCoordenador extends JanelaModerna {
     public DashboardCoordenador(String nome) {
         super("Painel do Coordenador");
         inicializar(nome);
+        configurarSidebar(nome, "Coordenador");
     }
 
     private void inicializar(String nome) {
@@ -22,16 +23,23 @@ public class DashboardCoordenador extends JanelaModerna {
         userPanel.setLayout(new GridBagLayout());
         userPanel.setBounds(0, 0, 220, 180);
 
-        // Lógica do Ícone (Imagem ou Fallback com Inicial)
         JLabel lblProfileImage;
         try {
-            // Tenta carregar ícone. Se não tiver, cai no catch.
+            // Tenta carregar a imagem
             ImageIcon icon = new ImageIcon(getClass().getResource("/images/user_icon.png")); 
-            lblProfileImage = new JLabel(icon);
+            // Verifica se carregou mesmo
+            if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) throw new Exception("Erro img");
+            
+            // Redimensiona
+            Image img = icon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            lblProfileImage = new JLabel(new ImageIcon(img));
         } catch (Exception e) {
-            // Desenha um círculo branco com a inicial do nome
-            char inicial = (nome != null && !nome.isEmpty()) ? nome.charAt(0) : 'C';
-            lblProfileImage = new JLabel("<html><div style='background-color:white; width:60px; height:60px; border-radius:50%; text-align:center; vertical-align:middle; line-height:60px; color:#6e48aa; font-size:24px;'><b>" + inicial + "</b></div></html>");
+            // FALLBACK: Cria uma "Bolinha" usando HTML/CSS simples
+            // O fundo deve ser transparente (ou da cor da sidebar) para não criar o quadrado branco feio
+            char inicial = (nome != null && !nome.isEmpty()) ? nome.charAt(0) : 'U';
+            
+            // Truque: background-color com alpha (transparencia) ou cor sólida igual sidebar
+            lblProfileImage = new JLabel("<html><div style='background-color:#5a4dad; width:60px; height:60px; border-radius:50%; text-align:center; vertical-align:middle; line-height:60px; color:white; font-size:24px; font-family:Segoe UI;'>" + inicial + "</div></html>");
         }
 
         JLabel lblWelcome = new JLabel("Olá, " + nome);
