@@ -1,99 +1,52 @@
 package program;
 
-import controller.EditalController;
+import view.LoginView;
+import view.CadastroCoordenadorView;
 import controller.LoginController;
-import models.Aluno;
-import models.Usuario;
-import models.recurses.Disciplina;
-import models.recurses.Edital;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
+import controller.CadastroCoordController;
+import models.utils.UsuarioService;
+import javax.swing.JOptionPane;
 
 public class MainTeste {
-
     public static void main(String[] args) {
-        System.out.println("=========================================");
-        System.out.println("     INICIANDO BATERIA DE TESTES         ");
-        System.out.println("=========================================\n");
+        System.out.println("1. Iniciando Main...");
 
-        LoginController loginController = new LoginController();
-        
-        // Limpa dados antigos para o teste começar "limpo"
-        // (Cuidado: isso apaga seu json de verdade, ideal usar um arquivo separado para testes)
-        loginController.limparBaseDados(); 
-
-        // --- TESTE 1: Cadastro de Usuários ---
-        System.out.println(">>> Teste 1: Cadastro de Usuários");
         try {
-            Aluno aluno = new Aluno("Joao Teste", "202301", 8.5, "joao@gmail.com", "Senha@123");
-            loginController.cadastrarUsuario(aluno);
-            System.out.println("[SUCESSO] Aluno cadastrado.");
+            System.out.println("2. Testando conexão com o Banco de Dados (Service)...");
+            
+            // É AQUI QUE O ERRO DEVE ACONTECER SE FALTAR BIBLIOTECA
+            UsuarioService service = new UsuarioService(); 
+            
+            System.out.println("3. Service criado. Verificando coordenador...");
+            boolean temChefe = service.existeCoordenador();
+            System.out.println("4. Verificação concluída. Resultado: " + temChefe);
+
+            if (temChefe) {
+                System.out.println("5. Abrindo Login...");
+                LoginView login = new LoginView();
+                new LoginController(login);
+                login.setVisible(true);
+            } else {
+                System.out.println("5. Abrindo Cadastro...");
+                CadastroCoordenadorView cadastro = new CadastroCoordenadorView();
+                new CadastroCoordController(cadastro);
+                cadastro.setVisible(true);
+            }
+
+        } catch (NoClassDefFoundError e) {
+            // ERRO ESPECÍFICO DE BIBLIOTECA FALTANDO
+            String erro = "ERRO CRÍTICO: Biblioteca faltando!\n\n" +
+                          "O Java não encontrou a biblioteca 'XStream'.\n" +
+                          "Você precisa adicionar o arquivo .jar do XStream no projeto.\n\n" +
+                          "Detalhe técnico: " + e.getMessage();
+            System.err.println(erro);
+            JOptionPane.showMessageDialog(null, erro);
+            
         } catch (Exception e) {
-            System.out.println("[ERRO] Falha ao cadastrar aluno válido: " + e.getMessage());
+            // OUTROS ERROS
+            String erro = "ERRO AO INICIAR:\n" + e.getMessage();
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, erro);
         }
-
-        // Teste de Validação (Senha Fraca)
-        try {
-            Aluno alunoFraco = new Aluno("Pedro Fraco", "202302", 7.0, "pedro@gmail.com", "123");
-            loginController.cadastrarUsuario(alunoFraco);
-            System.out.println("[ERRO] O sistema aceitou uma senha fraca!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("[SUCESSO] Sistema rejeitou senha fraca corretamente: " + e.getMessage());
-        }
-
-        // --- TESTE 2: Login ---
-        System.out.println("\n>>> Teste 2: Login");
-        Usuario logado = loginController.fazerLogin("joao@gmail.com", "Senha@123");
-        if (logado != null && logado instanceof Aluno) {
-            System.out.println("[SUCESSO] Login realizado corretamente para: " + logado.getEmail());
-        } else {
-            System.out.println("[ERRO] Falha no login com credenciais válidas.");
-        }
-
-        Usuario falhaLogin = loginController.fazerLogin("joao@gmail.com", "SenhaErrada");
-        if (falhaLogin == null) {
-            System.out.println("[SUCESSO] Sistema bloqueou senha incorreta.");
-        } else {
-            System.out.println("[ERRO] Sistema permitiu login com senha errada!");
-        }
-
-        // --- TESTE 3: Edital e Disciplina ---
-        System.out.println("\n>>> Teste 3: Regras de Edital");
-        
-        // Criar Disciplinas
-        Disciplina d1 = new Disciplina("POO", 2);
-        Disciplina d2 = new Disciplina("Banco de Dados", 1);
-        ArrayList<Disciplina> listaDisc = new ArrayList<>();
-        listaDisc.add(d1);
-        listaDisc.add(d2);
-
-        // Criar Edital Válido (Datas atuais)
-        Edital editalAtual = new Edital("01/2025", LocalDate.now().minusDays(1), LocalDate.now().plusDays(5), listaDisc);
-        
-        // Tentar inscrever aluno
-        if (logado instanceof Aluno) {
-            boolean inscricaoSucesso = editalAtual.inscrever((Aluno) logado, d1);
-            if (inscricaoSucesso) {
-                System.out.println("[SUCESSO] Aluno inscrito na disciplina dentro do prazo.");
-            } else {
-                System.out.println("[ERRO] Falha ao inscrever aluno em edital válido.");
-            }
-        }
-
-        // Testar Edital Vencido
-        Edital editalVencido = new Edital("99/2020", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 2, 1), listaDisc);
-        if (logado instanceof Aluno) {
-            boolean inscricaoVencida = editalVencido.inscrever((Aluno) logado, d1);
-            if (!inscricaoVencida) {
-                System.out.println("[SUCESSO] Sistema bloqueou inscrição em edital vencido.");
-            } else {
-                System.out.println("[ERRO] Sistema permitiu inscrição fora do prazo!");
-            }
-        }
-
-        System.out.println("\n=========================================");
-        System.out.println("          FIM DOS TESTES                 ");
-        System.out.println("=========================================");
     }
 }
