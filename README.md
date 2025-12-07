@@ -4,8 +4,8 @@
 
 > Sistema desktop completo para gerenciamento de processos seletivos de monitoria do curso de ADS (IFPB).
 
-![Logo do Sistema](src/images/logo.png)
-*(Dica: Coloque a imagem da logo dentro da pasta `src/images` do projeto e nomeie como `logo.png` para aparecer aqui)*
+![Logo do Sistema](src/images/logosismon.png)
+
 
 ---
 
@@ -23,7 +23,7 @@ O **SISMON** foi desenvolvido para automatizar e organizar a seleção de monito
 - [x] **Ranking Automático:** O sistema calcula a nota final e ordena os aprovados.
 - [x] **Relatórios em PDF:** Geração de lista oficial de resultados com um clique.
 - [x] **Notificação via E-mail:** Envia avisos automáticos para os candidatos.
-- [x] **Backup na Nuvem:** Integração com Google Drive/Dropbox (via exportação de arquivo) e Backup por E-mail.
+- [x] **Backup na Nuvem:** Integração com Google Drive(via exportação de arquivo) e Backup por E-mail.
 
 ### 👨‍🎓 Módulo do Aluno
 - [x] **Inscrição Simplificada:** Visualização de editais abertos e candidatura rápida.
@@ -73,19 +73,13 @@ O projeto foi construído seguindo o padrão de arquitetura **MVC (Model-View-Co
 
 ---
 
-## 📸 Screenshots
-
-*(Espaço reservado para prints das telas do sistema - Login, Dashboard, Ranking)*
-
----
-
 ## 👥 Equipe de Desenvolvimento
 
 Este projeto foi desenvolvido como requisito avaliativo do curso de Análise e Desenvolvimento de Sistemas.
 
-* **Nicolas Guedes** - *Desenvolvedor Front-end & UX*
-* **[Nome do Aluno 2]** - *Arquiteto de Software & Backend*
-* **[Nome do Aluno 3]** - *Analista de Regras de Negócio & QA*
+* **Davi Renato** - *Desenvolvedor Front-end & UX*
+* **Nicolas Guedes** - *Arquiteto de Software & Backend*
+* **Keldson Henriques** - *Analista de Regras de Negócio & QA*
 
 ---
 
