@@ -8,7 +8,7 @@
   </todosOsCoordenadores>
   <todosOsAlunos>
     <models.Aluno>
-      <email>nicolasguedesguedes081@gmail.com</email>
+      <email>nicolas@gmail.com</email>
       <senha>@#4jsadbkl$@</senha>
       <nomeDoAluno>Nicolas</nomeDoAluno>
       <matricula>2025001</matricula>
@@ -26,46 +26,34 @@
   </todosOsAlunos>
   <todosOsEditais>
     <models.recurses.Edital>
-      <id>1764836761716</id>
-      <numEdital>2025.4</numEdital>
-      <dataIncio>2025-12-04</dataIncio>
-      <dataFinal>2025-12-05</dataFinal>
-      <disciplinas>
-        <models.recurses.Disciplina>
-          <nomeDisciplina>vagabundagem</nomeDisciplina>
-          <qntdVagas>2</qntdVagas>
-          <pesoNota>0.2</pesoNota>
-          <pesoCRE>0.8</pesoCRE>
-          <docente>A definir</docente>
-          <periodo>0</periodo>
-          <inscricoes>
-            <models.Inscricao>
-              <aluno reference="../../../../../../../todosOsAlunos/models.Aluno"/>
-              <disciplina reference="../../.."/>
-              <nota>5.0</nota>
-              <CRE>0.0</CRE>
-              <situacao>CONCORRENDO</situacao>
-            </models.Inscricao>
-          </inscricoes>
-        </models.recurses.Disciplina>
-      </disciplinas>
-      <maxInc>2</maxInc>
-      <status>ATIVO</status>
-    </models.recurses.Edital>
-    <models.recurses.Edital>
       <id>1764840289273</id>
       <numEdital>2025.4 (Cópia)</numEdital>
       <dataIncio>2025-12-04</dataIncio>
       <dataFinal>2026-01-03</dataFinal>
       <disciplinas>
         <models.recurses.Disciplina>
-          <nomeDisciplina>vagabundagem</nomeDisciplina>
-          <qntdVagas>2</qntdVagas>
-          <pesoNota>0.2</pesoNota>
-          <pesoCRE>0.8</pesoCRE>
+          <nomeDisciplina>banco de dados</nomeDisciplina>
+          <qntdVagas>3</qntdVagas>
+          <pesoNota>0.5</pesoNota>
+          <pesoCRE>0.5</pesoCRE>
           <docente>A definir</docente>
           <periodo>0</periodo>
-          <inscricoes/>
+          <inscricoes>
+            <models.Inscricao>
+              <aluno reference="../../../../../../../todosOsAlunos/models.Aluno"/>
+              <disciplina reference="../../.."/>
+              <nota>60.0</nota>
+              <CRE>0.0</CRE>
+              <situacao>CONCORRENDO</situacao>
+            </models.Inscricao>
+            <models.Inscricao>
+              <aluno reference="../../../../../../../todosOsAlunos/models.Aluno[2]"/>
+              <disciplina reference="../../.."/>
+              <nota>90.0</nota>
+              <CRE>0.0</CRE>
+              <situacao>CONCORRENDO</situacao>
+            </models.Inscricao>
+          </inscricoes>
         </models.recurses.Disciplina>
       </disciplinas>
       <maxInc>2</maxInc>
@@ -84,7 +72,15 @@
           <pesoCRE>0.5</pesoCRE>
           <docente>A definir</docente>
           <periodo>0</periodo>
-          <inscricoes/>
+          <inscricoes>
+            <models.Inscricao>
+              <aluno reference="../../../../../../../todosOsAlunos/models.Aluno"/>
+              <disciplina reference="../../.."/>
+              <nota>70.0</nota>
+              <CRE>0.0</CRE>
+              <situacao>CONCORRENDO</situacao>
+            </models.Inscricao>
+          </inscricoes>
         </models.recurses.Disciplina>
       </disciplinas>
       <maxInc>1</maxInc>
