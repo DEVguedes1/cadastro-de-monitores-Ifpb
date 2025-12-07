@@ -1,5 +1,16 @@
 package models;
 
+/**
+ * Gerenciador de Persistência de Dados (XML).
+ * <p>
+ * Esta classe é responsável por salvar e recuperar o estado completo do sistema
+ * (objeto {@link CentralDeInformacoes}) em um arquivo físico (central.xml).
+ * <p>
+ * Utiliza a biblioteca <b>XStream</b> para serializar os objetos Java em XML.
+ * Isso garante que os dados não sejam perdidos quando o programa é fechado.
+ * * @see CentralDeInformacoes
+ */
+
 import static com.thoughtworks.xstream.XStream.setupDefaultSecurity;
 
 import java.io.File;
@@ -23,6 +34,11 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class Persistencia {
 	private static XStream xstream = new XStream(new DomDriver());
+	
+	/**
+     * O nome do arquivo onde os dados serão salvos na raiz do projeto.
+     */
+	
 	private static File arq = new File("central.xml");
 
 	static {
@@ -30,6 +46,14 @@ public class Persistencia {
 		xstream.addPermission(AnyTypePermission.ANY);
 	}
 	
+	/**
+     * Salva o estado atual da Central de Informações no arquivo XML.
+     * <p>
+     * Deve ser chamado sempre que houver uma alteração crítica nos dados
+     * (ex: novo cadastro, nova inscrição, edição de edital).
+     * * @param central A instância da central contendo todos os dados.
+     */
+
 	public static void salvarCentral(CentralDeInformacoes ci) {
 		
 		String xml = xstream.toXML(ci);
@@ -46,6 +70,14 @@ public class Persistencia {
 		}
 	}
 	
+	/**
+     * Recupera os dados salvos do arquivo XML.
+     * <p>
+     * Se o arquivo existir, ele é lido e convertido de volta para objetos Java.
+     * Se não existir (primeira execução), cria uma nova Central vazia.
+     * * @return A instância recuperada da {@link CentralDeInformacoes}.
+     */
+
 	public static CentralDeInformacoes recuperarCentral() {
 		
 		setupDefaultSecurity(xstream);

@@ -1,5 +1,19 @@
 package view;
 
+/**
+ * Template Base de Interface Gráfica (Master Layout).
+ * <p>
+ * Esta classe define a estrutura visual padrão de toda a aplicação, implementando
+ * um layout moderno com:
+ * <ul>
+ * <li><b>Sidebar (Barra Lateral):</b> Menu de navegação fixo à esquerda (Roxo).</li>
+ * <li><b>Painel de Conteúdo:</b> Área dinâmica à direita (Branco/Cinza).</li>
+ * <li><b>Menu Dinâmico:</b> Itens de navegação com efeitos visuais (Hover).</li>
+ * <li><b>Perfil do Usuário:</b> Exibição de Avatar/Inicial e Cargo no topo.</li>
+ * </ul>
+ * Todas as janelas principais do sistema (Dashboards, Listagens) devem herdar desta classe.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import java.awt.*;

@@ -1,5 +1,16 @@
 package models;
 
+/**
+ * Representa o administrador do sistema (Professor/Coordenador).
+ * <p>
+ * Possui privilégios elevados para:
+ * <ul>
+ * <li>Criar e editar Editais.</li>
+ * <li>Gerenciar inscrições.</li>
+ * <li>Gerar relatórios e realizar backups.</li>
+ * </ul>
+ */
+
 import java.util.Scanner;
 import models.utils.Validacao;
 
@@ -78,6 +89,6 @@ public class Coordenador extends Usuario {
         }
 		return novoCoord;
     }
-	//+contatarEstudante()
+	
 	
 }

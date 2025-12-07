@@ -1,5 +1,13 @@
 package controller;
 
+/**
+ * Controlador de fluxo para criação de novas contas.
+ * <p>
+ * Gerencia o pequeno diálogo modal que aparece na tela de Login.
+ * Decide qual tela de cadastro abrir (Aluno ou Coordenador) com base na escolha do usuário
+ * e fecha a janela de login anterior.
+ */
+
 import view.TelaEscolhaCadastro;
 import view.CadastroAlunoView;
 import view.CadastroCoordenadorView;

@@ -1,5 +1,18 @@
 package controller;
 
+/**
+ * Controlador do Painel Principal do Aluno.
+ * <p>
+ * Gerencia a navegação e as ações disponíveis para o estudante logado:
+ * <ul>
+ * <li>Visualizar editais abertos.</li>
+ * <li>Acompanhar status das inscrições.</li>
+ * <li>Editar dados cadastrais (Perfil).</li>
+ * <li>Realizar logout.</li>
+ * </ul>
+ * * @author Seu Nome
+ */
+
 import view.DashboardAluno;
 import view.ListarEditaisAlunoView; // Vamos criar a seguir
 import view.LoginView;

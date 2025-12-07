@@ -1,5 +1,16 @@
 package controller;
 
+/**
+ * Controlador central de Gestão de Editais (Visão do Coordenador).
+ * <p>
+ * Possui uma lógica de <b>Triagem Inteligente</b> ao abrir um edital:
+ * <ul>
+ * <li>Se o edital tem inscritos ou está fechado -> Abre a tela de <b>Resultados</b>.</li>
+ * <li>Se o edital está vazio -> Abre a tela de <b>Configuração</b> (Adicionar Disciplinas).</li>
+ * </ul>
+ * Também gerencia exclusão e clonagem de editais.
+ */
+
 import view.ListarEditaisView;
 import view.DashboardCoordenador;
 import view.DetalharEditalView; // Tela de ADICIONAR DISCIPLINAS

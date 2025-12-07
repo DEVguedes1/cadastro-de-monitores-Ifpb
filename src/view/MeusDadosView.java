@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * Tela de Auto-gestão de Perfil (Aluno).
+ * <p>
+ * Permite ao estudante visualizar e atualizar suas informações cadastrais.
+ * <p>
+ * <b>Regras de Interface:</b>
+ * <ul>
+ * <li>O campo <b>Matrícula</b> é exibido como somente leitura (não editável).</li>
+ * <li>Campos de Nome, E-mail e Senha são editáveis.</li>
+ * </ul>
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

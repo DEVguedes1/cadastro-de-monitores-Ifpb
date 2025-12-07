@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Modal de Edição de Disciplina.
+ * <p>
+ * Janela flutuante para ajuste de vagas e pesos de uma matéria específica.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

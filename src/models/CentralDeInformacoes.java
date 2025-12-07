@@ -1,5 +1,16 @@
 package models;
 
+/**
+ * Classe Singleton que atua como o banco de dados em memória do sistema.
+ * <p>
+ * Armazena as listas globais de:
+ * <ul>
+ * <li>Todos os Alunos cadastrados.</li>
+ * <li>O Coordenador (Administrador).</li>
+ * <li>Todos os Editais.</li>
+ * </ul>
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import models.recurses.Disciplina;

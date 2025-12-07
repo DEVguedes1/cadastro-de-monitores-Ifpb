@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * Representa um estudante cadastrado no sistema.
+ * <p>
+ * Além das credenciais de {@link Usuario}, o aluno possui dados acadêmicos
+ * como Matrícula, CRE (Coeficiente de Rendimento Escolar) e Sexo.
+ * É a entidade que realiza inscrições nos editais.
+ */
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

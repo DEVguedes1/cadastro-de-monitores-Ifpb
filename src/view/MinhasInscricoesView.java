@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * Painel de Acompanhamento de Monitorias.
+ * <p>
+ * Tela onde o aluno verifica o andamento de suas candidaturas.
+ * Exibe uma tabela contendo:
+ * <ul>
+ * <li>Edital e Disciplina.</li>
+ * <li>Nota Final calculada.</li>
+ * <li>Situação atual (Colorida via {@link StatusCellRenderer}).</li>
+ * </ul>
+ * Permite também a desistência formal de uma vaga.
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;

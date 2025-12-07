@@ -1,5 +1,16 @@
 package controller;
 
+/**
+ * Controlador da tela de Gestão de Alunos (Visão do Coordenador).
+ * <p>
+ * Responsabilidades:
+ * <ul>
+ * <li>Carregar a lista de todos os alunos cadastrados.</li>
+ * <li>Implementar o filtro de busca em tempo real (KeyReleased).</li>
+ * <li>Redirecionar para o perfil detalhado do aluno selecionado.</li>
+ * </ul>
+ */
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;

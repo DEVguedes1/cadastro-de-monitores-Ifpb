@@ -1,5 +1,15 @@
 package controller;
 
+/**
+ * Controlador Lógico para Operações em Editais.
+ * <p>
+ * <b>Nota:</b> Esta classe parece ser um controlador de regra de negócio pura
+ * (sem interface gráfica), provavelmente usada para testes ou lógica de backend.
+ * <p>
+ * Oferece métodos para publicar, buscar e inscrever alunos em editais
+ * manipulando diretamente as listas em memória.
+ */
+
 import java.util.ArrayList;
 import java.util.List; // Import necessário se usar polimorfismo
 import models.Aluno;

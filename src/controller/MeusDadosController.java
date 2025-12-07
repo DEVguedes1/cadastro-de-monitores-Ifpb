@@ -1,5 +1,12 @@
 package controller;
 
+/**
+ * Controlador de Auto-gestão de Perfil (Aluno).
+ * <p>
+ * Permite que o estudante atualize seus próprios dados cadastrais (Nome, E-mail, Senha).
+ * Garante a persistência das alterações no XML e atualiza a sessão local.
+ */
+
 import view.MeusDadosView;
 import view.DashboardAluno;
 import models.Aluno;

@@ -1,5 +1,10 @@
 package models.utils;
 
+/**
+ * Serviço responsável pela segurança e persistência dos dados.
+ * Gerencia a criação de arquivos ZIP contendo o XML do sistema.
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,15 +19,26 @@ public class BackupService {
     private static final String ARQUIVO_ORIGEM = "central.xml";
     private static final String PASTA_BACKUP_PADRAO = "backups";
 
-    // --- 1. Backup Local AUTOMÁTICO (Ao Sair) ---
-    // Agora ele salva sempre com o mesmo nome, substituindo o anterior.
-    // Isso resolve o seu problema de encher a memória!
+    /**
+     * Realiza um backup local silencioso.
+     * Sobrescreve o arquivo 'Backup_Automatico.zip' para economizar espaço em disco.
+     * Geralmente chamado ao fechar o sistema.
+     * * @throws IOException Se houver erro ao escrever o arquivo.
+     */
+    
     public static void realizarBackupLocal() throws IOException {
         criarZip(new File(PASTA_BACKUP_PADRAO), "Backup_Automatico.zip");
     }
 
-    // --- 2. Backup Manual / Nuvem ---
-    // Esse continua gerando com DATA, pois é um backup "forçado" pelo usuário
+    /**
+     * Realiza um backup manual em uma pasta específica.
+     * Gera um arquivo com timestamp (Backup_ANO-MES-DIA_HORA.zip).
+     * Ideal para salvar em pastas sincronizadas (Google Drive/Dropbox).
+     * * @param pastaDestino O diretório selecionado pelo usuário.
+     * @return O caminho absoluto do arquivo criado.
+     * @throws IOException Se houver erro de gravação.
+     */
+    
     public static String realizarBackupEmPasta(File pastaDestino) throws IOException {
         return criarZip(pastaDestino, null); // Null = Gera nome com data
     }

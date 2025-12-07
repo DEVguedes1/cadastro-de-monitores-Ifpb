@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Formulário de Registro de Estudante.
+ * <p>
+ * Tela de cadastro público onde o aluno informa seus dados acadêmicos e cria uma senha.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

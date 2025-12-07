@@ -1,10 +1,21 @@
 package controller;
 
+/**
+ * Controlador da Tela de Configuração de Editais.
+ * <p>
+ * Responsável pela manipulação das disciplinas de um edital específico.
+ * Aplica regras de negócio críticas, como:
+ * <ul>
+ * <li>Validação da soma dos pesos (Nota + CRE deve ser 1.0).</li>
+ * <li>Persistência imediata das alterações no XML.</li>
+ * <li>Atualização dinâmica da tabela de disciplinas na View.</li>
+ * </ul>
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import models.CentralDeInformacoes;
 import models.Persistencia;
 import models.recurses.Disciplina;

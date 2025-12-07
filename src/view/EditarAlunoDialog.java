@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Modal de Edição de Aluno.
+ * <p>
+ * Janela flutuante para alteração rápida de dados cadastrais (Nome, E-mail, CRE).
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

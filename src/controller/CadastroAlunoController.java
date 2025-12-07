@@ -1,5 +1,27 @@
 package controller;
 
+/**
+ * Controlador responsável por gerenciar o cadastro de novos alunos no sistema.
+ *
+ * <p>Funções principais:
+ * <ul>
+ *     <li>Validação dos campos de entrada;</li>
+ *     <li>Criação do objeto Aluno;</li>
+ *     <li>Persistência na Central de Informações;</li>
+ *     <li>Retorno à tela de Login após cadastro.</li>
+ * </ul>
+ *
+ * O fluxo geral é:
+ * <ol>
+ *     <li>Usuário preenche os dados;</li>
+ *     <li>O sistema valida e cria o objeto Aluno;</li>
+ *     <li>O aluno é adicionado ao banco;</li>
+ *     <li>Retorna ao login com mensagem de sucesso.</li>
+ * </ol>
+ *
+ * @author Seu Nome
+ */
+
 import view.CadastroAlunoView;
 import view.LoginView;
 import models.Aluno;
@@ -13,13 +35,23 @@ import java.awt.event.ActionEvent;
 public class CadastroAlunoController implements ActionListener {
     private CadastroAlunoView view;
     
+    /**
+     * Construtor do controlador.
+     *
+     * @param view tela de cadastro de aluno
+     */
+
     public CadastroAlunoController(CadastroAlunoView view) {
         this.view = view;
         this.view.addSalvarListener(this);
         this.view.addVoltarListener(e -> voltarLogin());
         
     }
-    
+
+    /**
+     * Retorna à tela de login.
+     */
+
     private void voltarLogin() {
         view.dispose();
         LoginView lv = new LoginView();
@@ -27,6 +59,7 @@ public class CadastroAlunoController implements ActionListener {
         new LoginController(lv);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Validação básica

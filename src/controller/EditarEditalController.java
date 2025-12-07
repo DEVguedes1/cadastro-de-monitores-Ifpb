@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * Controlador para edição de prazos e regras de um Edital.
+ * <p>
+ * Atua sobre o diálogo {@link EditarEditalDialog}.
+ * Responsabilidades:
+ * <ul>
+ * <li>Validar o formato das datas (dd/MM/yyyy).</li>
+ * <li>Garantir que a Data Final não seja anterior à Data Inicial.</li>
+ * <li>Atualizar as propriedades do Edital no banco de dados.</li>
+ * </ul>
+ */
+
 import view.EditarEditalDialog;
 import models.CentralDeInformacoes;
 import models.Persistencia;

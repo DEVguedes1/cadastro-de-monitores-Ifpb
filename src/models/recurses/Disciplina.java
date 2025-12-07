@@ -1,5 +1,16 @@
 package models.recurses;
 
+/**
+ * Representa uma Matéria/Disciplina ofertada em um edital.
+ * <p>
+ * Responsável por:
+ * <ul>
+ * <li>Definir a quantidade de vagas (Remuneradas/Voluntárias).</li>
+ * <li>Armazenar os pesos de avaliação (Peso Nota vs Peso CRE).</li>
+ * <li>Processar a lista de classificação dos alunos inscritos.</li>
+ * </ul>
+ */
+
 import java.util.ArrayList;
 import models.Inscricao; 
 
@@ -100,6 +111,13 @@ public class Disciplina {
         this.inscricoes = inscricoes;
     }
     
+	/**
+     * Busca uma inscrição específica dentro desta disciplina pelo nome do aluno.
+     * * @param d A disciplina onde a busca será feita.
+     * @param nomeAluno O nome do aluno a ser buscado.
+     * @return O objeto {@link Inscricao} encontrado ou {@code null} se não existir.
+     */
+
 	public static Inscricao buscarInscricao(Disciplina d, String nomeAluno){
 		for (Inscricao i : d.getInscricoes()){
 			if (i.getAluno().getNomeDoAluno().equals(nomeAluno)){
@@ -108,6 +126,18 @@ public class Disciplina {
 		}
 		return null;
 	}
+	
+	/**
+     * Algoritmo de Classificação e Seleção.
+     * <p>
+     * Este método executa o processamento final da disciplina:
+     * <ol>
+     * <li>Ordena a lista de inscrições da maior nota final para a menor.</li>
+     * <li>Percorre a lista ordenada.</li>
+     * <li>Atribui o status {@code APROVADO_BOLSISTA} para os primeiros 'N' alunos (onde N é a quantidade de vagas).</li>
+     * <li>Atribui o status {@code LISTA_ESPERA} para os demais.</li>
+     * </ol>
+     */
 	
 	public void calcularResultadoFinal() {
         if (this.inscricoes == null || this.inscricoes.isEmpty()) return;

@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * Tela de Gerenciamento de Base de Alunos.
+ * <p>
+ * Visão utilizada pelo Coordenador para:
+ * <ul>
+ * <li>Visualizar todos os alunos cadastrados no sistema.</li>
+ * <li>Pesquisar alunos por nome em tempo real.</li>
+ * <li>Acessar o perfil detalhado de um estudante específico.</li>
+ * </ul>
+ * Utiliza uma {@link JTable} customizada para exibição dos dados.
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import view.style.Cores;

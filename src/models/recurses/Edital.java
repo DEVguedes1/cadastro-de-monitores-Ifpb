@@ -1,5 +1,19 @@
 package models.recurses;
 
+/**
+ * Representa o Edital de Seleção de Monitores.
+ * <p>
+ * Esta classe é a entidade principal do processo seletivo. Ela define:
+ * <ul>
+ * <li>O período de vigência (Data Início e Fim).</li>
+ * <li>As disciplinas ofertadas e suas vagas.</li>
+ * <li>O limite de inscrições por aluno.</li>
+ * <li>O controle de status (Ativo, Encerrado, Não Iniciado).</li>
+ * </ul>
+ * * @author Seu Nome
+ * @version 1.0
+ */
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -88,6 +102,22 @@ public class Edital {
 		this.disciplinas = disciplinas;
 	}
 	
+	/**
+     * Realiza a inscrição de um aluno em uma disciplina deste edital.
+     * <p>
+     * <b>Regras de Negócio:</b>
+     * <ol>
+     * <li>Verifica se a data atual está dentro do prazo do edital.</li>
+     * <li>Verifica se a disciplina realmente pertence a este edital.</li>
+     * <li>Registra a nota informada pelo aluno.</li>
+     * </ol>
+     *
+     * @param a O aluno que está se inscrevendo.
+     * @param disciplina A disciplina alvo.
+     * @param notaDisciplina A nota obtida pelo aluno na matéria.
+     * @return {@code true} se a inscrição foi realizada com sucesso; {@code false} se estiver fora do prazo ou disciplina inválida.
+     */
+
 	public boolean inscrever(Aluno a, Disciplina disciplina, double notaDisciplina) {
 		LocalDate hoje = LocalDate.now();
 		boolean dentroDoPrazo = (!hoje.isBefore(this.dataIncio)) && (!hoje.isAfter(this.dataFinal));
@@ -112,6 +142,21 @@ public class Edital {
 		}
 		
 	}
+	
+/**
+     * Cria uma cópia profunda (Deep Copy) deste edital.
+     * <p>
+     * Utilizado para agilizar o cadastro de novos processos seletivos baseados em anteriores.
+     * O novo edital herda:
+     * <ul>
+     * <li>Nome (com sufixo "Cópia").</li>
+     * <li>Configurações de vagas e pesos.</li>
+     * <li>Lista de disciplinas.</li>
+     * </ul>
+     * <b>Importante:</b> A lista de alunos inscritos é zerada na cópia.
+     *
+     * @return Uma nova instância de Edital pronta para edição.
+     */
 	
 	public Edital clonarEdital() {
         // Gera um novo número sugerido

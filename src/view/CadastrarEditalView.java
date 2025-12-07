@@ -1,5 +1,12 @@
 package view;
 
+/**
+ * Formulário de Criação de Edital.
+ * <p>
+ * Coleta os dados iniciais (Número, Datas, Limite de Inscrições) para
+ * instanciar um novo processo seletivo no sistema.
+ */
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import view.style.Cores;

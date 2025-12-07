@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * Renderizador Condicional de Células (Tabela).
+ * <p>
+ * Personaliza a exibição da coluna "Situação" nas tabelas do sistema.
+ * Aplica um código de cores semântico para facilitar a leitura rápida:
+ * <ul>
+ * <li><b>Verde:</b> Aprovado.</li>
+ * <li><b>Amarelo:</b> Concorrendo.</li>
+ * <li><b>Vermelho:</b> Desistente ou Reprovado.</li>
+ * </ul>
+ */
+
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;

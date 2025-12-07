@@ -1,5 +1,12 @@
 package view;
 
+/**
+ * Tela de Seleção de Disciplina (Aluno).
+ * <p>
+ * Exibe a lista de matérias de um edital específico para que o aluno
+ * escolha em qual deseja se inscrever.
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;

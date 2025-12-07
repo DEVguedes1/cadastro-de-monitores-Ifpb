@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Dashboard Principal do Coordenador.
+ * <p>
+ * Apresenta o menu lateral administrativo e cards para gestão de editais, alunos e backups.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

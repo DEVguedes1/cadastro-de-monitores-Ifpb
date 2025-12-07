@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * Controlador do Catálogo de Editais (Visão do Aluno).
+ * <p>
+ * Filtra e exibe os editais disponíveis para o estudante.
+ * Responsabilidades:
+ * <ul>
+ * <li>Listar apenas editais relevantes (Abertos ou Não Iniciados).</li>
+ * <li>Gerenciar o clique no botão "Inscrever-se".</li>
+ * <li>Validar se o prazo de inscrição já começou antes de abrir a tela de disciplinas.</li>
+ * </ul>
+ */
+
 import view.ListarEditaisAlunoView;
 import view.DashboardAluno;
 import view.AlunoInscricaoView; // A tela que fizemos antes!

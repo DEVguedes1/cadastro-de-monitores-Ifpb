@@ -1,5 +1,29 @@
 package controller;
 
+/**
+ * Controlador responsável por gerenciar o processo de inscrição de um aluno
+ * em uma disciplina pertencente a um Edital.
+ *
+ * <p>Esta classe coordena:
+ * <ul>
+ *     <li>Interação da tela de inscrição com o modelo;</li>
+ *     <li>Confirmação e validação da inscrição;</li>
+ *     <li>Persistência das alterações na Central de Informações;</li>
+ *     <li>Navegação entre telas do aluno.</li>
+ * </ul>
+ *
+ * O fluxo geral é:
+ * <ol>
+ *     <li>O aluno seleciona uma disciplina;</li>
+ *     <li>Confirma a inscrição;</li>
+ *     <li>Informa sua média final;</li>
+ *     <li>O sistema valida e registra a inscrição no Edital;</li>
+ *     <li>A tela retorna automaticamente para a lista de editais.</li>
+ * </ol>
+ *
+ * @author Seu Nome
+ */
+
 import view.AlunoInscricaoView;
 import view.ListarEditaisAlunoView; // Importante para voltar
 import models.CentralDeInformacoes;
@@ -18,6 +42,14 @@ public class AlunoInscricaoController implements ActionListener {
     private Edital edital;
     private String nomeAlunoLogado;
 
+    /**
+     * Constrói o controlador e associa os listeners da interface.
+     *
+     * @param view tela de inscrição do aluno
+     * @param edital edital no qual o aluno deseja se inscrever
+     * @param nomeAluno nome do aluno logado
+     */
+
     public AlunoInscricaoController(AlunoInscricaoView view, Edital edital, String nomeAluno) {
         this.view = view;
         this.edital = edital;
@@ -29,6 +61,7 @@ public class AlunoInscricaoController implements ActionListener {
         this.view.addVoltarListener(e -> voltarParaLista());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void actionPerformed(ActionEvent e) {
         String nomeDisciplina = view.getDisciplinaSelecionada();
@@ -46,6 +79,12 @@ public class AlunoInscricaoController implements ActionListener {
             realizarInscricao(nomeDisciplina);
         }
     }
+    
+    /**
+     * Executa todo o processo de inscrição após confirmação do aluno.
+     *
+     * @param nomeDisciplina nome da disciplina escolhida
+     */
 
     private void realizarInscricao(String nomeDisciplina) {
         CentralDeInformacoes central = Persistencia.recuperarCentral();
@@ -96,7 +135,10 @@ public class AlunoInscricaoController implements ActionListener {
         }
     }
 
-    // Método que impede o programa de fechar
+     /**
+     * Fecha a tela atual e retorna para a lista de editais disponíveis ao aluno.
+     */
+
     private void voltarParaLista() {
         view.dispose(); // Fecha a tela de inscrição
         

@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Tela de Configuração de Disciplinas.
+ * <p>
+ * Permite adicionar, editar e remover disciplinas de um edital que ainda está em fase de configuração.
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import view.style.Cores;

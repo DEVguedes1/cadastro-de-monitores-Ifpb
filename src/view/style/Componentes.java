@@ -1,10 +1,16 @@
 package view.style;
 
+/**
+ * Fábrica de Componentes (Factory Pattern) para a interface gráfica.
+ * <p>
+ * Responsável por instanciar e configurar componentes Swing (Botões, Labels)
+ * com as fontes e estilos padrões do sistema, evitando repetição de código nas Views.
+ */
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,12 +21,24 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 public class Componentes {
-
+    /** Fonte padrão para Títulos de páginas (24px, Negrito). */
     public static final Font FONT_TITULO = new Font("Segoe UI", Font.BOLD, 24);
+    
+    /** Fonte padrão para subtítulos e rótulos de campos (14px, Normal). */
     public static final Font FONT_SUB = new Font("Segoe UI", Font.PLAIN, 14);
+    
+    /** Fonte padrão para textos internos de botões (14px, Negrito). */
     public static final Font FONT_BOTAO = new Font("Segoe UI", Font.BOLD, 14);
 
-    // Cria um botão estilo "Link de Sidebar"
+    /**
+     * Cria um botão estilizado para o Menu Lateral (Sidebar).
+     * <p>
+     * O botão possui fundo transparente (ou da cor da sidebar), texto branco,
+     * alinhamento à esquerda e sem bordas visíveis.
+     * * @param texto O texto a ser exibido no botão.
+     * @return Um {@link JButton} configurado para a sidebar.
+     */
+
     public static JButton criarBotaoSidebar(String texto) {
         JButton btn = new JButton(texto);
         btn.setForeground(Color.WHITE);
@@ -33,7 +51,16 @@ public class Componentes {
         return btn;
     }
 
-    // Cria um "Card" (Botão grande e colorido igual sua referência)
+    /**
+     * Cria um "Card" de Dashboard (Botão grande com Título e Valor).
+     * <p>
+     * Utiliza HTML básico para formatar o texto em duas linhas (Título menor, Valor maior).
+     * * @param titulo O rótulo do card (ex: "Alunos").
+     * @param valor O valor ou ícone de destaque (ex: "150" ou "+").
+     * @param cor A cor de fundo do card (ex: {@link Cores#VERDE}).
+     * @return Um {@link JButton} formatado como um card informativo.
+     */
+
     public static JButton criarBotaoCard(String titulo, String valor, Color cor) {
         JButton btn = new JButton("<html><center><br>" + titulo + "<br><br><font size=6>" + valor + "</font></center></html>");
         btn.setBackground(cor);
@@ -44,7 +71,19 @@ public class Componentes {
         return btn;
     }
 
-    // Estiliza a Tabela
+    /**
+     * Aplica o estilo visual padrão a uma tabela (JTable).
+     * <p>
+     * <b>Configurações aplicadas:</b>
+     * <ul>
+     * <li>Altura da linha aumentada para 35px.</li>
+     * <li>Remoção das linhas de grade verticais.</li>
+     * <li>Cabeçalho com fundo Roxo e fonte Branca.</li>
+     * <li>Centralização do conteúdo das células.</li>
+     * </ul>
+     * * @param tabela A instância de {@link JTable} a ser estilizada.
+     */
+
     public static void estilizarTabela(JTable tabela) {
         // 1. Configurações da Tabela (SEGURO)
         tabela.setRowHeight(35); 
@@ -77,7 +116,5 @@ public class Componentes {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tabela.setDefaultRenderer(Object.class, centerRenderer);
         
-        // --- REMOVIDO O BLOCO "table.getParent()" QUE DAVA ERRO ---
-        // A estilização do ScrollPane já está sendo feita nas Views (ListarEditaisView, etc).
     }
 }

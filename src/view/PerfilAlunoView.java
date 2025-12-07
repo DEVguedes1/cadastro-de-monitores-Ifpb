@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * Ficha Detalhada do Aluno (Visão Administrativa).
+ * <p>
+ * Exibe um resumo completo da vida acadêmica do estudante no contexto da monitoria.
+ * Composta por:
+ * <ul>
+ * <li><b>Cartão de Dados:</b> Informações pessoais e CRE.</li>
+ * <li><b>Histórico:</b> Tabela com todas as participações em editais passados.</li>
+ * </ul>
+ * Permite ao coordenador acessar a edição dos dados deste aluno.
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;

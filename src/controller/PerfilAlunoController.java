@@ -1,5 +1,13 @@
 package controller;
 
+/**
+ * Controlador de Visualização de Perfil (Visão do Coordenador).
+ * <p>
+ * Exibe a ficha completa de um aluno específico, incluindo seu histórico
+ * de participações em monitorias passadas.
+ * Permite ao coordenador abrir a edição dos dados cadastrais deste aluno.
+ */
+
 import models.Aluno;
 import models.CentralDeInformacoes;
 import models.Inscricao;
