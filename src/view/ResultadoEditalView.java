@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * Console de Resultados e Fechamento de Edital.
+ * <p>
+ * Tela gerencial avançada utilizada para processar o final de um edital.
+ * Centraliza as operações críticas:
+ * <ul>
+ * <li><b>Calcular:</b> Executa o algoritmo de ranking e atualiza a tabela.</li>
+ * <li><b>Notificar:</b> Envia e-mails para os candidatos.</li>
+ * <li><b>PDF:</b> Gera o relatório oficial impresso.</li>
+ * <li><b>Encerrar:</b> Finaliza o edital e congela os resultados.</li>
+ * </ul>
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import view.style.Cores;

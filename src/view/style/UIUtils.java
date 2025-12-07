@@ -1,5 +1,13 @@
 package view.style;
 
+/**
+ * Utilitários avançados de Interface do Usuário (UI Utils).
+ * <p>
+ * Contém métodos estáticos para manipulação profunda de componentes Swing,
+ * sobrescrevendo renderizadores padrões e aplicando comportamentos de "Flat Design"
+ * (Design Plano) que não são nativos do Java Swing.
+ */
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -7,7 +15,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,6 +31,15 @@ public class UIUtils {
     public static final Color TABLE_HEADER_BG = new Color(240, 240, 240); // Cinza claro para o cabeçalho
     public static final Color TABLE_HEADER_FG = new Color(60, 60, 60); // Texto escuro
     public static final Color TABLE_SELECTION_BG = new Color(220, 210, 240); // Roxo claro para seleção
+
+    /**
+     * Aplica uma estilização moderna e robusta a uma JTable.
+     * <p>
+     * Diferente do método em {@link Componentes}, este método força a opacidade
+     * do cabeçalho e redefine os Renderers para garantir que a cor de fundo (Roxo)
+     * apareça corretamente em todos os sistemas operacionais (Windows/Mac/Linux).
+     * * @param tabela A tabela a ser transformada.
+     */
 
     public static void styleTable(JTable tabela) {
         // Configurações Gerais
@@ -65,7 +81,20 @@ public class UIUtils {
         tabela.setDefaultRenderer(Object.class, centerRenderer);
     }
     
- // --- NOVO: ESTILIZADOR DE BOTÕES (MÁGICA FLAT) ---
+
+    /**
+     * Aplica o estilo "Flat Button" (Botão Plano) a um JButton.
+     * <p>
+     * Remove todos os efeitos 3D, bordas de foco e gradientes nativos do Swing.
+     * Adiciona interatividade moderna:
+     * <ul>
+     * <li>Cursor de "Mãozinha" (Hand Cursor) ao passar o mouse.</li>
+     * <li>Efeito de "Hover" (escurecimento leve) ao passar o mouse.</li>
+     * </ul>
+     * * @param btn O botão a ser estilizado.
+     * @param corFundo A cor sólida principal do botão.
+     */
+
     public static void styleButton(JButton btn, Color corFundo) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btn.setBackground(corFundo);

@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * Classe associativa que vincula um {@link Aluno} a uma {@link Disciplina}.
+ * <p>
+ * Armazena os dados pontuais da candidatura, como a nota informada
+ * e o status atual do aluno no processo (Concorrendo, Aprovado, etc).
+ */
+
 import models.recurses.Disciplina;
 
 public class Inscricao {
@@ -32,6 +39,21 @@ public class Inscricao {
         DESISTENTE,
         DESCLASSIFICADO
     }
+
+    /**
+     * Calcula a Pontuação Final do candidato.
+     * <p>
+     * A fórmula utilizada é uma média ponderada:
+     * <blockquote>
+     * <pre>
+     * NF = (NotaMateria * PesoMateria) + (CRE * PesoCRE)
+     * </pre>
+     * </blockquote>
+     * Onde os pesos são definidos na configuração da Disciplina.
+     *
+     * @return O valor decimal da nota final calculada.
+     */
+    
     public double getNotaFinal(){
         return (this.nota * this.disciplina.getPesoNota()) + (this.CRE * this.disciplina.getPesoCRE());
     }

@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * Controlador de Acompanhamento de Candidaturas.
+ * <p>
+ * Gerencia a tela onde o aluno vê suas notas e status.
+ * Responsabilidades:
+ * <ul>
+ * <li>Varrer todos os editais buscando inscrições vinculadas ao aluno logado.</li>
+ * <li>Exibir a Nota Final calculada e a Situação (Ranking).</li>
+ * <li>Processar a desistência de vaga, alterando o status para "DESISTENTE".</li>
+ * </ul>
+ */
+
 import view.MinhasInscricoesView;
 import view.DashboardAluno;
 import models.CentralDeInformacoes;

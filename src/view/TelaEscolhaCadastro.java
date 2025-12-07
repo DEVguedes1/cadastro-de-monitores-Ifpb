@@ -1,5 +1,12 @@
 package view;
 
+/**
+ * Diálogo Modal para Seleção de Tipo de Conta.
+ * <p>
+ * Esta janela é um passo intermediário entre a tela de Login e os formulários de cadastro.
+ * Aparece quando o usuário clica em "Criar nova conta".
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;
@@ -11,6 +18,11 @@ public class TelaEscolhaCadastro extends JDialog {
 
     private JButton btnAluno, btnCoordenador;
 
+    /**
+     * Construtor do Diálogo.
+     * Configura o layout limpo (Fundo branco) e os botões coloridos de seleção.
+     * * @param parent A janela pai (geralmente LoginView) que será bloqueada enquanto este diálogo estiver aberto.
+     */
     public TelaEscolhaCadastro(JFrame parent) {
         super(parent, "Nova Conta", true);
         setSize(450, 350);
@@ -54,6 +66,17 @@ public class TelaEscolhaCadastro extends JDialog {
         add(btnCoordenador);
     }
 
+    /**
+     * Define a ação a ser executada quando o botão "SOU ALUNO" for clicado.
+     * * @param l O ouvinte de evento (ActionListener do Controller) que tratará o clique.
+     */
+
     public void addAcaoAluno(ActionListener l) { btnAluno.addActionListener(l); }
+
+    /**
+     * Define a ação a ser executada quando o botão "SOU COORDENADOR" for clicado.
+     * * @param l O ouvinte de evento (ActionListener do Controller) que tratará o clique.
+     */
+    
     public void addAcaoCoordenador(ActionListener l) { btnCoordenador.addActionListener(l); }
 }

@@ -1,5 +1,16 @@
 package models.recurses;
 
+/**
+ * Classe utilitária responsável pela geração de arquivos PDF do sistema.
+ * <p>
+ * Utiliza a biblioteca <b>iTextPDF</b> para criar documentos formatados contendo:
+ * <ul>
+ * <li>Cabeçalhos com informações do Edital.</li>
+ * <li>Tabelas de ranking por disciplina.</li>
+ * <li>Lista de aprovados e classificados.</li>
+ * </ul>
+ */
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -17,7 +28,19 @@ public class GeradorDeRelatorios {
     private static final Font FONT_NORMAL = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
     private static final Font FONT_HEADER = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
 
-    // --- NOVO MÉTODO: GERA O RANKING DO EDITAL ---
+    /**
+     * Gera um arquivo PDF contendo o resultado final do edital.
+     * <p>
+     * O arquivo é salvo na raiz do projeto com o nome padronizado:
+     * {@code Resultado_Edital_NUMERO.pdf}.
+     * <p>
+     * A estrutura do documento segue a ordem:
+     * 1. Título e Datas.
+     * 2. Loop por Disciplina (com tabela de inscritos ordenada por nota).
+     * * @param edital O objeto Edital contendo os dados processados.
+     * @throws Exception Se houver erro de I/O ou falha na biblioteca PDF.
+     */
+
     public static void gerarRelatorioRanking(Edital edital) throws Exception {
         
         // Nome do arquivo: Resultado_Edital_2025-1.pdf
@@ -101,5 +124,4 @@ public class GeradorDeRelatorios {
         table.addCell(cell);
     }
     
-    // Mantenha seu método antigo 'gerarRelatorioInscricoes' aqui embaixo se quiser usar depois...
 }

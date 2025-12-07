@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * Controlador para edição de uma Disciplina específica.
+ * <p>
+ * Gerencia a janela modal onde o coordenador altera pesos e vagas de uma matéria.
+ * Responsabilidades:
+ * <ul>
+ * <li>Validar se a soma dos pesos (Nota + CRE) é igual a 1.0.</li>
+ * <li>Atualizar os dados do objeto {@link Disciplina} na memória.</li>
+ * <li>Persistir as alterações no XML imediatamente.</li>
+ * </ul>
+ */
+
 import view.EditarDisciplinaDialog;
 import models.CentralDeInformacoes;
 import models.Persistencia;

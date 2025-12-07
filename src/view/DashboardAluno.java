@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Dashboard Principal do Aluno.
+ * <p>
+ * Apresenta o menu lateral com perfil e cards de acesso rápido às funcionalidades do estudante.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

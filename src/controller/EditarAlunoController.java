@@ -1,5 +1,18 @@
 package controller;
 
+/**
+ * Controlador do Diálogo de Edição de Aluno.
+ * <p>
+ * Gerencia a atualização dos dados cadastrais de um estudante.
+ * Executa as seguintes etapas:
+ * <ol>
+ * <li>Valida os campos de entrada (Nome, E-mail, CRE).</li>
+ * <li>Atualiza o objeto na memória da {@link CentralDeInformacoes}.</li>
+ * <li>Persiste as alterações no arquivo XML.</li>
+ * <li>Notifica a tela pai para atualizar a listagem (Callback).</li>
+ * </ol>
+ */
+
 import view.EditarAlunoDialog;
 import models.Aluno;
 import models.CentralDeInformacoes;

@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * Catálogo de Editais (Visão do Estudante).
+ * <p>
+ * Apresenta ao aluno as oportunidades de monitoria disponíveis.
+ * <p>
+ * <b>Funcionalidades:</b>
+ * <ul>
+ * <li>Lista apenas editais com status "Aberto" ou "Não Iniciado".</li>
+ * <li>Permite iniciar o processo de inscrição em disciplinas.</li>
+ * </ul>
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import view.style.Cores;

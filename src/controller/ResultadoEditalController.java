@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * Controlador de Fechamento e Resultados.
+ * <p>
+ * Gerencia o ciclo final de um edital.
+ * Funcionalidades principais:
+ * <ul>
+ * <li><b>Calcular Ranking:</b> Dispara o algoritmo de classificação em todas as disciplinas.</li>
+ * <li><b>Gerar Relatório:</b> Cria o PDF oficial com a lista de aprovados.</li>
+ * <li><b>Encerrar Edital:</b> Congela o edital, impedindo novas inscrições ou alterações.</li>
+ * </ul>
+ */
+
 import view.ResultadoEditalView;
 import view.ListarEditaisView;
 import view.TabelaResultadoBuilder;
@@ -8,7 +20,7 @@ import models.Persistencia;
 import models.recurses.Disciplina;
 import models.recurses.Edital;
 import models.recurses.GeradorDeRelatorios;
-import models.recurses.Mensageiro;
+import models.utils.Mensageiro;
 import models.Aluno;
 
 import java.awt.Desktop;

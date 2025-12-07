@@ -1,5 +1,16 @@
 package view;
 
+/**
+ * Tela de Autenticação e Boas-vindas.
+ * <p>
+ * Ponto de entrada da aplicação. Implementa um design "Split Screen" (Tela Dividida):
+ * <ul>
+ * <li><b>Esquerda (Marca):</b> Logotipo e descrição do sistema sobre fundo colorido.</li>
+ * <li><b>Direita (Formulário):</b> Campos de E-mail/Senha e botões de ação.</li>
+ * </ul>
+ * Gerencia o acesso de Alunos e Coordenadores.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

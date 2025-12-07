@@ -1,5 +1,18 @@
 package models;
 
+/**
+ * Gerenciador de Persistência em Memória (Repositório Estático).
+ * <p>
+ * Atua como um Banco de Dados temporário durante a execução.
+ * Possui listas estáticas globais para armazenar:
+ * <ul>
+ * <li>Todos os Alunos.</li>
+ * <li>Todos os Coordenadores.</li>
+ * <li>Todos os Editais.</li>
+ * </ul>
+ * Oferece métodos CRUD (Create, Read, Update, Delete) simplificados.
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import models.recurses.Disciplina;
@@ -73,8 +86,20 @@ public class CentralStatic {
         }
         return null;
     }
+    
+    /**
+     * Recupera todas as inscrições feitas por um aluno específico em um edital.
+     * <p>
+     * Realiza um cruzamento de dados:
+     * 1. Busca o Edital pelo ID.
+     * 2. Percorre todas as disciplinas desse edital.
+     * 3. Verifica se a matrícula do aluno consta na lista de inscritos da disciplina.
+     *
+     * @param matricula A matrícula do aluno.
+     * @param idEdital O ID do edital alvo.
+     * @return Uma lista de disciplinas nas quais o aluno se inscreveu.
+     */
 
-    // Inscrições
     public static List<Disciplina> recuperarInscricoesDeUmAlunoEmUmEdital(String matricula, long idEdital) {
         Aluno aluno = recuperarAlunoPorMatricula(matricula);
         Edital edital = recuperarEditalPorId(idEdital);
@@ -101,8 +126,17 @@ public class CentralStatic {
 
     return inscricoesDoAluno;
 }
-
-    // Email
+    
+    /**
+     * Verifica se um e-mail já está cadastrado no sistema.
+     * <p>
+     * Varre tanto a lista de Coordenadores quanto a de Alunos para garantir
+     * a unicidade do e-mail (Login).
+     *
+     * @param email O e-mail a ser verificado.
+     * @return {@code true} se o e-mail já existe, {@code false} caso contrário.
+     */
+    
     public static boolean emailExiste(String email) {
         for (Coordenador c : todosOsCoordenadores) {
             if (c.getEmail().equalsIgnoreCase(email)) return true;

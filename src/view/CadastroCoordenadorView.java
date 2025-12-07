@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Formulário de Registro de Coordenador.
+ * <p>
+ * Tela administrativa para cadastro de novos gestores do sistema.
+ */
+
 import javax.swing.*;
 import view.style.Cores;
 import view.style.Componentes;

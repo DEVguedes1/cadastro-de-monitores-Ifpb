@@ -1,5 +1,29 @@
 package controller;
 
+/**
+ * Controlador responsável por cadastrar o Coordenador do sistema.
+ *
+ * <p>Este cadastro ocorre principalmente no primeiro acesso ao sistema,
+ * quando ainda não existe nenhum coordenador registrado.
+ *
+ * Funções:
+ * <ul>
+ *     <li>Validação dos dados inseridos;</li>
+ *     <li>Criação do coordenador;</li>
+ *     <li>Persistência no XML via {@link Persistencia};</li>
+ *     <li>Retorno para a tela de Login após sucesso.</li>
+ * </ul>
+ *
+ * O fluxo:
+ * <ol>
+ *     <li>Usuário preenche nome, email e senha;</li>
+ *     <li>O sistema valida e adiciona o coordenador;</li>
+ *     <li>Redireciona para o login.</li>
+ * </ol>
+ *
+ * @author Seu Nome
+ */
+
 import view.CadastroCoordenadorView;
 import view.LoginView;
 import models.Coordenador;
@@ -12,6 +36,13 @@ import java.awt.event.ActionListener;
 public class CadastroCoordController implements ActionListener {
     
     private CadastroCoordenadorView view;
+
+    
+    /**
+     * Construtor.
+     *
+     * @param view tela de cadastro do coordenador
+     */
 
     public CadastroCoordController(CadastroCoordenadorView view) {
         this.view = view;
@@ -27,6 +58,7 @@ public class CadastroCoordController implements ActionListener {
         });
     }
 
+    /** {@inheritDoc} */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("[DEBUG] Botão clicado!"); // Debug para ver se funcionou

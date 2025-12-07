@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * Painel de Gestão de Editais (Visão do Coordenador).
+ * <p>
+ * Tela central para administração do ciclo de vida dos editais.
+ * Oferece ferramentas para:
+ * <ul>
+ * <li><b>Abrir/Resultados:</b> Acessar inscrições e ranking.</li>
+ * <li><b>Editar Datas:</b> Ajustar prazos do processo.</li>
+ * <li><b>Clonar:</b> Duplicar um edital para o próximo semestre.</li>
+ * <li><b>Excluir:</b> Remover editais obsoletos ou errados.</li>
+ * </ul>
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import view.style.Cores;

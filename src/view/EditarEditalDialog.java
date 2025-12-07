@@ -1,5 +1,11 @@
 package view;
 
+/**
+ * Modal de Edição de Edital.
+ * <p>
+ * Janela flutuante para correção de datas e limites de inscrição.
+ */
+
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import view.style.Cores;

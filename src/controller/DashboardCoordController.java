@@ -1,9 +1,20 @@
 package controller;
 
+/**
+ * Controlador do Painel Principal do Coordenador.
+ * <p>
+ * Centraliza o acesso às funções administrativas do sistema:
+ * <ul>
+ * <li>Cadastro e gestão de novos editais.</li>
+ * <li>Gerenciamento da base de alunos.</li>
+ * <li>Realização de backups (Local e Nuvem).</li>
+ * </ul>
+ * Implementa a lógica de integração com o {@link JFileChooser} para
+ * selecionar o destino do backup na nuvem (Google Drive/Dropbox).
+ */
+
 import java.io.File;
-
 import javax.swing.JFileChooser;
-
 import models.utils.BackupService;
 import view.CadastrarEditalView;
 import view.DashboardCoordenador;

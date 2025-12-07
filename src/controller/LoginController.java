@@ -1,5 +1,18 @@
 package controller;
 
+/**
+ * Controlador de Autenticação e Sessão.
+ * <p>
+ * Ponto de entrada lógico do sistema.
+ * Responsabilidades:
+ * <ul>
+ * <li>Validar campos vazios.</li>
+ * <li>Chamar o {@link UsuarioService} para verificar credenciais.</li>
+ * <li>Direcionar para o Dashboard correto (Aluno ou Coordenador) dependendo do tipo de usuário.</li>
+ * <li>Abrir o fluxo de criação de conta.</li>
+ * </ul>
+ */
+
 import view.DashboardAluno;
 import view.DashboardCoordenador;
 import view.LoginView;
